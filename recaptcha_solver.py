@@ -1,4 +1,5 @@
 import time
+import random
 import os.path
 import re
 from webdriver_manager.chrome import ChromeDriverManager
@@ -57,6 +58,8 @@ class recaptcha_solver:
                 driver.find_element(By.CLASS_NAME,"recaptcha-checkbox-border").click()
 
                 print("checkbox clicked")
+
+                time.sleep(10)
             
             except:
                 print("An error has occured.")
@@ -64,7 +67,8 @@ class recaptcha_solver:
                 print("User input required.")
                 input()
   
-            try:               
+            try:
+                print("trying to find JSTOR page")               
                 WebDriverWait(driver,20).until(expected_conditions.presence_of_element_located((By.XPATH, r"//div[@data-qa='stable-url']")))
                 print("ReCAPTCHA successfully solved after the checkbox was clicked")
                 checkbox_loop=False
@@ -85,6 +89,11 @@ class recaptcha_solver:
                     checkbox_loop=False
                     count_puzzle_solver=True
                 except:
+                    count_checkbox=+1
+                    print(count_checkbox)
+                    if count_checkbox >= random.randrange(3,6,1):
+                        driver.navigate().refresh()
+                        time.sleep(10)
                     continue
         
         while count_puzzle_solver:
@@ -159,10 +168,9 @@ class recaptcha_solver:
                     try:
                         # check to see if checkbox pops up
                         print("trying to find and solve checkbox")
-                        ignored_exceptions=(NoSuchElementException,StaleElementReferenceException,)
-                        WebDriverWait(driver,20,ignored_exceptions=ignored_exceptions).until(expected_conditions.presence_of_element_located((By.XPATH, "/html/body/div[4]/div[4]/iframe")))
+                        driver.navigate().refresh()
+                        WebDriverWait(driver,20).until(expected_conditions.presence_of_element_located((By.XPATH, "/html/body/div[4]/div[4]/iframe")))
                         frames = driver.find_elements(By.TAG_NAME,"iframe")
-                        driver.switch_to.frame(recaptcha_control_frame)
 
                         # click on checkbox to activate recaptcha
                         driver.find_element(By.CLASS_NAME,"recaptcha-checkbox-border").click()

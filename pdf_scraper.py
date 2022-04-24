@@ -57,16 +57,16 @@ driver = webdriver.Chrome(ChromeDriverManager().install(), options = chrome_opti
 
 driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
 
+# step 1: retrieve required url from the database --> something like select top(15) DOI, URL from database.[tablename] where [openaccess] = false and [downloaded] = false <--
+
+# for testing I just used the current metadata
+metadata = json.load(open("/Users/danaebouwer/Documents/Work/Aarons-kit/Masterlist_Scraper/Metadata.json"))
+
 run=True
 
 while run:
     web_session = GenConnectionController(driver, "https://www.jstor.org")
     current_url = driver.current_url
-
-    # step 1: retrieve required url from the database --> something like select top(15) DOI, URL from database.[tablename] where [openaccess] = false and [downloaded] = false <--
-
-    # for testing I just used the current metadata
-    metadata = json.load(open("/Users/danaebouwer/Documents/Work/Aarons-kit/Masterlist_Scraper/Metadata.json"))
 
     for i in metadata:
 
@@ -103,12 +103,12 @@ while run:
                     print("Calling reCAPTCHA solver")
                     recaptcha_solver(driver)
 
-                    time.sleep(5+random.random())
+                    time.sleep(30+random.random())
 
             #click download
             driver.find_element(by = By.XPATH, value = r".//mfe-download-pharos-button[@data-sc='but click:pdf download']").click()
 
-            # bypass t&c
+            # bypass t&c (in some case t&c are different, I need to test to find another case again)
             try:
                 WebDriverWait(driver, 10).until(
                     expected_conditions.presence_of_element_located((By.ID, 'content-viewer-container'))
@@ -131,17 +131,18 @@ while run:
             continue
 
 
-    # step 5: delete temp storage folder on local computer
+    # step 5: delete temp storage folder on local computer --> needs work <--
     if storage.countFiles(directory)==15:
+        print("deleting downloads")
         storage.deleteTempStorage(directory)
+        run = False
         input()
     else:
         # try to handle the error: most likely a reCAPTCHA came up and download could not complete
-        # restart the driver
+        print("restart the driver")
         input()
         
-        print("restart program")
-        driver.close
+        driver.quit
 
         time.sleep(10+random.random())
         
