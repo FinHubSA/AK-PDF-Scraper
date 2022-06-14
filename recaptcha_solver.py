@@ -2,182 +2,232 @@ import time
 import random
 import os.path
 import re
-from webdriver_manager.chrome import ChromeDriverManager
+import os
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions
-from selenium.common.exceptions import NoSuchElementException
-from selenium.common.exceptions import StaleElementReferenceException
 from selenium.webdriver.common.by import By
-import sys
-import urllib
 import pydub
 import speech_recognition as sr
 from selenium.webdriver.common.keys import Keys
-from selenium import webdriver
+import pickle
+import requests
+
+def delay():
+    waiting_time = random.randrange(5,10,1)
+    time.sleep(waiting_time)
 
 
-class recaptcha_solver:
+def check_solved(driver,url,url_pending):
+# possible inefficiency due to this webdriverwait, try to fix
+    try:
+        WebDriverWait(driver,10).until(
+            expected_conditions.element_to_be_clickable((By.XPATH, r".//terms-and-conditions-pharos-button[@data-qa='accept-terms-and-conditions-button']"))
+            )
 
-    def __init__(self, driver: webdriver):
+        print("[SUCCESS] ReCAPTCHA successfully solved after the checkbox was clicked")
+        solved = True
 
-        self._driver = driver
+    except:
 
-        def delay(waiting_time=30):
-            driver.implicitly_wait(waiting_time)
+        delay()
 
-        # reCAPTCHA Solver
+        if os.path.exists(url) == True or os.path.exists(url_pending) == True:
 
-        checkbox_loop=True
+            print("[SUCCESS] ReCAPTCHA successfully solved after the checkbox was clicked")
+            solved = True
 
-        while checkbox_loop:
-            try:
-                WebDriverWait(driver,20).until(expected_conditions.presence_of_element_located((By.XPATH, "/html/body/div[4]/div[4]/iframe")))
-                frames = driver.find_elements(By.TAG_NAME,"iframe")
+        else:
+            solved = False
 
-                recaptcha_control_frame = None
-                recaptcha_challenge_frame = None
+    return solved
 
-                for index, frame in enumerate(frames):
-                    # Find the reCAPTCHA checkbox
-                    if re.search('reCAPTCHA', frame.get_attribute("title")):
-                        recaptcha_control_frame = frame
-                        print('recaptcha box located')
-                    # Find the reCAPTCHA puzzle    
-                    if re.search('recaptcha challenge expires in two minutes', frame.get_attribute("title")):
-                        recaptcha_challenge_frame = frame
-                        print('recaptcha puzzle located')
-                if not (recaptcha_control_frame or recaptcha_challenge_frame):
-                    print("[ERR] Unable to find recaptcha.")
-                
-                # switch to checkbox
-                delay()
-                frames = driver.find_elements(By.TAG_NAME,"iframe")
-                driver.switch_to.frame(recaptcha_control_frame)
 
-                # click on checkbox to activate recaptcha
-                driver.find_element(By.CLASS_NAME,"recaptcha-checkbox-border").click()
+def frame(driver):
 
-                print("checkbox clicked")
+    frames = driver.find_elements(By.TAG_NAME,"iframe")
 
-                time.sleep(10)
+    recaptcha_control_frame = None
+    recaptcha_challenge_frame = None
+
+    for index, frame in enumerate(frames):
+
+        # Find the reCAPTCHA checkbox
+        if re.search('reCAPTCHA', frame.get_attribute("title")):
+
+            recaptcha_control_frame = frame
+            print('recaptcha box located')
+
+        # Find the reCAPTCHA puzzle    
+        if re.search('recaptcha challenge expires in two minutes', frame.get_attribute("title")):
+
+            recaptcha_challenge_frame = frame
+            print('recaptcha puzzle located')
+
+    return recaptcha_control_frame, recaptcha_challenge_frame
+
+def recaptcha_solver(driver,url,url_pending):
+
+    recaptcha_log = 0
+
+    recaptcha_control = True
+
+    while recaptcha_control == True:
+
+        recaptcha_log=recaptcha_log+1
+        randint=random.randrange(4,8)
+
+        if recaptcha_log>=randint:
+
+            print("[ERR] Too many iterations, restart driver")
+            success = False
+            break
+        
+        try:
+            print("trying to find reCAPTCHA")
+
+            delay()
+
+            recaptcha_control_frame, recaptcha_challenge_frame = frame(driver)
+
+            if not (recaptcha_control_frame or recaptcha_challenge_frame):
+
+                print("[ERR] Unable to find reCAPTCHA")
+                success = False
+                break
             
-            except:
-                print("An error has occured.")
-                print("IP address might have been blocked for recaptcha.")
-                print("User input required.")
-                input()
-  
-            try:
-                print("trying to find JSTOR page")               
-                WebDriverWait(driver,20).until(expected_conditions.presence_of_element_located((By.XPATH, r"//div[@data-qa='stable-url']")))
-                print("ReCAPTCHA successfully solved after the checkbox was clicked")
-                checkbox_loop=False
-                count_puzzle_solver=False
-            except:      
+            # switch to checkbox
+            delay()
+
+            #frames = driver.find_elements(By.TAG_NAME,"iframe")
+            driver.switch_to.frame(recaptcha_control_frame)
+
+            # click on checkbox to activate recaptcha
+            driver.find_element(By.CLASS_NAME,"recaptcha-checkbox-border").click()
+            print("checkbox clicked")
+           
+        except:
+            print("[ERR] Cannot solve reCAPTCHA checkbox")
+            success = False
+            break
+
+        if check_solved(driver,url,url_pending)==True:
+            success = True
+            break
+        else:
+            recaptcha_challenge = True
+            while recaptcha_challenge==True:
+
                 try:
                     # switch to recaptcha audio control frame
                     delay()
                     driver.switch_to.default_content()
-                    frames = driver.find_elements(By.TAG_NAME,"iframe")
+                    #frames = driver.find_elements(By.TAG_NAME,"iframe")
                     driver.switch_to.frame(recaptcha_challenge_frame)
 
                     # click on audio challenge
-                    time.sleep(10)
+                    delay()
                     driver.find_element(By.ID,"recaptcha-audio-button").click()
                     print("Switched to audio control frame")
-                    
-                    checkbox_loop=False
-                    count_puzzle_solver=True
-                except:
-                    count_checkbox=+1
-                    print(count_checkbox)
-                    if count_checkbox >= random.randrange(3,6,1):
-                        driver.navigate().refresh()
-                        time.sleep(10)
-                    continue
-        
-        while count_puzzle_solver:
-            # switch to recaptcha audio challenge frame
-            driver.switch_to.default_content()
-            frames = driver.find_elements(By.TAG_NAME,"iframe")
-            driver.switch_to.frame(recaptcha_challenge_frame)
 
-            # get the mp3 audio file
-            delay()
-            src = driver.find_element(By.ID,"audio-source").get_attribute("src")
-            print(f"[INFO] Audio src: {src}")
+                    # switch to recaptcha audio challenge frame
+                    driver.switch_to.default_content()
+                    #frames = driver.find_elements(By.TAG_NAME,"iframe")
+                    driver.switch_to.frame(recaptcha_challenge_frame)
 
-            path_to_mp3 = os.path.normpath(os.path.join(os.getcwd(), "sample.mp3"))
-            path_to_wav = os.path.normpath(os.path.join(os.getcwd(), "sample.wav"))
+                    # get the mp3 audio file
+                    delay()
+                    src = driver.find_element(By.ID,"audio-source").get_attribute("src")
+                    print(f"[INFO] Audio src: {src}")
 
-            # download the mp3 audio file from the source
-            urllib.request.urlretrieve(src, path_to_mp3)
+                    path_to_mp3 = os.path.normpath(os.path.join(os.getcwd(), "sample.mp3"))
+                    path_to_wav = os.path.normpath(os.path.join(os.getcwd(), "sample.wav"))
 
-            # load downloaded mp3 audio file as .wav
-            try:
-                sound = pydub.AudioSegment.from_mp3(path_to_mp3)
-                sound.export(path_to_wav, format="wav")
-                sample_audio = sr.AudioFile(path_to_wav)
-                print("Exported audio file to .wav")
-            except Exception:
-                print(
-                    "[ERR] Please run program as administrator or download ffmpeg manually, "
-                    "https://blog.gregzaal.com/how-to-install-ffmpeg-on-windows/"
-                    )
+                    # download the mp3 audio file from the source
+                    with open('cookies.pkl', 'rb') as f:
+                        cookie_list = pickle.load(f)
 
-            # translate audio to text with google voice recognition
-            delay()
-            r = sr.Recognizer()
-            with sample_audio as source:
-                audio = r.record(source)
-                try:
-                    key = r.recognize_google(audio)
-                    print(f"[INFO] Recaptcha Passcode: {key}")
-                    print("Audio Snippet was recognised")
-                except:
-                    print("reCAPTCHA voice segment is too difficult to solve.")
-                    print("User input required.")
-                    input()
+                    cookie = {}
+                    for elem in cookie_list:
+                        cookie[elem["name"]] = elem["value"]
 
-            # key in results and submit
-            delay()
-            try:
-                driver.find_element(By.ID,"audio-response").send_keys(key.lower())
-                driver.find_element(By.ID,"audio-response").send_keys(Keys.ENTER)
-                time.sleep(5)
-                driver.switch_to.default_content()
-                time.sleep(5)
-                print("Audio snippet submitted")
-            except:
-                print("An error has occured.")
-                print("IP address might have been blocked for recaptcha.")
-                print("User input required.")
-                input()
-
-            count_checkbox_solver=True
-
-            while count_checkbox_solver:
-                try:
-                    # check to see if reCAPTCHA was solved
-                    print("trying to find JSTOR page")
-                    WebDriverWait(driver,20).until(expected_conditions.presence_of_element_located((By.XPATH, r"//div[@data-qa='stable-url']")))
-                    print("ReCAPTCHA successfully solved")
-                    count_checkbox_solver=False
-                    count_puzzle_solver=False
-                except:
                     try:
-                        # check to see if checkbox pops up
-                        print("trying to find and solve checkbox")
-                        driver.navigate().refresh()
-                        WebDriverWait(driver,20).until(expected_conditions.presence_of_element_located((By.XPATH, "/html/body/div[4]/div[4]/iframe")))
-                        frames = driver.find_elements(By.TAG_NAME,"iframe")
+                        s = requests.Session()
+                        s.cookies = requests.utils.cookiejar_from_dict(cookie)
 
-                        # click on checkbox to activate recaptcha
-                        driver.find_element(By.CLASS_NAME,"recaptcha-checkbox-border").click()
-                    except:
-                        print("Trying to solve reCAPTCHA puzzle")
-                        count_checkbox_solver=False
+                        local_filename = 'sample.mp3'
+                        r = s.get(src)
+                        with open(local_filename, 'wb') as f:
+                            for chunk in r.iter_content(chunk_size=1024): 
+                                if chunk: # filter out keep-alive new chunks
+                                    f.write(chunk)
 
-        
+                    except Exception as e:
+                        print("[ERR] Could not download audio file")
+                        print(e)
+                        success = False                       
+                        recaptcha_control = False
+                        break
 
-           
+                    # load downloaded mp3 audio file as .wav
+                    try:
+                        sound = pydub.AudioSegment.from_mp3(path_to_mp3)
+                        sound.export(path_to_wav, format="wav")
+                        sample_audio = sr.AudioFile(path_to_wav)
+                        print("Exported audio file to .wav")
+                    except Exception as e:
+                        print("[ERR] Failed to convert file as .wav")
+                        print(e)
+                        success = False
+                        recaptcha_control = False
+                        break
+
+                    # translate audio to text with google voice recognition
+                    delay()
+                    r = sr.Recognizer()
+                    with sample_audio as source:
+                        audio = r.record(source)
+                        try:
+                            key = r.recognize_google(audio)
+                            print(f"[INFO] Recaptcha Passcode: {key}")
+                            print("Audio Snippet was recognised")
+                        except Exception as e:
+                            print("[ERR] reCAPTCHA voice segment is too difficult to solve.")
+                            print(e)
+                            success = False
+                            recaptcha_control = False
+                            break
+
+                    # key in results and submit
+                    delay()
+                    try:
+                        driver.find_element(By.ID,"audio-response").send_keys(key.lower())
+                        driver.find_element(By.ID,"audio-response").send_keys(Keys.ENTER)
+                        time.sleep(5)
+                        driver.switch_to.default_content()
+                        time.sleep(5)
+                        print("Audio snippet submitted")
+                    except Exception as e:
+                        print("[ERR] IP address might have been blocked for recaptcha.")
+                        print(e)
+                        success = False
+                        recaptcha_control = False
+                        break
+
+                    if check_solved(driver,url,url_pending)==True:
+                        success = True
+                        recaptcha_control = False
+                        break
+                    else:
+                        continue
+
+                except:
+                    print("[INFO] Recurring checkbox")
+                    break
+    
+    print("program stopped")
+    return success
+
+
+
+
+    

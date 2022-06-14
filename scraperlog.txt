@@ -1,0 +1,1257 @@
+
+
+for URL: http://www.jstor.org/stable/20716362
+scraper started at: 06/09/2022, 13:22:26
+scraper ended at: 06/09/2022, 13:24:10
+
+for URL: http://www.jstor.org/stable/20716363
+scraper started at: 06/09/2022, 13:24:10
+scraper ended at: 06/09/2022, 13:24:24
+
+for URL: http://www.jstor.org/stable/20716364
+scraper started at: 06/09/2022, 13:24:24
+scraper ended at: 06/09/2022, 13:24:38
+
+for URL: http://www.jstor.org/stable/20716365
+scraper started at: 06/09/2022, 13:24:38
+scraper ended at: 06/09/2022, 13:24:52
+
+for URL: http://www.jstor.org/stable/20716366
+scraper started at: 06/09/2022, 13:24:52
+scraper ended at: 06/09/2022, 13:25:05
+
+for URL: http://www.jstor.org/stable/20716367
+scraper started at: 06/09/2022, 13:25:05
+scraper ended at: 06/09/2022, 13:25:59
+
+for URL: http://www.jstor.org/stable/20716368
+scraper started at: 06/09/2022, 13:25:59
+scraper ended at: 06/09/2022, 13:26:30
+
+for URL: http://www.jstor.org/stable/20716369
+scraper started at: 06/09/2022, 13:26:30
+scraper ended at: 06/09/2022, 13:26:39
+
+for URL: http://www.jstor.org/stable/20716348
+scraper started at: 06/09/2022, 13:40:13
+scraper ended at: 06/09/2022, 13:41:24
+
+for URL: http://www.jstor.org/stable/20716349
+scraper started at: 06/09/2022, 13:41:24
+scraper ended at: 06/09/2022, 13:41:46
+
+for URL: http://www.jstor.org/stable/20716350
+scraper started at: 06/09/2022, 13:41:46
+scraper ended at: 06/09/2022, 13:42:08
+
+for URL: http://www.jstor.org/stable/20716351
+scraper started at: 06/09/2022, 13:42:08
+scraper ended at: 06/09/2022, 13:42:25
+
+for URL: http://www.jstor.org/stable/20716352
+scraper started at: 06/09/2022, 13:42:25
+scraper ended at: 06/09/2022, 13:42:54
+
+for URL: http://www.jstor.org/stable/20716353
+scraper started at: 06/09/2022, 13:42:54
+scraper ended at: 06/09/2022, 13:43:05
+
+for URL: http://www.jstor.org/stable/20716354
+scraper started at: 06/09/2022, 14:29:43
+scraper ended at: 06/09/2022, 14:30:17
+
+for URL: http://www.jstor.org/stable/20716355
+scraper started at: 06/09/2022, 14:32:41
+scraper ended at: 06/09/2022, 14:34:01
+
+for URL: http://www.jstor.org/stable/20716356
+scraper started at: 06/09/2022, 14:37:34
+scraper ended at: 06/09/2022, 14:38:11
+
+for URL: http://www.jstor.org/stable/20716357
+scraper started at: 06/09/2022, 14:40:03
+scraper ended at: 06/09/2022, 14:41:18
+
+for URL: http://www.jstor.org/stable/20716358
+scraper started at: 06/09/2022, 15:09:28
+scraper ended at: 06/09/2022, 15:09:53
+
+for URL: http://www.jstor.org/stable/20716359
+scraper started at: 06/09/2022, 15:14:13
+scraper ended at: 06/09/2022, 15:15:26
+
+for URL: http://www.jstor.org/stable/20716360
+scraper started at: 06/09/2022, 15:15:26
+scraper ended at: 06/09/2022, 15:15:35
+
+for URL: http://www.jstor.org/stable/20716329
+scraper started at: 06/09/2022, 15:19:38
+scraper ended at: 06/09/2022, 15:22:19
+
+for URL: http://www.jstor.org/stable/20716330
+scraper started at: 06/09/2022, 15:22:19
+scraper ended at: 06/09/2022, 15:22:41
+
+for URL: http://www.jstor.org/stable/20716331
+scraper started at: 06/09/2022, 15:34:25
+scraper ended at: 06/09/2022, 15:35:22
+
+for URL: http://www.jstor.org/stable/20716332
+scraper started at: 06/09/2022, 15:35:22
+scraper ended at: 06/09/2022, 15:35:31
+
+for URL: http://www.jstor.org/stable/20716333
+scraper started at: 06/09/2022, 15:45:59
+scraper ended at: 06/09/2022, 15:47:08
+
+for URL: http://www.jstor.org/stable/20716334
+scraper started at: 06/09/2022, 15:47:08
+scraper ended at: 06/09/2022, 15:47:20
+
+for URL: http://www.jstor.org/stable/20716335
+scraper started at: 06/09/2022, 15:47:20
+scraper ended at: 06/09/2022, 15:47:37
+
+for URL: http://www.jstor.org/stable/20716336
+scraper started at: 06/09/2022, 15:47:37
+scraper ended at: 06/09/2022, 15:48:28
+
+for URL: http://www.jstor.org/stable/20716337
+scraper started at: 06/09/2022, 15:48:28
+scraper ended at: 06/09/2022, 15:49:19
+
+for URL: http://www.jstor.org/stable/20716338
+scraper started at: 06/09/2022, 15:49:19
+scraper ended at: 06/09/2022, 15:49:33
+
+for URL: http://www.jstor.org/stable/20716339
+scraper started at: 06/09/2022, 15:49:33
+scraper ended at: 06/09/2022, 15:49:47
+
+for URL: http://www.jstor.org/stable/20716340
+scraper started at: 06/09/2022, 15:49:47
+scraper ended at: 06/09/2022, 15:49:56
+
+for URL: http://www.jstor.org/stable/20716341
+scraper started at: 06/09/2022, 16:00:06
+scraper ended at: 06/09/2022, 16:00:24
+
+for URL: http://www.jstor.org/stable/20716342
+scraper started at: 06/09/2022, 16:00:25
+scraper ended at: 06/09/2022, 16:00:31
+
+for URL: http://www.jstor.org/stable/20716343
+scraper started at: 06/09/2022, 16:00:31
+scraper ended at: 06/09/2022, 16:00:49
+
+for URL: http://www.jstor.org/stable/20716344
+scraper started at: 06/09/2022, 16:00:49
+scraper ended at: 06/09/2022, 16:00:55
+
+for URL: http://www.jstor.org/stable/20716345
+scraper started at: 06/09/2022, 16:00:55
+scraper ended at: 06/09/2022, 16:01:01
+
+for URL: http://www.jstor.org/stable/20716346
+scraper started at: 06/09/2022, 16:01:01
+scraper ended at: 06/09/2022, 16:01:07
+
+for URL: http://www.jstor.org/stable/20716318
+scraper started at: 06/09/2022, 16:01:07
+scraper ended at: 06/09/2022, 16:01:13
+
+for URL: http://www.jstor.org/stable/20716319
+scraper started at: 06/09/2022, 16:01:13
+scraper ended at: 06/09/2022, 16:01:19
+
+for URL: http://www.jstor.org/stable/20716320
+scraper started at: 06/09/2022, 16:01:19
+scraper ended at: 06/09/2022, 16:01:25
+
+for URL: http://www.jstor.org/stable/20716321
+scraper started at: 06/09/2022, 16:01:25
+scraper ended at: 06/09/2022, 16:01:31
+
+for URL: http://www.jstor.org/stable/20716322
+scraper started at: 06/09/2022, 16:01:31
+scraper ended at: 06/09/2022, 16:01:37
+
+for URL: http://www.jstor.org/stable/20716323
+scraper started at: 06/09/2022, 16:01:37
+scraper ended at: 06/09/2022, 16:01:43
+
+for URL: http://www.jstor.org/stable/20716324
+scraper started at: 06/09/2022, 16:01:43
+scraper ended at: 06/09/2022, 16:01:49
+
+for URL: http://www.jstor.org/stable/20716325
+scraper started at: 06/09/2022, 16:01:49
+scraper ended at: 06/09/2022, 16:01:55
+
+for URL: http://www.jstor.org/stable/20716326
+scraper started at: 06/09/2022, 16:01:55
+scraper ended at: 06/09/2022, 16:02:01
+
+for URL: http://www.jstor.org/stable/20716327
+scraper started at: 06/09/2022, 16:02:01
+scraper ended at: 06/09/2022, 16:02:07
+
+for URL: http://www.jstor.org/stable/20716308
+scraper started at: 06/09/2022, 16:02:07
+scraper ended at: 06/09/2022, 16:02:13
+
+for URL: http://www.jstor.org/stable/20716309
+scraper started at: 06/09/2022, 16:02:13
+scraper ended at: 06/09/2022, 16:02:19
+
+for URL: http://www.jstor.org/stable/20716310
+scraper started at: 06/09/2022, 16:02:19
+scraper ended at: 06/09/2022, 16:02:26
+
+for URL: http://www.jstor.org/stable/20716311
+scraper started at: 06/09/2022, 16:02:26
+scraper ended at: 06/09/2022, 16:02:32
+
+for URL: http://www.jstor.org/stable/20716312
+scraper started at: 06/09/2022, 16:02:32
+scraper ended at: 06/09/2022, 16:02:38
+
+for URL: http://www.jstor.org/stable/20716313
+scraper started at: 06/09/2022, 16:02:38
+scraper ended at: 06/09/2022, 16:02:44
+
+for URL: http://www.jstor.org/stable/20716314
+scraper started at: 06/09/2022, 16:02:44
+scraper ended at: 06/09/2022, 16:02:50
+
+for URL: http://www.jstor.org/stable/20716315
+scraper started at: 06/09/2022, 16:02:50
+scraper ended at: 06/09/2022, 16:02:56
+
+for URL: http://www.jstor.org/stable/20716316
+scraper started at: 06/09/2022, 16:02:56
+scraper ended at: 06/09/2022, 16:03:02
+
+for URL: http://www.jstor.org/stable/20716297
+scraper started at: 06/09/2022, 16:03:02
+scraper ended at: 06/09/2022, 16:03:08
+
+for URL: http://www.jstor.org/stable/20716298
+scraper started at: 06/09/2022, 16:03:08
+scraper ended at: 06/09/2022, 16:03:14
+
+for URL: http://www.jstor.org/stable/20716299
+scraper started at: 06/09/2022, 16:03:14
+scraper ended at: 06/09/2022, 16:03:20
+
+for URL: http://www.jstor.org/stable/20716300
+scraper started at: 06/09/2022, 16:03:20
+scraper ended at: 06/09/2022, 16:03:36
+
+for URL: http://www.jstor.org/stable/20716301
+scraper started at: 06/09/2022, 16:03:36
+scraper ended at: 06/09/2022, 16:03:42
+
+for URL: http://www.jstor.org/stable/20716302
+scraper started at: 06/09/2022, 16:03:42
+scraper ended at: 06/09/2022, 16:03:48
+
+for URL: http://www.jstor.org/stable/20716303
+scraper started at: 06/09/2022, 16:03:48
+scraper ended at: 06/09/2022, 16:03:54
+
+for URL: http://www.jstor.org/stable/20716304
+scraper started at: 06/09/2022, 16:03:54
+scraper ended at: 06/09/2022, 16:04:00
+
+for URL: http://www.jstor.org/stable/20716305
+scraper started at: 06/09/2022, 16:04:00
+scraper ended at: 06/09/2022, 16:04:06
+
+for URL: http://www.jstor.org/stable/20716306
+scraper started at: 06/09/2022, 16:04:06
+scraper ended at: 06/09/2022, 16:04:12
+
+for URL: http://www.jstor.org/stable/20716287
+scraper started at: 06/09/2022, 16:04:12
+scraper ended at: 06/09/2022, 16:04:18
+
+for URL: http://www.jstor.org/stable/20716288
+scraper started at: 06/09/2022, 16:04:19
+scraper ended at: 06/09/2022, 16:04:25
+
+for URL: http://www.jstor.org/stable/20716289
+scraper started at: 06/09/2022, 16:04:25
+scraper ended at: 06/09/2022, 16:04:31
+
+for URL: http://www.jstor.org/stable/20716290
+scraper started at: 06/09/2022, 16:04:31
+scraper ended at: 06/09/2022, 16:04:49
+
+for URL: http://www.jstor.org/stable/20716291
+scraper started at: 06/09/2022, 16:04:49
+scraper ended at: 06/09/2022, 16:04:55
+
+for URL: http://www.jstor.org/stable/20716292
+scraper started at: 06/09/2022, 16:04:55
+scraper ended at: 06/09/2022, 16:05:01
+
+for URL: http://www.jstor.org/stable/20716293
+scraper started at: 06/09/2022, 16:05:01
+scraper ended at: 06/09/2022, 16:05:07
+
+for URL: http://www.jstor.org/stable/20716294
+scraper started at: 06/09/2022, 16:05:07
+scraper ended at: 06/09/2022, 16:05:13
+
+for URL: http://www.jstor.org/stable/20716295
+scraper started at: 06/09/2022, 16:05:13
+scraper ended at: 06/09/2022, 16:05:19
+
+for URL: http://www.jstor.org/stable/20716275
+scraper started at: 06/09/2022, 16:05:19
+scraper ended at: 06/09/2022, 16:05:25
+
+for URL: http://www.jstor.org/stable/20716276
+scraper started at: 06/09/2022, 16:05:25
+scraper ended at: 06/09/2022, 16:05:31
+
+for URL: http://www.jstor.org/stable/20716277
+scraper started at: 06/09/2022, 16:05:31
+scraper ended at: 06/09/2022, 16:05:37
+
+for URL: http://www.jstor.org/stable/20716278
+scraper started at: 06/09/2022, 16:05:37
+scraper ended at: 06/09/2022, 16:05:43
+
+for URL: http://www.jstor.org/stable/20716279
+scraper started at: 06/09/2022, 16:05:43
+scraper ended at: 06/09/2022, 16:05:49
+
+for URL: http://www.jstor.org/stable/20716280
+scraper started at: 06/09/2022, 16:05:49
+scraper ended at: 06/09/2022, 16:05:55
+
+for URL: http://www.jstor.org/stable/20716281
+scraper started at: 06/09/2022, 16:05:55
+scraper ended at: 06/09/2022, 16:06:01
+
+for URL: http://www.jstor.org/stable/20716282
+scraper started at: 06/09/2022, 16:06:01
+scraper ended at: 06/09/2022, 16:06:07
+
+for URL: http://www.jstor.org/stable/20716283
+scraper started at: 06/09/2022, 16:06:07
+scraper ended at: 06/09/2022, 16:06:13
+
+for URL: http://www.jstor.org/stable/20716284
+scraper started at: 06/09/2022, 16:06:13
+scraper ended at: 06/09/2022, 16:06:19
+
+for URL: http://www.jstor.org/stable/20716285
+scraper started at: 06/09/2022, 16:06:19
+scraper ended at: 06/09/2022, 16:06:25
+
+for URL: http://www.jstor.org/stable/20716264
+scraper started at: 06/09/2022, 16:06:25
+scraper ended at: 06/09/2022, 16:06:31
+
+for URL: http://www.jstor.org/stable/20716265
+scraper started at: 06/09/2022, 16:06:31
+scraper ended at: 06/09/2022, 16:06:37
+
+for URL: http://www.jstor.org/stable/20716266
+scraper started at: 06/09/2022, 16:06:37
+scraper ended at: 06/09/2022, 16:06:43
+
+for URL: http://www.jstor.org/stable/20716267
+scraper started at: 06/09/2022, 16:06:43
+scraper ended at: 06/09/2022, 16:07:04
+
+for URL: http://www.jstor.org/stable/20716268
+scraper started at: 06/09/2022, 16:07:04
+scraper ended at: 06/09/2022, 16:07:10
+
+for URL: http://www.jstor.org/stable/20716269
+scraper started at: 06/09/2022, 16:07:10
+scraper ended at: 06/09/2022, 16:07:16
+
+for URL: http://www.jstor.org/stable/20716270
+scraper started at: 06/09/2022, 16:07:16
+scraper ended at: 06/09/2022, 16:07:22
+
+for URL: http://www.jstor.org/stable/20716271
+scraper started at: 06/09/2022, 16:07:22
+scraper ended at: 06/09/2022, 16:07:28
+
+for URL: http://www.jstor.org/stable/20716272
+scraper started at: 06/09/2022, 16:07:28
+scraper ended at: 06/09/2022, 16:07:34
+
+for URL: http://www.jstor.org/stable/20716273
+scraper started at: 06/09/2022, 16:07:34
+scraper ended at: 06/09/2022, 16:07:40
+
+for URL: http://www.jstor.org/stable/20716253
+scraper started at: 06/09/2022, 16:07:40
+scraper ended at: 06/09/2022, 16:07:46
+
+for URL: http://www.jstor.org/stable/20716254
+scraper started at: 06/09/2022, 16:07:46
+scraper ended at: 06/09/2022, 16:07:52
+
+for URL: http://www.jstor.org/stable/20716255
+scraper started at: 06/09/2022, 16:07:52
+scraper ended at: 06/09/2022, 16:07:58
+
+for URL: http://www.jstor.org/stable/20716256
+scraper started at: 06/09/2022, 16:07:58
+scraper ended at: 06/09/2022, 16:08:04
+
+for URL: http://www.jstor.org/stable/20716257
+scraper started at: 06/09/2022, 16:08:04
+scraper ended at: 06/09/2022, 16:08:10
+
+for URL: http://www.jstor.org/stable/20716258
+scraper started at: 06/09/2022, 16:08:10
+scraper ended at: 06/09/2022, 16:08:16
+
+for URL: http://www.jstor.org/stable/20716259
+scraper started at: 06/09/2022, 16:08:16
+scraper ended at: 06/09/2022, 16:08:22
+
+for URL: http://www.jstor.org/stable/20716260
+scraper started at: 06/09/2022, 16:08:22
+scraper ended at: 06/09/2022, 16:08:28
+
+for URL: http://www.jstor.org/stable/20716261
+scraper started at: 06/09/2022, 16:08:28
+scraper ended at: 06/09/2022, 16:08:34
+
+for URL: http://www.jstor.org/stable/20716262
+scraper started at: 06/09/2022, 16:08:34
+scraper ended at: 06/09/2022, 16:08:40
+
+for URL: http://www.jstor.org/stable/20716241
+scraper started at: 06/09/2022, 16:08:40
+scraper ended at: 06/09/2022, 16:08:46
+
+for URL: http://www.jstor.org/stable/20716242
+scraper started at: 06/09/2022, 16:08:46
+scraper ended at: 06/09/2022, 16:08:52
+
+for URL: http://www.jstor.org/stable/20716243
+scraper started at: 06/09/2022, 16:08:52
+scraper ended at: 06/09/2022, 16:08:58
+
+for URL: http://www.jstor.org/stable/20716244
+scraper started at: 06/09/2022, 16:08:58
+scraper ended at: 06/09/2022, 16:09:04
+
+for URL: http://www.jstor.org/stable/20716245
+scraper started at: 06/09/2022, 16:09:04
+scraper ended at: 06/09/2022, 16:09:10
+
+for URL: http://www.jstor.org/stable/20716246
+scraper started at: 06/09/2022, 16:09:10
+scraper ended at: 06/09/2022, 16:09:17
+
+for URL: http://www.jstor.org/stable/20716247
+scraper started at: 06/09/2022, 16:09:17
+scraper ended at: 06/09/2022, 16:09:23
+
+for URL: http://www.jstor.org/stable/20716248
+scraper started at: 06/09/2022, 16:09:23
+scraper ended at: 06/09/2022, 16:09:29
+
+for URL: http://www.jstor.org/stable/20716249
+scraper started at: 06/09/2022, 16:09:29
+scraper ended at: 06/09/2022, 16:09:35
+
+for URL: http://www.jstor.org/stable/20716250
+scraper started at: 06/09/2022, 16:09:35
+scraper ended at: 06/09/2022, 16:09:41
+
+for URL: http://www.jstor.org/stable/20716251
+scraper started at: 06/09/2022, 16:09:41
+scraper ended at: 06/09/2022, 16:09:47
+
+for URL: http://www.jstor.org/stable/20716227
+scraper started at: 06/09/2022, 16:09:47
+scraper ended at: 06/09/2022, 16:09:53
+
+for URL: http://www.jstor.org/stable/20716228
+scraper started at: 06/09/2022, 16:09:53
+scraper ended at: 06/09/2022, 16:09:59
+
+for URL: http://www.jstor.org/stable/20716229
+scraper started at: 06/09/2022, 16:09:59
+scraper ended at: 06/09/2022, 16:10:05
+
+for URL: http://www.jstor.org/stable/20716230
+scraper started at: 06/09/2022, 16:10:05
+scraper ended at: 06/09/2022, 16:10:11
+
+for URL: http://www.jstor.org/stable/20716231
+scraper started at: 06/09/2022, 16:10:11
+scraper ended at: 06/09/2022, 16:10:17
+
+for URL: http://www.jstor.org/stable/20716232
+scraper started at: 06/09/2022, 16:10:17
+scraper ended at: 06/09/2022, 16:10:23
+
+for URL: http://www.jstor.org/stable/20716233
+scraper started at: 06/09/2022, 16:10:23
+scraper ended at: 06/09/2022, 16:10:29
+
+for URL: http://www.jstor.org/stable/20716234
+scraper started at: 06/09/2022, 16:10:29
+scraper ended at: 06/09/2022, 16:10:35
+
+for URL: http://www.jstor.org/stable/20716235
+scraper started at: 06/09/2022, 16:10:35
+scraper ended at: 06/09/2022, 16:10:41
+
+for URL: http://www.jstor.org/stable/20716236
+scraper started at: 06/09/2022, 16:10:41
+scraper ended at: 06/09/2022, 16:10:47
+
+for URL: http://www.jstor.org/stable/20716237
+scraper started at: 06/09/2022, 16:10:47
+scraper ended at: 06/09/2022, 16:10:53
+
+for URL: http://www.jstor.org/stable/20716238
+scraper started at: 06/09/2022, 16:10:53
+scraper ended at: 06/09/2022, 16:10:59
+
+for URL: http://www.jstor.org/stable/20716239
+scraper started at: 06/09/2022, 16:10:59
+scraper ended at: 06/09/2022, 16:11:05
+
+for URL: http://www.jstor.org/stable/20716217
+scraper started at: 06/09/2022, 16:11:05
+scraper ended at: 06/09/2022, 16:11:11
+
+for URL: http://www.jstor.org/stable/20716218
+scraper started at: 06/09/2022, 16:11:11
+scraper ended at: 06/09/2022, 16:11:18
+
+for URL: http://www.jstor.org/stable/20716219
+scraper started at: 06/09/2022, 16:11:18
+scraper ended at: 06/09/2022, 16:11:24
+
+for URL: http://www.jstor.org/stable/20716220
+scraper started at: 06/09/2022, 16:11:24
+scraper ended at: 06/09/2022, 16:11:30
+
+for URL: http://www.jstor.org/stable/20716221
+scraper started at: 06/09/2022, 16:11:30
+scraper ended at: 06/09/2022, 16:11:36
+
+for URL: http://www.jstor.org/stable/20716222
+scraper started at: 06/09/2022, 16:11:36
+scraper ended at: 06/09/2022, 16:11:42
+
+for URL: http://www.jstor.org/stable/20716223
+scraper started at: 06/09/2022, 16:11:42
+scraper ended at: 06/09/2022, 16:11:48
+
+for URL: http://www.jstor.org/stable/20716224
+scraper started at: 06/09/2022, 16:11:48
+scraper ended at: 06/09/2022, 16:11:54
+
+for URL: http://www.jstor.org/stable/20716225
+scraper started at: 06/09/2022, 16:11:54
+scraper ended at: 06/09/2022, 16:12:00
+
+for URL: http://www.jstor.org/stable/20716207
+scraper started at: 06/09/2022, 16:12:00
+scraper ended at: 06/09/2022, 16:12:06
+
+for URL: http://www.jstor.org/stable/20716208
+scraper started at: 06/09/2022, 16:12:06
+scraper ended at: 06/09/2022, 16:12:12
+
+for URL: http://www.jstor.org/stable/20716209
+scraper started at: 06/09/2022, 16:12:12
+scraper ended at: 06/09/2022, 16:12:18
+
+for URL: http://www.jstor.org/stable/20716210
+scraper started at: 06/09/2022, 16:12:18
+scraper ended at: 06/09/2022, 16:12:34
+
+for URL: http://www.jstor.org/stable/20716211
+scraper started at: 06/09/2022, 16:12:34
+scraper ended at: 06/09/2022, 16:12:40
+
+for URL: http://www.jstor.org/stable/20716212
+scraper started at: 06/09/2022, 16:12:40
+scraper ended at: 06/09/2022, 16:12:46
+
+for URL: http://www.jstor.org/stable/20716213
+scraper started at: 06/09/2022, 16:12:46
+scraper ended at: 06/09/2022, 16:12:52
+
+for URL: http://www.jstor.org/stable/20716214
+scraper started at: 06/09/2022, 16:12:52
+scraper ended at: 06/09/2022, 16:12:58
+
+for URL: http://www.jstor.org/stable/20716215
+scraper started at: 06/09/2022, 16:12:58
+scraper ended at: 06/09/2022, 16:13:04
+
+for URL: http://www.jstor.org/stable/20716195
+scraper started at: 06/09/2022, 16:13:04
+scraper ended at: 06/09/2022, 16:13:24
+
+for URL: http://www.jstor.org/stable/20716196
+scraper started at: 06/09/2022, 16:13:24
+scraper ended at: 06/09/2022, 16:13:42
+
+for URL: http://www.jstor.org/stable/20716197
+scraper started at: 06/09/2022, 16:13:42
+scraper ended at: 06/09/2022, 16:14:01
+
+for URL: http://www.jstor.org/stable/20716198
+scraper started at: 06/09/2022, 16:14:01
+scraper ended at: 06/09/2022, 16:14:07
+
+for URL: http://www.jstor.org/stable/20716199
+scraper started at: 06/09/2022, 16:14:07
+scraper ended at: 06/09/2022, 16:14:13
+
+for URL: http://www.jstor.org/stable/20716200
+scraper started at: 06/09/2022, 16:14:13
+scraper ended at: 06/09/2022, 16:14:32
+
+for URL: http://www.jstor.org/stable/20716201
+scraper started at: 06/09/2022, 16:14:32
+scraper ended at: 06/09/2022, 16:14:38
+
+for URL: http://www.jstor.org/stable/20716202
+scraper started at: 06/09/2022, 16:14:38
+scraper ended at: 06/09/2022, 16:14:44
+
+for URL: http://www.jstor.org/stable/20716203
+scraper started at: 06/09/2022, 16:14:44
+scraper ended at: 06/09/2022, 16:14:50
+
+for URL: http://www.jstor.org/stable/20716204
+scraper started at: 06/09/2022, 16:14:50
+scraper ended at: 06/09/2022, 16:14:56
+
+for URL: http://www.jstor.org/stable/20716205
+scraper started at: 06/09/2022, 16:14:56
+scraper ended at: 06/09/2022, 16:15:02
+
+for URL: http://www.jstor.org/stable/20716187
+scraper started at: 06/09/2022, 16:15:02
+scraper ended at: 06/09/2022, 16:15:08
+
+for URL: http://www.jstor.org/stable/20716188
+scraper started at: 06/09/2022, 16:15:08
+scraper ended at: 06/09/2022, 16:15:25
+
+for URL: http://www.jstor.org/stable/20716189
+scraper started at: 06/09/2022, 16:15:25
+scraper ended at: 06/09/2022, 16:15:31
+
+for URL: http://www.jstor.org/stable/20716190
+scraper started at: 06/09/2022, 16:15:31
+scraper ended at: 06/09/2022, 16:15:37
+
+for URL: http://www.jstor.org/stable/20716191
+scraper started at: 06/09/2022, 16:15:37
+scraper ended at: 06/09/2022, 16:15:54
+
+for URL: http://www.jstor.org/stable/20716192
+scraper started at: 06/09/2022, 16:28:13
+scraper ended at: 06/09/2022, 16:29:12
+
+for URL: http://www.jstor.org/stable/20716193
+scraper started at: 06/09/2022, 16:29:12
+scraper ended at: 06/09/2022, 16:29:23
+
+for URL: http://www.jstor.org/stable/20716176
+scraper started at: 06/09/2022, 16:29:23
+scraper ended at: 06/09/2022, 16:29:34
+
+for URL: http://www.jstor.org/stable/20716177
+scraper started at: 06/09/2022, 16:29:34
+scraper ended at: 06/09/2022, 16:29:48
+
+for URL: http://www.jstor.org/stable/20716178
+scraper started at: 06/09/2022, 16:32:11
+scraper ended at: 06/09/2022, 16:32:39
+
+for URL: http://www.jstor.org/stable/20716179
+scraper started at: 06/09/2022, 16:32:39
+scraper ended at: 06/09/2022, 16:32:50
+
+for URL: http://www.jstor.org/stable/20716180
+scraper started at: 06/09/2022, 16:32:50
+scraper ended at: 06/09/2022, 16:33:04
+
+for URL: http://www.jstor.org/stable/20716181
+scraper started at: 06/09/2022, 16:33:04
+scraper ended at: 06/09/2022, 16:33:19
+
+for URL: http://www.jstor.org/stable/20716182
+scraper started at: 06/09/2022, 16:33:19
+scraper ended at: 06/09/2022, 16:33:33
+
+for URL: http://www.jstor.org/stable/20716183
+scraper started at: 06/09/2022, 16:33:33
+scraper ended at: 06/09/2022, 16:33:48
+
+for URL: http://www.jstor.org/stable/20716184
+scraper started at: 06/09/2022, 16:33:48
+scraper ended at: 06/09/2022, 16:33:59
+
+for URL: http://www.jstor.org/stable/20716185
+scraper started at: 06/09/2022, 16:33:59
+scraper ended at: 06/09/2022, 16:34:12
+
+for URL: http://www.jstor.org/stable/20716167
+scraper started at: 06/09/2022, 16:34:12
+scraper ended at: 06/09/2022, 16:34:26
+
+for URL: http://www.jstor.org/stable/20716168
+scraper started at: 06/09/2022, 16:34:26
+scraper ended at: 06/09/2022, 16:34:37
+
+for URL: http://www.jstor.org/stable/20716169
+scraper started at: 06/09/2022, 16:34:37
+scraper ended at: 06/09/2022, 16:34:51
+
+for URL: http://www.jstor.org/stable/20716170
+scraper started at: 06/09/2022, 16:34:51
+scraper ended at: 06/09/2022, 16:35:14
+
+for URL: http://www.jstor.org/stable/20716171
+scraper started at: 06/09/2022, 16:35:14
+scraper ended at: 06/09/2022, 16:35:25
+
+for URL: http://www.jstor.org/stable/20716172
+scraper started at: 06/09/2022, 16:35:25
+scraper ended at: 06/09/2022, 16:35:41
+
+for URL: http://www.jstor.org/stable/20716173
+scraper started at: 06/09/2022, 16:35:41
+scraper ended at: 06/09/2022, 16:35:54
+
+for URL: http://www.jstor.org/stable/20716174
+scraper started at: 06/09/2022, 16:35:54
+scraper ended at: 06/09/2022, 16:36:09
+
+for URL: http://www.jstor.org/stable/20716160
+scraper started at: 06/09/2022, 16:36:09
+scraper ended at: 06/09/2022, 16:36:36
+
+for URL: http://www.jstor.org/stable/20716161
+scraper started at: 06/09/2022, 16:36:36
+scraper ended at: 06/09/2022, 16:37:04
+
+for URL: http://www.jstor.org/stable/20716162
+scraper started at: 06/09/2022, 16:37:04
+scraper ended at: 06/09/2022, 16:37:30
+
+for URL: http://www.jstor.org/stable/20716163
+scraper started at: 06/09/2022, 16:37:30
+scraper ended at: 06/09/2022, 16:37:43
+
+for URL: http://www.jstor.org/stable/20716164
+scraper started at: 06/09/2022, 16:37:43
+scraper ended at: 06/09/2022, 16:37:57
+
+for URL: http://www.jstor.org/stable/20716165
+scraper started at: 06/09/2022, 16:37:58
+scraper ended at: 06/09/2022, 16:38:10
+
+for URL: http://www.jstor.org/stable/20716153
+scraper started at: 06/09/2022, 16:38:10
+scraper ended at: 06/09/2022, 16:38:23
+
+for URL: http://www.jstor.org/stable/20716154
+scraper started at: 06/09/2022, 16:38:23
+scraper ended at: 06/09/2022, 16:38:38
+
+for URL: http://www.jstor.org/stable/20716155
+scraper started at: 06/09/2022, 17:54:50
+scraper ended at: 06/09/2022, 17:55:16
+
+for URL: http://www.jstor.org/stable/20716156
+scraper started at: 06/10/2022, 11:06:58
+scraper ended at: 06/10/2022, 11:07:43
+
+for URL: http://www.jstor.org/stable/20716157
+scraper started at: 06/13/2022, 14:51:28
+scraper ended at: 06/13/2022, 14:52:22
+
+for URL: http://www.jstor.org/stable/20716158
+scraper started at: 06/13/2022, 14:59:04
+scraper ended at: 06/13/2022, 15:00:10
+
+for URL: http://www.jstor.org/stable/20716149
+scraper started at: 06/13/2022, 15:19:22
+scraper ended at: 06/13/2022, 15:20:21
+
+for URL: http://www.jstor.org/stable/20716150
+scraper started at: 06/13/2022, 16:08:16
+scraper ended at: 06/13/2022, 16:12:59
+
+for URL: http://www.jstor.org/stable/20716151
+scraper started at: 06/13/2022, 16:12:59
+scraper ended at: 06/13/2022, 16:14:15
+
+for URL: http://www.jstor.org/stable/20716141
+scraper started at: 06/13/2022, 16:18:02
+scraper ended at: 06/13/2022, 16:19:01
+
+for URL: http://www.jstor.org/stable/20716142
+scraper started at: 06/13/2022, 16:54:20
+scraper ended at: 06/13/2022, 16:55:29
+
+for URL: http://www.jstor.org/stable/20716143
+scraper started at: 06/13/2022, 17:04:52
+scraper ended at: 06/13/2022, 17:05:49
+
+for URL: http://www.jstor.org/stable/20716144
+scraper started at: 06/13/2022, 17:05:49
+scraper ended at: 06/13/2022, 17:06:35
+
+for URL: http://www.jstor.org/stable/20716145
+scraper started at: 06/13/2022, 17:06:35
+scraper ended at: 06/13/2022, 17:06:54
+
+for URL: http://www.jstor.org/stable/20716146
+scraper started at: 06/13/2022, 17:06:54
+scraper ended at: 06/13/2022, 17:07:30
+
+for URL: http://www.jstor.org/stable/20716147
+scraper started at: 06/13/2022, 17:07:30
+scraper ended at: 06/13/2022, 17:07:47
+
+for URL: http://www.jstor.org/stable/20716132
+scraper started at: 06/13/2022, 17:07:47
+scraper ended at: 06/13/2022, 17:08:04
+
+for URL: http://www.jstor.org/stable/20716133
+scraper started at: 06/13/2022, 17:08:04
+scraper ended at: 06/13/2022, 17:08:28
+
+for URL: http://www.jstor.org/stable/20716134
+scraper started at: 06/13/2022, 17:08:28
+scraper ended at: 06/13/2022, 17:08:59
+
+for URL: http://www.jstor.org/stable/20716135
+scraper started at: 06/13/2022, 17:08:59
+scraper ended at: 06/13/2022, 17:09:25
+
+for URL: http://www.jstor.org/stable/20716136
+scraper started at: 06/13/2022, 17:09:25
+scraper ended at: 06/13/2022, 17:09:47
+
+for URL: http://www.jstor.org/stable/20716137
+scraper started at: 06/13/2022, 17:09:47
+scraper ended at: 06/13/2022, 17:10:23
+
+for URL: http://www.jstor.org/stable/20716138
+scraper started at: 06/13/2022, 17:10:23
+scraper ended at: 06/13/2022, 17:10:45
+
+for URL: http://www.jstor.org/stable/20716139
+scraper started at: 06/13/2022, 17:10:45
+scraper ended at: 06/13/2022, 17:11:01
+
+for URL: http://www.jstor.org/stable/20716123
+scraper started at: 06/13/2022, 17:11:01
+scraper ended at: 06/13/2022, 17:11:13
+
+for URL: http://www.jstor.org/stable/20716124
+scraper started at: 06/13/2022, 17:11:13
+scraper ended at: 06/13/2022, 17:11:27
+
+for URL: http://www.jstor.org/stable/20716125
+scraper started at: 06/13/2022, 17:11:27
+scraper ended at: 06/13/2022, 17:11:47
+
+for URL: http://www.jstor.org/stable/20716126
+scraper started at: 06/13/2022, 17:11:47
+scraper ended at: 06/13/2022, 17:11:59
+
+for URL: http://www.jstor.org/stable/20716127
+scraper started at: 06/13/2022, 17:11:59
+scraper ended at: 06/13/2022, 17:12:15
+
+for URL: http://www.jstor.org/stable/20716128
+scraper started at: 06/13/2022, 17:12:15
+scraper ended at: 06/13/2022, 17:12:29
+
+for URL: http://www.jstor.org/stable/20716129
+scraper started at: 06/13/2022, 17:12:29
+scraper ended at: 06/13/2022, 17:12:39
+
+for URL: http://www.jstor.org/stable/20716130
+scraper started at: 06/13/2022, 17:20:27
+scraper ended at: 06/13/2022, 17:21:08
+
+for URL: http://www.jstor.org/stable/20716117
+scraper started at: 06/13/2022, 17:40:04
+scraper ended at: 06/13/2022, 17:40:46
+
+for URL: http://www.jstor.org/stable/20716118
+scraper started at: 06/14/2022, 09:47:23
+scraper ended at: 06/14/2022, 09:49:39
+
+for URL: http://www.jstor.org/stable/20716119
+scraper started at: 06/14/2022, 09:49:39
+scraper ended at: 06/14/2022, 09:49:49
+
+for URL: http://www.jstor.org/stable/20716120
+scraper started at: 06/14/2022, 09:49:49
+scraper ended at: 06/14/2022, 09:49:57
+
+for URL: http://www.jstor.org/stable/20716121
+scraper started at: 06/14/2022, 09:49:57
+scraper ended at: 06/14/2022, 09:50:03
+
+for URL: http://www.jstor.org/stable/20716110
+scraper started at: 06/14/2022, 09:50:03
+scraper ended at: 06/14/2022, 09:50:09
+
+for URL: http://www.jstor.org/stable/20716111
+scraper started at: 06/14/2022, 09:50:09
+scraper ended at: 06/14/2022, 09:50:16
+
+for URL: http://www.jstor.org/stable/20716112
+scraper started at: 06/14/2022, 09:50:16
+scraper ended at: 06/14/2022, 09:50:24
+
+for URL: http://www.jstor.org/stable/20716113
+scraper started at: 06/14/2022, 09:50:24
+scraper ended at: 06/14/2022, 09:50:36
+
+for URL: http://www.jstor.org/stable/20716114
+scraper started at: 06/14/2022, 09:50:36
+scraper ended at: 06/14/2022, 09:50:44
+
+for URL: http://www.jstor.org/stable/20716115
+scraper started at: 06/14/2022, 09:50:44
+scraper ended at: 06/14/2022, 09:50:53
+
+for URL: http://www.jstor.org/stable/20716105
+scraper started at: 06/14/2022, 09:50:53
+scraper ended at: 06/14/2022, 09:51:00
+
+for URL: http://www.jstor.org/stable/20716106
+scraper started at: 06/14/2022, 09:51:00
+scraper ended at: 06/14/2022, 09:51:09
+
+for URL: http://www.jstor.org/stable/20716107
+scraper started at: 06/14/2022, 09:51:09
+scraper ended at: 06/14/2022, 09:51:24
+
+for URL: http://www.jstor.org/stable/20716108
+scraper started at: 06/14/2022, 09:51:24
+scraper ended at: 06/14/2022, 09:51:34
+
+for URL: https://www.jstor.org/stable/26845312
+scraper started at: 06/14/2022, 09:51:34
+scraper ended at: 06/14/2022, 09:51:52
+
+for URL: https://www.jstor.org/stable/26845313
+scraper started at: 06/14/2022, 09:51:52
+scraper ended at: 06/14/2022, 09:52:00
+
+for URL: https://www.jstor.org/stable/26845314
+scraper started at: 06/14/2022, 10:01:51
+scraper ended at: 06/14/2022, 10:02:34
+
+for URL: https://www.jstor.org/stable/26845315
+scraper started at: 06/14/2022, 10:02:34
+scraper ended at: 06/14/2022, 10:04:20
+
+for URL: https://www.jstor.org/stable/26845316
+scraper started at: 06/14/2022, 10:04:20
+scraper ended at: 06/14/2022, 10:04:32
+
+for URL: https://www.jstor.org/stable/26845317
+scraper started at: 06/14/2022, 10:04:32
+scraper ended at: 06/14/2022, 10:04:45
+
+for URL: https://www.jstor.org/stable/26845318
+scraper started at: 06/14/2022, 10:04:45
+scraper ended at: 06/14/2022, 10:04:55
+
+for URL: https://www.jstor.org/stable/26760137
+scraper started at: 06/14/2022, 10:04:55
+scraper ended at: 06/14/2022, 10:05:09
+
+for URL: https://www.jstor.org/stable/26760138
+scraper started at: 06/14/2022, 10:05:09
+scraper ended at: 06/14/2022, 10:05:21
+
+for URL: https://www.jstor.org/stable/26760139
+scraper started at: 06/14/2022, 10:05:21
+scraper ended at: 06/14/2022, 10:05:31
+
+for URL: https://www.jstor.org/stable/26760140
+scraper started at: 06/14/2022, 10:05:31
+scraper ended at: 06/14/2022, 10:05:38
+
+for URL: https://www.jstor.org/stable/26760141
+scraper started at: 06/14/2022, 10:05:38
+scraper ended at: 06/14/2022, 10:05:48
+
+for URL: https://www.jstor.org/stable/26760142
+scraper started at: 06/14/2022, 10:05:48
+scraper ended at: 06/14/2022, 10:05:57
+
+for URL: https://www.jstor.org/stable/26390249
+scraper started at: 06/14/2022, 10:05:57
+scraper ended at: 06/14/2022, 10:06:05
+
+for URL: https://www.jstor.org/stable/26390250
+scraper started at: 06/14/2022, 10:06:05
+scraper ended at: 06/14/2022, 10:06:14
+
+for URL: https://www.jstor.org/stable/26390251
+scraper started at: 06/14/2022, 10:06:14
+scraper ended at: 06/14/2022, 10:06:22
+
+for URL: https://www.jstor.org/stable/26390252
+scraper started at: 06/14/2022, 10:06:22
+scraper ended at: 06/14/2022, 10:06:32
+
+for URL: https://www.jstor.org/stable/26390253
+scraper started at: 06/14/2022, 10:06:32
+scraper ended at: 06/14/2022, 10:06:42
+
+for URL: https://www.jstor.org/stable/26390254
+scraper started at: 06/14/2022, 10:06:42
+scraper ended at: 06/14/2022, 10:06:49
+
+for URL: https://www.jstor.org/stable/26390255
+scraper started at: 06/14/2022, 10:06:49
+scraper ended at: 06/14/2022, 10:06:56
+
+for URL: https://www.jstor.org/stable/26348908
+scraper started at: 06/14/2022, 10:06:56
+scraper ended at: 06/14/2022, 10:07:02
+
+for URL: https://www.jstor.org/stable/26348909
+scraper started at: 06/14/2022, 10:07:02
+scraper ended at: 06/14/2022, 10:07:09
+
+for URL: https://www.jstor.org/stable/26348910
+scraper started at: 06/14/2022, 10:07:10
+scraper ended at: 06/14/2022, 10:07:27
+
+for URL: https://www.jstor.org/stable/26348911
+scraper started at: 06/14/2022, 10:07:27
+scraper ended at: 06/14/2022, 10:08:12
+
+for URL: https://www.jstor.org/stable/26348912
+scraper started at: 06/14/2022, 10:08:12
+scraper ended at: 06/14/2022, 10:08:21
+
+for URL: https://www.jstor.org/stable/26348913
+scraper started at: 06/14/2022, 10:08:21
+scraper ended at: 06/14/2022, 10:08:28
+
+for URL: https://www.jstor.org/stable/26348900
+scraper started at: 06/14/2022, 10:08:28
+scraper ended at: 06/14/2022, 10:08:38
+
+for URL: https://www.jstor.org/stable/26348901
+scraper started at: 06/14/2022, 10:08:38
+scraper ended at: 06/14/2022, 10:08:44
+
+for URL: https://www.jstor.org/stable/26348902
+scraper started at: 06/14/2022, 10:08:44
+scraper ended at: 06/14/2022, 10:08:52
+
+for URL: https://www.jstor.org/stable/26348903
+scraper started at: 06/14/2022, 10:08:52
+scraper ended at: 06/14/2022, 10:10:36
+
+for URL: https://www.jstor.org/stable/26348904
+scraper started at: 06/14/2022, 10:10:36
+scraper ended at: 06/14/2022, 10:10:45
+
+for URL: https://www.jstor.org/stable/26348905
+scraper started at: 06/14/2022, 10:10:45
+scraper ended at: 06/14/2022, 10:10:53
+
+for URL: https://www.jstor.org/stable/26348906
+scraper started at: 06/14/2022, 10:10:53
+scraper ended at: 06/14/2022, 10:11:03
+
+for URL: https://www.jstor.org/stable/26348887
+scraper started at: 06/14/2022, 10:11:03
+scraper ended at: 06/14/2022, 10:11:11
+
+for URL: https://www.jstor.org/stable/26348888
+scraper started at: 06/14/2022, 10:11:11
+scraper ended at: 06/14/2022, 10:11:20
+
+for URL: https://www.jstor.org/stable/26348889
+scraper started at: 06/14/2022, 10:11:20
+scraper ended at: 06/14/2022, 10:11:29
+
+for URL: https://www.jstor.org/stable/26348890
+scraper started at: 06/14/2022, 10:11:29
+scraper ended at: 06/14/2022, 10:11:38
+
+for URL: https://www.jstor.org/stable/26348891
+scraper started at: 06/14/2022, 10:11:38
+scraper ended at: 06/14/2022, 10:11:48
+
+for URL: https://www.jstor.org/stable/26348892
+scraper started at: 06/14/2022, 10:11:48
+scraper ended at: 06/14/2022, 10:11:58
+
+for URL: https://www.jstor.org/stable/26348893
+scraper started at: 06/14/2022, 10:11:58
+scraper ended at: 06/14/2022, 10:12:08
+
+for URL: https://www.jstor.org/stable/26348894
+scraper started at: 06/14/2022, 10:12:08
+scraper ended at: 06/14/2022, 10:12:15
+
+for URL: https://www.jstor.org/stable/26348895
+scraper started at: 06/14/2022, 10:12:15
+scraper ended at: 06/14/2022, 10:12:21
+
+for URL: https://www.jstor.org/stable/26348896
+scraper started at: 06/14/2022, 10:12:21
+scraper ended at: 06/14/2022, 10:12:31
+
+for URL: https://www.jstor.org/stable/26348897
+scraper started at: 06/14/2022, 10:12:31
+scraper ended at: 06/14/2022, 10:12:41
+
+for URL: https://www.jstor.org/stable/26348898
+scraper started at: 06/14/2022, 10:12:41
+scraper ended at: 06/14/2022, 10:12:50
+
+for URL: https://www.jstor.org/stable/26348879
+scraper started at: 06/14/2022, 10:12:50
+scraper ended at: 06/14/2022, 10:13:00
+
+for URL: https://www.jstor.org/stable/26348880
+scraper started at: 06/14/2022, 10:13:00
+scraper ended at: 06/14/2022, 10:13:09
+
+for URL: https://www.jstor.org/stable/26348881
+scraper started at: 06/14/2022, 10:13:09
+scraper ended at: 06/14/2022, 10:13:18
+
+for URL: https://www.jstor.org/stable/26348882
+scraper started at: 06/14/2022, 10:13:18
+scraper ended at: 06/14/2022, 10:13:28
+
+for URL: https://www.jstor.org/stable/26348883
+scraper started at: 06/14/2022, 10:13:28
+scraper ended at: 06/14/2022, 10:13:35
+
+for URL: https://www.jstor.org/stable/26348884
+scraper started at: 06/14/2022, 10:13:35
+scraper ended at: 06/14/2022, 10:13:44
+
+for URL: https://www.jstor.org/stable/26348885
+scraper started at: 06/14/2022, 10:13:44
+scraper ended at: 06/14/2022, 10:13:51
+
+for URL: https://www.jstor.org/stable/26348870
+scraper started at: 06/14/2022, 10:13:51
+scraper ended at: 06/14/2022, 10:14:01
+
+for URL: https://www.jstor.org/stable/26348871
+scraper started at: 06/14/2022, 10:14:01
+scraper ended at: 06/14/2022, 10:14:09
+
+for URL: https://www.jstor.org/stable/26348872
+scraper started at: 06/14/2022, 10:14:09
+scraper ended at: 06/14/2022, 10:14:19
+
+for URL: https://www.jstor.org/stable/26348873
+scraper started at: 06/14/2022, 10:14:19
+scraper ended at: 06/14/2022, 10:14:28
+
+for URL: https://www.jstor.org/stable/26348874
+scraper started at: 06/14/2022, 10:14:28
+scraper ended at: 06/14/2022, 10:14:36
+
+for URL: https://www.jstor.org/stable/26348875
+scraper started at: 06/14/2022, 10:14:36
+scraper ended at: 06/14/2022, 10:14:42
+
+for URL: https://www.jstor.org/stable/26348876
+scraper started at: 06/14/2022, 10:14:42
+scraper ended at: 06/14/2022, 10:14:49
+
+for URL: https://www.jstor.org/stable/26348877
+scraper started at: 06/14/2022, 10:14:49
+scraper ended at: 06/14/2022, 10:14:56
+
+for URL: https://www.jstor.org/stable/26348861
+scraper started at: 06/14/2022, 10:14:56
+scraper ended at: 06/14/2022, 10:15:03
+
+for URL: https://www.jstor.org/stable/26348862
+scraper started at: 06/14/2022, 10:15:03
+scraper ended at: 06/14/2022, 10:15:12
+
+for URL: https://www.jstor.org/stable/26348863
+scraper started at: 06/14/2022, 10:15:12
+scraper ended at: 06/14/2022, 10:15:28
+
+for URL: https://www.jstor.org/stable/26348864
+scraper started at: 06/14/2022, 10:15:28
+scraper ended at: 06/14/2022, 10:15:42
+
+for URL: https://www.jstor.org/stable/26348865
+scraper started at: 06/14/2022, 10:15:42
+scraper ended at: 06/14/2022, 10:15:48
+
+for URL: https://www.jstor.org/stable/26348866
+scraper started at: 06/14/2022, 10:15:48
+scraper ended at: 06/14/2022, 10:15:55
+
+for URL: https://www.jstor.org/stable/26348867
+scraper started at: 06/14/2022, 10:15:55
+scraper ended at: 06/14/2022, 10:16:01
+
+for URL: https://www.jstor.org/stable/26348868
+scraper started at: 06/14/2022, 10:16:01
+scraper ended at: 06/14/2022, 10:16:08
+
+for URL: https://www.jstor.org/stable/26348851
+scraper started at: 06/14/2022, 10:16:08
+scraper ended at: 06/14/2022, 10:16:18
+
+for URL: https://www.jstor.org/stable/26348852
+scraper started at: 06/14/2022, 10:16:18
+scraper ended at: 06/14/2022, 10:16:27
+
+for URL: https://www.jstor.org/stable/26348853
+scraper started at: 06/14/2022, 10:16:27
+scraper ended at: 06/14/2022, 10:16:35
+
+for URL: https://www.jstor.org/stable/26348854
+scraper started at: 06/14/2022, 10:16:35
+scraper ended at: 06/14/2022, 10:16:41
+
+for URL: https://www.jstor.org/stable/26348855
+scraper started at: 06/14/2022, 10:16:41
+scraper ended at: 06/14/2022, 10:16:49
+
+for URL: https://www.jstor.org/stable/26348856
+scraper started at: 06/14/2022, 10:16:49
+scraper ended at: 06/14/2022, 10:16:57
+
+for URL: https://www.jstor.org/stable/26348857
+scraper started at: 06/14/2022, 10:16:57
+scraper ended at: 06/14/2022, 10:17:04
