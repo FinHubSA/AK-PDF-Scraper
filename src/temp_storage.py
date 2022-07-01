@@ -2,18 +2,26 @@ import os
 from pathlib import Path
 
 
-class storage:
-    def getTempStoragePath():
-        path = os.path.join(str(Path.home()), "AaronsKitTempStorage")
-        return path
-        # if already exists try another name perhaps
+def get_temp_storage_path():
 
-    def renameFile(old_name, new_name):
-        os.rename(old_name, new_name)
+    path = os.path.join(str(Path.home()), "AaronsKitTempStorage")
 
-    def countFiles(directory):
-        countfiles = len(os.listdir(directory))
-        return countfiles
+    return path
 
-    def deleteTempStorage(directory):
-        os.rmdir(directory)
+
+
+def rename_file(old_name, new_name):
+
+    os.rename(old_name, new_name)
+
+
+# def count_files(directory):
+
+#     countfiles = len(os.listdir(directory))
+
+#     return countfiles
+
+
+# def delete_temp_storage(directory):
+
+#     os.rmdir(directory)

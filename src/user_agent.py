@@ -1,33 +1,48 @@
+import time
+import random
+import platform
+import logging
+
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
-import time
-import platform
-import random
-
-platform.system()
 
 
 def user_agent():
 
-    chrome_options = chrome_options = webdriver.ChromeOptions()
-    chrome_options.headless = True
-    chrome_options.add_argument("--window-size=1920,1080")
+    try:
 
-    driver = webdriver.Chrome(ChromeDriverManager().install(), options=chrome_options)
+        chrome_options = chrome_options = webdriver.ChromeOptions()
 
-    driver.get("https://techblog.willshouse.com/2012/01/03/most-common-user-agents/")
+        chrome_options.add_argument("--window-size=1920,1080")
 
-    time.sleep(60)
+        logging.getLogger("WDM").setLevel(logging.NOTSET)
 
-    user_agent = driver.find_element(By.XPATH, r"//*[@id='your-useragent']").text
+        driver = webdriver.Chrome(
+            service=Service(ChromeDriverManager().install()), options=chrome_options
+        )
+
+        driver.minimize_window()
+
+        driver.get(
+            "https://techblog.willshouse.com/2012/01/03/most-common-user-agents/"
+        )
+
+        time.sleep(20)
+
+        user_agent = driver.find_element(By.XPATH, r"//*[@id='your-useragent']").text
+
+    except:
+
+        user_agent = user_agent_fixed()
 
     return user_agent
 
 
 def user_agent_fixed():
 
-    user_agent_win = {
+    user_agent_win = [
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36",
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.67 Safari/537.36",
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.63 Safari/537.36",
@@ -56,9 +71,9 @@ def user_agent_fixed():
         "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36",
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36 OPR/86.0.4363.59",
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36",
-    }
+    ]
 
-    user_agent_mac = {
+    user_agent_mac = [
         "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.61 Safari/537.36",
         "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.64 Safari/537.36",
         "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36",
@@ -67,9 +82,9 @@ def user_agent_fixed():
         "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36",
         "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36",
         "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.0.0 Safari/537.36",
-    }
+    ]
 
-    user_agent_linux = {
+    user_agent_linux = [
         "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.54 Safari/537.36",
         "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.67 Safari/537.36",
         "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.41 Safari/537.36",
@@ -79,13 +94,20 @@ def user_agent_fixed():
         "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.61 Safari/537.36",
         "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.64 Safari/537.36",
         "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.0.0 Safari/537.36",
-    }
+    ]
 
     system = platform.system()
 
     if system == "Darwin":
-        random.choice(user_agent_mac)
+
+        user_agent = random.choice(user_agent_mac)
+
     elif system == "Windows":
-        random.choice(user_agent_win)
+
+        user_agent = random.choice(user_agent_win)
+
     else:
-        random.choice(user_agent_linux)
+
+        user_agent = random.choice(user_agent_linux)
+
+    return user_agent
