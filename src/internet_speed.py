@@ -3,11 +3,17 @@ import speedtest
 # returns the user download speed
 def download_speed():
 
-    speed_test = speedtest.Speedtest()
+    try:
 
-    download_speed = speed_test.download()
+        speed_test = speedtest.Speedtest()
 
-    mbps = download_speed / (1024 * 1024)
+        download_speed = speed_test.download()
+
+        mbps = download_speed / (1024 * 1024)
+
+    except:
+
+        mbps = 15
 
     return mbps
 
