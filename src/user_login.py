@@ -52,12 +52,57 @@ def proceed():
 
 
 def welcome():
-    print("\n" + color.BOLD + color.UNDERLINE + "Welcome to Aaron's Kit!" + color.END)
-    print("\nSome words here about Aaron's Kit and what the tool does")
-    print("\nSome words here about requirements to use the tool:")
+
     print(
-        "\na) stable internet connection\nb) set computer to never sleep and keep on charge\nc) do not close the browser while program is running\nd) JSTOR login is required"
+        "\n\n\n" + color.BOLD + color.UNDERLINE + "Welcome to Aaron’s Kit!" + color.END
     )
+
+    print(
+        "\n"
+        + color.ITALIC
+        + "A tool that enables the effortless liberation of academic research."
+        + color.END
+    )
+
+    time.sleep(2)
+
+    print(
+        "\nThe Aaron’s Kit Team understands that Open Access is not about competition - instead, it’s about coordination and driving a community corporation. The key idea of Aaron’s Kit is accessibility in the highest order, and here we hope to democratise knowledge by freely providing access to academic journals."
+    )
+
+    time.sleep(2)
+
+    print(
+        "\n"
+        + color.ITALIC
+        + "By using this tool, you are playing an active role in the open access movement! Thank you for your contribution."
+        + color.END
+    )
+
+    time.sleep(2)
+
+    print(
+        "\n\n\n"
+        + emoji.emojize(":information:")
+        + "   Please note that valid JSTOR login credentials are a requirement to use this tool."
+        + color.END
+    )
+
+    print(
+        "\n"
+        + color.GREEN
+        + color.UNDERLINE
+        + "Before you start, ensure that you:"
+        + color.END
+    )
+
+    print(
+        "\n"
+        + color.GREEN
+        + "a) have a stable internet connection\nb) set your computer to never sleep and keep on charge\nc) do not close the browser while the program is running\nd) do not interfere with the browser while the program is running"
+        + color.END
+    )
+
     input(
         color.PURPLE
         + "\n-- Press "
@@ -124,5 +169,3 @@ class color:
     END = "\033[0m"
     LIGHT_GRAY = "\033[37m"
     DARK_GRAY = "\033[1;30m"
-
-

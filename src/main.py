@@ -19,7 +19,6 @@ from user_agent import user_agent_fixed
 
 # from user_agent import user_agent
 from user_login import *
-from user_login import welcome
 from temp_storage import get_temp_storage_path, rename_file
 from internet_speed import download_speed, delay
 
@@ -42,7 +41,7 @@ def latest_downloaded_pdf(storage_directory, src_directory):
 def create_driver_session(chrome_options):
 
     logging.getLogger("WDM").setLevel(logging.NOTSET)
-    os.environ["WDM_LOG"] = "false"
+    # os.environ["WDM_LOG"] = "false"
     os.environ['WDM_LOG_LEVEL'] = '0'
 
     driver = webdriver.Chrome(
