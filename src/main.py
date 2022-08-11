@@ -42,7 +42,7 @@ def create_driver_session(chrome_options):
 
     logging.getLogger("WDM").setLevel(logging.NOTSET)
     # os.environ["WDM_LOG"] = "false"
-    os.environ['WDM_LOG_LEVEL'] = '0'
+    os.environ["WDM_LOG_LEVEL"] = "0"
 
     driver = webdriver.Chrome(
         service=Service(ChromeDriverManager().install()),
@@ -260,8 +260,6 @@ while True:
                         time.sleep(1)
 
                         driver.maximize_window()
-
-                        driver.set_window_position(-2024, 2024)
 
                         print(
                             "\n"
@@ -578,6 +576,8 @@ while True:
 
     # Loop through article ID's
     for article in article_ID[bookmark : len(article_ID)]:
+
+        driver.get("https://www.jstor.org/")
 
         # wait = delay(end_time, start_time, download_time_list)
         # Calculate the waiting time every 30 mins
