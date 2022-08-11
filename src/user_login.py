@@ -16,7 +16,7 @@ def login():
         + "[1]"
         + color.END
         + color.PURPLE
-        + " to login via VPN\n-- Type "
+        + " to login via institution VPN/wifi\n-- Type "
         + color.BOLD
         + "[2]"
         + color.END

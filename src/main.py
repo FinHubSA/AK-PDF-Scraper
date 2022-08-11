@@ -42,8 +42,8 @@ def latest_downloaded_pdf(storage_directory, src_directory):
 def create_driver_session(chrome_options):
 
     logging.getLogger("WDM").setLevel(logging.NOTSET)
-    # os.environ["WDM_LOG"] = "false"
-    # os.environ['WDM_LOG_LEVEL'] = '0'
+    os.environ["WDM_LOG"] = "false"
+    os.environ['WDM_LOG_LEVEL'] = '0'
 
     driver = webdriver.Chrome(
         service=Service(ChromeDriverManager().install()),
@@ -137,7 +137,7 @@ while True:
         print(
             "\n"
             + emoji.emojize(":information:")
-            + "   To continue, a JSTOR user login is required, either via VPN or manually via the JSTOR website"
+            + "   To continue, a JSTOR user login is required, either via institution VPN/wifi or manually via the JSTOR website"
         )
 
         time.sleep(1)
@@ -172,7 +172,7 @@ while True:
                 print(
                     "\n"
                     + emoji.emojize(":information:")
-                    + "   You have chosen to login via VPN"
+                    + "   You have chosen to login via VPN/wifi"
                 )
 
                 # "\n[INFO] Follow the instructions below"
@@ -217,8 +217,8 @@ while True:
                         WebDriverWait(driver, 60).until(
                             expected_conditions.element_to_be_clickable(
                                 (
-                                    By.XPATH,
-                                    r"//input[@id='query-builder-input']",
+                                    By.CLASS_NAME,
+                                    "query-builder-input-group",
                                 )
                             )
                         )
@@ -382,7 +382,7 @@ while True:
 
                         WebDriverWait(driver, 60).until(
                             expected_conditions.element_to_be_clickable(
-                                (By.XPATH, r"//input[@id='query-builder-input']")
+                                (By.CLASS_NAME, "query-builder-input-group")
                             )
                         )
                     except:
@@ -419,7 +419,7 @@ while True:
 
                             WebDriverWait(driver, 60).until(
                                 expected_conditions.element_to_be_clickable(
-                                    (By.XPATH, r"//input[@id='query-builder-input']")
+                                    (By.CLASS_NAME, "query-builder-input-group")
                                 )
                             )
 

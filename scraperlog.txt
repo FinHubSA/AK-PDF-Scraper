@@ -7337,3 +7337,21 @@ with size (in bytes): 901162
 scraper started at: 2022-08-03 12:59:11.312636
 scraper ended at: 2022-08-03 12:59:22.324060
 download time (in seconds): 1.0114240646362305
+
+for ID: 10.2307/746459
+with size (in bytes): 1603974
+scraper started at: 2022-08-11 12:09:53.821779
+scraper ended at: 2022-08-11 12:10:09.966099
+download time (in seconds): 1.144320011138916
+
+for ID: 10.2307/746460
+with size (in bytes): 2838837
+scraper started at: 2022-08-11 12:10:12.029222
+scraper ended at: 2022-08-11 12:10:28.039109
+download time (in seconds): 1.0098869800567627
+
+for ID: 10.2307/746461
+with size (in bytes): 3433347
+scraper started at: 2022-08-11 12:10:30.256345
+scraper ended at: 2022-08-11 12:10:46.266162
+download time (in seconds): 1.0098168849945068
