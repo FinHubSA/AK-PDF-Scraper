@@ -16,9 +16,9 @@ from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.common.by import By
 
 from recaptcha_solver import recaptcha_solver
-from user_agent import user_agent_fixed
 
-# from user_agent import user_agent
+# from user_agent import user_agent_fixed
+from user_agent import user_agent
 from user_login import *
 from temp_storage import get_temp_storage_path, rename_file
 from internet_speed import download_speed, delay
@@ -72,7 +72,6 @@ def options(login_method, USER_AGENT, storage_directory):
     if login_method == "1":
         chrome_options.headless = True
     chrome_options.add_argument(f"user-agent={USER_AGENT}")
-
     chrome_options.add_argument("--disable-blink-features=AutomationControlled")
     chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
     chrome_options.add_experimental_option("useAutomationExtension", False)
@@ -103,7 +102,8 @@ os.chdir(src_directory)
 welcome()
 
 # def User Agent
-USER_AGENT = user_agent_fixed()
+USER_AGENT = user_agent()
+print(USER_AGENT)
 
 # Calculate the driver sleep time
 print("\x1B[3m" + "\n...determining internet speed" + "\033[0m")
@@ -458,7 +458,7 @@ while True:
 
                             driver.maximize_window()
 
-                            # driver.set_window_position(-2024, 2024)
+                            driver.set_window_position(-2024, 2024)
 
                             print(
                                 "\n"

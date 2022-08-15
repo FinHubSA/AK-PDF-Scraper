@@ -1,10 +1,6 @@
 import time
-import os
 
 import emoji
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions
-from selenium.webdriver.common.by import By
 
 
 def login():
@@ -67,7 +63,7 @@ def welcome():
     time.sleep(2)
 
     print(
-        "\nThe Aaron’s Kit Team understands that Open Access is not about competition - instead, it’s about coordination and driving a community corporation. The key idea of Aaron’s Kit is accessibility in the highest order, and here we hope to democratise knowledge by freely providing access to academic journals."
+        "\nThe Aaron’s Kit Team understands that Open Access is not about competition \n- instead, it’s about coordination and driving a community corporation. \nThe key idea of Aaron’s Kit is accessibility in the highest order, and here \nwe hope to democratise knowledge by freely providing access to academic journals."
     )
 
     time.sleep(2)
@@ -75,7 +71,7 @@ def welcome():
     print(
         "\n"
         + color.ITALIC
-        + "By using this tool, you are playing an active role in the open access movement! Thank you for your contribution."
+        + "By using this tool, you are playing an active role in the open access movement! \nThank you for your contribution."
         + color.END
     )
 
@@ -99,7 +95,7 @@ def welcome():
     print(
         "\n"
         + color.GREEN
-        + "a) have a stable internet connection\nb) set your computer to never sleep and keep on charge\nc) do not close the browser while the program is running\nd) do not interfere with the browser while the program is running"
+        + "a) Have Google Chrome installed\nb) Have a stable internet connection\nc) Set your computer to never sleep and keep on charge\nd) Do not close the browser while the program is running\ne) Do not interfere with the browser while the program is running"
         + color.END
     )
 
