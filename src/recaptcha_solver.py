@@ -150,16 +150,24 @@ def recaptcha_solver(driver, url, url_pending, wait, misc_directory):
                         is_recaptcha_control_active = False
                         break
 
-                    # switch to recaptcha audio challenge frame
-                    driver.switch_to.default_content()
-                    driver.switch_to.frame(recaptcha_challenge_frame)
+                    try:
+                        # switch to recaptcha audio challenge frame
+                        driver.switch_to.default_content()
+                        driver.switch_to.frame(recaptcha_challenge_frame)
 
-                    # get the mp3 audio file
-                    time.sleep(wait)
-                    src = driver.find_element(By.ID, "audio-source").get_attribute(
-                        "src"
-                    )
-                    print(f"[INFO] Audio src: {src}")
+                        # get the mp3 audio file
+                        time.sleep(wait)
+                        src = driver.find_element(By.ID, "audio-source").get_attribute(
+                            "src"
+                        )
+                        print(f"[INFO] Audio src: {src}")
+
+                    except Exception as e:
+                        print("[ERR] Error when using Audio challenge frame")
+                        print(e)
+                        success = False
+                        is_recaptcha_control_active = False
+                        break
 
                     path_to_mp3 = os.path.normpath(
                         os.path.join(misc_directory, "sample.mp3")

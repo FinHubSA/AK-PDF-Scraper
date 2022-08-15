@@ -153,6 +153,14 @@ python-versions = "*"
 dev = ["pytest", "coverage", "coveralls"]
 
 [[package]]
+name = "ffmpeg"
+version = "1.4"
+description = "ffmpeg python package url [https://github.com/jiashaokun/ffmpeg]"
+category = "main"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "ffmpeg-python"
 version = "0.2.0"
 description = "Python bindings for FFmpeg - with complex filtering support"
@@ -507,7 +515,7 @@ h11 = ">=0.9.0,<1"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "a1973017676513d62842aad40759df7e6a416eb19f26f95a28ccfd27e2681d35"
+content-hash = "b6aeaeaaa6f23fbeae982aa0399c55f2439de491d6a3cb10e592e4b6cb19791d"
 
 [metadata.files]
 async-generator = [
@@ -640,6 +648,7 @@ cryptography = [
 emoji = [
     {file = "emoji-1.7.0.tar.gz", hash = "sha256:65c54533ea3c78f30d0729288998715f418d7467de89ec258a31c0ce8660a1d1"},
 ]
+ffmpeg = []
 ffmpeg-python = [
     {file = "ffmpeg-python-0.2.0.tar.gz", hash = "sha256:65225db34627c578ef0e11c8b1eb528bb35e024752f6f10b78c011f6f64c4127"},
     {file = "ffmpeg_python-0.2.0-py3-none-any.whl", hash = "sha256:ac441a0404e053f8b6a1113a77c0f452f1cfc62f6344a769475ffdc0f56c23c5"},

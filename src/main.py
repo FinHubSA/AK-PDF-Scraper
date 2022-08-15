@@ -5,6 +5,7 @@ import json
 from datetime import datetime
 import logging
 import re
+import emoji
 
 import pandas as pd
 from selenium import webdriver
@@ -457,7 +458,7 @@ while True:
 
                             driver.maximize_window()
 
-                            driver.set_window_position(-2024, 2024)
+                            # driver.set_window_position(-2024, 2024)
 
                             print(
                                 "\n"
@@ -660,41 +661,70 @@ while True:
             # Check for reCAPTCHA
             except:
 
-                try:
+                if not (os.path.exists(url) or os.path.exists(url_pending)):
 
-                    frames = driver.find_elements(By.TAG_NAME, "iframe")
-
-                    time.sleep(wait)
-
-                    # Find the reCAPTCHA checkbox
-                    for index, frame in enumerate(frames):
-                        if re.search("reCAPTCHA", frame.get_attribute("title")):
-
-                            # driver.switch_to.window(win_2)
-
-                            success, start_time = recaptcha_solver(
-                                driver, url, url_pending, wait, src_directory
-                            )
+                    success, start_time = recaptcha_solver(
+                        driver, url, url_pending, wait, src_directory
+                    )
 
                     if success:
 
-                        # print("solved")
+                        print("solved")
+
                         continue
 
                     else:
 
-                        # print(
-                        #     "[ERR] reCAPTCHA could not be solved, restarting driver session"
-                        # )
+                        print(
+                            "[ERR] reCAPTCHA could not be solved, restarting driver session"
+                        )
+
                         restart = True
 
                         break
 
-                except:
+                else:
 
                     print("no t&c's")
 
                     t_c_accepted = True
+
+                # frames = driver.find_elements(By.TAG_NAME, "iframe")
+
+                # time.sleep(wait)
+
+                # # Find the reCAPTCHA checkbox
+                # for index, frame in enumerate(frames):
+                #     if re.search("reCAPTCHA", frame.get_attribute("title")):
+
+                #         # driver.switch_to.window(win_2)
+
+                #         success, start_time = recaptcha_solver(
+                #             driver, url, url_pending, wait, src_directory
+                #         )
+                #         break
+                #     else:
+                #         success = "None"
+
+                # if success:
+
+                #     # print("solved")
+                #     continue
+
+                # elif success == "None":
+
+                #     print("no t&c's")
+
+                #     t_c_accepted = True
+
+                # else:
+
+                #     # print(
+                #     #     "[ERR] reCAPTCHA could not be solved, restarting driver session"
+                #     # )
+                #     restart = True
+
+                #     break
 
         if restart:
 
@@ -787,5 +817,7 @@ while True:
 
         with open(os.path.join(misc_directory, "start.json"), "w") as input_file:
             json.dump(scraper_startpoint, input_file)
+
+        driver.get(jstor_url)
 
     time.sleep(wait * 10)

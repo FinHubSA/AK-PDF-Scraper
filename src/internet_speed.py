@@ -27,15 +27,15 @@ def delay(mbps):
 
     elif mbps <= 25:
 
-        x = 15
+        x = 20
 
     elif mbps <= 75:
 
-        x = 10
+        x = 15
 
     else:
 
-        x = 5
+        x = 10
 
     return x
 
