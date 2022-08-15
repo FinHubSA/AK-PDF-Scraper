@@ -577,8 +577,6 @@ while True:
     # Loop through article ID's
     for article in article_ID[bookmark : len(article_ID)]:
 
-        driver.get("https://www.jstor.org/")
-
         # wait = delay(end_time, start_time, download_time_list)
         # Calculate the waiting time every 30 mins
         # to adjust wait according to user internet speed
@@ -678,19 +676,19 @@ while True:
                                 driver, url, url_pending, wait, src_directory
                             )
 
-                            if success:
+                    if success:
 
-                                # print("solved")
-                                continue
+                        # print("solved")
+                        continue
 
-                            else:
+                    else:
 
-                                # print(
-                                #     "[ERR] reCAPTCHA could not be solved, restarting driver session"
-                                # )
-                                restart = True
+                        # print(
+                        #     "[ERR] reCAPTCHA could not be solved, restarting driver session"
+                        # )
+                        restart = True
 
-                                break
+                        break
 
                 except:
 
