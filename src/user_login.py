@@ -1,24 +1,16 @@
 import time
-
+from termcolor import colored
+from pyfiglet import Figlet
 import emoji
 
 
 def login():
 
     login_method = input(
-        color.PURPLE
-        + "\n-- Type "
-        + color.BOLD
-        + "[1]"
-        + color.END
-        + color.PURPLE
-        + " to login via institution VPN/wifi\n-- Type "
-        + color.BOLD
-        + "[2]"
-        + color.END
-        + color.PURPLE
-        + " to manually login via the JSTOR website\n   : "
-        + color.END
+        colored(
+            "\n-- Type [1] to login via institution VPN or wifi\n-- Type [2] to manually login via the JSTOR website\n   : ",
+            "magenta",
+        )
     )
 
     return login_method
@@ -27,141 +19,233 @@ def login():
 def proceed():
 
     proceed = input(
-        color.PURPLE
-        + "\n-- Type "
-        + color.BOLD
-        + "[1]"
-        + color.END
-        + color.PURPLE
-        + " to continue\n-- Type "
-        + color.END
-        + color.PURPLE
-        + color.BOLD
-        + "[2]"
-        + color.END
-        + color.PURPLE
-        + " to restart\n   : "
-        + color.END
+        colored(
+            "\n-- Type [1] to continue\n-- Type [2] to restart\n   : ",
+            "magenta",
+        )
     )
 
     return proceed
 
 
-def welcome():
+def welcome(system):
+
+    f = Figlet(font="standard")
+    print(colored(f.renderText("Welcome to Aaron's Kit!"), "green"))
 
     print(
-        "\n\n\n" + color.BOLD + color.UNDERLINE + "Welcome to Aaron’s Kit!" + color.END
-    )
-
-    print(
-        "\n"
-        + color.ITALIC
-        + "A tool that enables the effortless liberation of academic research."
-        + color.END
+        colored(
+            "\n\nAaron's Kit is a tool that enables the effortless liberation of academic research.\n\nBy using this tool, you are playing an active role in the open access movement! \n\nThank you for your contribution.\n"
+        )
     )
 
     time.sleep(2)
 
-    print(
-        "\nThe Aaron’s Kit Team understands that Open Access is not about competition \n- instead, it’s about coordination and driving a community corporation. \nThe key idea of Aaron’s Kit is accessibility in the highest order, and here \nwe hope to democratise knowledge by freely providing access to academic journals."
-    )
+    if system == "Windows":
 
-    time.sleep(2)
+        print("\n\n\n" + colored("Please note:", attrs=["reverse"]))
 
-    print(
-        "\n"
-        + color.ITALIC
-        + "By using this tool, you are playing an active role in the open access movement! \nThank you for your contribution."
-        + color.END
-    )
+        print(
+            "\n\n"
+            + colored(" i ", "blue", attrs=["reverse"])
+            + "   Valid JSTOR login credentials are a requirement to use this tool."
+        )
 
-    time.sleep(2)
+        print(
+            "\n"
+            + colored(" i ", "blue", attrs=["reverse"])
+            + "   You will need Google Chrome installed on your device."
+        )
 
-    print(
-        "\n\n\n"
-        + emoji.emojize(":information:")
-        + "   Please note that valid JSTOR login credentials are a requirement to use this tool."
-        + color.END
-    )
+        print("\n\nBefore you start, " + colored("ensure that you:", attrs=["reverse"]))
 
-    print(
-        "\n"
-        + color.GREEN
-        + color.UNDERLINE
-        + "Before you start, ensure that you:"
-        + color.END
-    )
+        print(
+            "\na) Have Google Chrome installed. To install, visit https://support.google.com/chrome/answer/95346?hl=en&ref_topic=7439538. \nb) Have a stable internet connection.\nc) Keep your device on charge and set to 'never sleep' while on battery and on charge."
+        )
 
-    print(
-        "\n"
-        + color.GREEN
-        + "a) Have Google Chrome installed\nb) Have a stable internet connection\nc) Set your computer to never sleep and keep on charge\nd) Do not close the browser while the program is running\ne) Do not interfere with the browser while the program is running"
-        + color.END
-    )
+        print(
+            "\n\nWhile your files download, "
+            + colored("please do not:", attrs=["reverse"])
+        )
 
-    input(
-        color.PURPLE
-        + "\n-- Press "
-        + color.BOLD
-        + "ENTER/RETURN"
-        + color.END
-        + color.PURPLE
-        + " to continue: "
-        + color.END
-    )
+        print(
+            "\na) Close Google Chrome.\nb) Interfere with Google Chrome while your files are being downloaded."
+        )
+
+        input(
+            colored("\n\n-- Press ", "magenta")
+            + colored("ENTER/RETURN", "magenta", attrs=["reverse"])
+            + colored(" to continue: ", "magenta")
+        )
+
+    else:
+        print(colored("\n\n\nPlease note:", attrs=["bold", "underline"]))
+
+        print(
+            "\n\n"
+            + emoji.emojize(":information:")
+            + "   Valid JSTOR login credentials are a requirement to use this tool."
+        )
+
+        print(
+            "\n"
+            + emoji.emojize(":information:")
+            + "   You will need Google Chrome installed on your device."
+        )
+
+        print(
+            "\n\nBefore you start, "
+            + colored("ensure that you:", attrs=["bold", "underline"])
+        )
+
+        print(
+            "\na) Have Google Chrome installed. To install, visit https://support.google.com/chrome/answer/95346?hl=en&ref_topic=7439538. \nb) Have a stable internet connection.\nc) Keep your device on charge and set to 'never sleep' while on battery and on charge."
+        )
+
+        print(
+            "\n\nWhile your files download, "
+            + colored("please do not:", attrs=["bold", "underline"])
+        )
+
+        print(
+            "\na) Close Google Chrome.\nb) Interfere with Google Chrome while your files are being downloaded."
+        )
+
+        input(
+            colored("\n\n-- Press ", "magenta")
+            + colored("ENTER/RETURN", "magenta", attrs=["bold"])
+            + colored(" to continue: ", "magenta")
+        )
 
 
-def main_menu():
-    print(
-        "\n"
-        + emoji.emojize(":information:")
-        + "   To Choose a login method, enter"
-        + color.BOLD
-        + " [1]"
-        + color.END
-    )
+def vpn_or_manual(system):
 
-    print(
-        "\n"
-        + emoji.emojize(":information:")
-        + "   To exit the program, enter"
-        + color.BOLD
-        + " [2]"
-        + color.END
-    )
+    time.sleep(1)
 
-    select = input(color.PURPLE + "\n-- Please enter your selection: " + color.END)
+    if system == "Windows":
+
+        print(
+            "\n\n"
+            + colored(" i ", "blue", attrs=["reverse"])
+            + "   To continue, a JSTOR user login is required, either via institution VPN/wifi or manually via the JSTOR website."
+        )
+
+        time.sleep(1)
+
+        print(
+            "\n"
+            + colored(" i ", "blue", attrs=["reverse"])
+            + "   No login information will be recorded in the process."
+        )
+
+        time.sleep(1)
+
+        print("\n\n" + colored("JSTOR Login Instructions:", attrs=["reverse"]) + "\n")
+
+        print(
+            "\n"
+            + colored(" i ", "blue", attrs=["reverse"])
+            + "   Please follow the prompts below to login"
+        )
+
+    else:
+
+        print(
+            "\n\n"
+            + emoji.emojize(":information:")
+            + "   To continue, a JSTOR user login is required, either via institution VPN/wifi or manually via the JSTOR website."
+        )
+
+        time.sleep(1)
+
+        print(
+            "\n"
+            + emoji.emojize(":information:")
+            + "   No login information will be recorded in the process."
+        )
+
+        time.sleep(1)
+
+        print(
+            "\n\n"
+            + colored("JSTOR Login Instructions:", attrs=["bold", "underline"])
+            + "\n"
+        )
+
+        print(
+            "\n"
+            + emoji.emojize(":information:")
+            + "   Please follow the prompts below to login"
+        )
+
+    login_method = login()
+
+    return login_method
+
+
+def main_menu(system):
+
+    if system == "Windows":
+
+        print(
+            "\n"
+            + colored(" i ", "blue", attrs=["reverse"])
+            + "   To Choose a login method, enter [1]"
+        )
+
+        print(
+            "\n"
+            + colored(" i ", "blue", attrs=["reverse"])
+            + "   To exit the program, enter [2]"
+        )
+
+    else:
+
+        print(
+            "\n"
+            + emoji.emojize(":information:")
+            + "   To Choose a login method, enter "
+            + colored("[1]", attrs=["bold"])
+        )
+
+        print(
+            "\n"
+            + emoji.emojize(":information:")
+            + "   To exit the program, enter "
+            + colored("[2]", attrs=["bold"])
+        )
+
+    select = input(colored("\n-- Please enter your selection: ", "magenta"))
 
     return select
 
 
-def typo():
-    print(
-        "\n"
-        + emoji.emojize(":loudspeaker:")
-        + color.YELLOW
-        + "  It appears that you made a typo, you are being directed to the main selection menu"
-        + color.END
-    )
+def typo(system):
+
+    if system == "Windows":
+
+        print(
+            "\n"
+            + colored(" ? ", "yellow", attrs=["reverse"])
+            + colored(
+                "  It appears that you made a typo, you are being directed to the main selection menu",
+                "yellow",
+            )
+        )
+
+    else:
+
+        print(
+            "\n"
+            + emoji.emojize(":loudspeaker:")
+            + colored(
+                "  It appears that you made a typo, you are being directed to the main selection menu",
+                "yellow",
+            )
+        )
 
     time.sleep(1)
 
-    main = main_menu()
+    main = main_menu(system)
+
     return main
-
-
-class color:
-    PURPLE = "\033[95m"
-    CYAN = "\033[96m"
-    DARKCYAN = "\033[36m"
-    BLUE = "\033[95m"
-    LIGHT_BLUE = "\033[1;34m"
-    GREEN = "\033[92m"
-    YELLOW = "\033[93m"
-    RED = "\033[91m"
-    BOLD = "\033[1m"
-    UNDERLINE = "\033[4m"
-    ITALIC = "\x1B[3m"
-    END = "\033[0m"
-    LIGHT_GRAY = "\033[37m"
-    DARK_GRAY = "\033[1;30m"

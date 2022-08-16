@@ -4,8 +4,10 @@ import os.path
 import json
 from datetime import datetime
 import logging
-import re
+import platform
 import emoji
+from termcolor import colored
+import os
 
 import pandas as pd
 from selenium import webdriver
@@ -16,14 +18,10 @@ from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.common.by import By
 
 from recaptcha_solver import recaptcha_solver
-
-# from user_agent import user_agent_fixed
 from user_agent import user_agent
 from user_login import *
 from temp_storage import get_temp_storage_path, rename_file
 from internet_speed import download_speed, delay
-
-# from digital_ocean_upload import pdf_upload
 
 
 def latest_downloaded_pdf(storage_directory, src_directory):
@@ -42,7 +40,7 @@ def latest_downloaded_pdf(storage_directory, src_directory):
 def create_driver_session(chrome_options):
 
     logging.getLogger("WDM").setLevel(logging.NOTSET)
-    # os.environ["WDM_LOG"] = "false"
+    os.environ["WDM_LOG"] = "false"
     os.environ["WDM_LOG_LEVEL"] = "0"
 
     driver = webdriver.Chrome(
@@ -89,34 +87,33 @@ def options(login_method, USER_AGENT, storage_directory):
     return chrome_options
 
 
+# Defining directories and setting up the system variable
 storage_directory = get_temp_storage_path()
 
 src_directory = os.path.dirname(__file__)
 
 misc_directory = os.path.normpath(src_directory + os.sep + os.pardir)
 
+system = platform.system()
+
+if system == "Windows":
+    os.system("color")
+
 # To create an executable file we need to set the file source directory
-os.chdir(src_directory)
+# os.chdir(src_directory)
 
 # Aaron's Kit welcome
-welcome()
+welcome(system)
 
 # def User Agent
-USER_AGENT = user_agent()
-print(USER_AGENT)
+USER_AGENT = user_agent(system)
 
 # Calculate the driver sleep time
-print("\x1B[3m" + "\n...determining internet speed" + "\033[0m")
+print("\n...determining internet speed")
 
 mbps = download_speed()
 
-print(
-    color.GREEN
-    + "\nYour internet speed is: "
-    + str(round(mbps, 2))
-    + " mbps"
-    + color.END
-)
+print(colored("\nYour internet speed is: " + str(round(mbps, 2)) + " mbps", "green"))
 
 wait = delay(mbps)
 
@@ -132,186 +129,11 @@ while True:
     # after each restart, reload the web session
     if restart_count == 0:
 
-        time.sleep(1)
-
-        print(
-            "\n"
-            + emoji.emojize(":information:")
-            + "   To continue, a JSTOR user login is required, either via institution VPN/wifi or manually via the JSTOR website"
-        )
-
-        time.sleep(1)
-
-        print(
-            "\n"
-            + emoji.emojize(":information:")
-            + "   No login information will be recorded in the process"
-        )
-
-        time.sleep(1)
-
-        print(
-            color.BOLD + color.UNDERLINE + "\n\nJSTOR Login Instructions\n" + color.END
-        )
-
-        print(
-            "\n"
-            + emoji.emojize(":information:")
-            + "   Please follow the prompts below to login"
-        )
-
-        login_method = login()
+        login_method = vpn_or_manual(system)
 
         while True:
             if login_method == "1":
-                # Start the driver session
-                driver = create_driver_session(
-                    options(login_method, USER_AGENT, storage_directory)
-                )
 
-                print(
-                    "\n"
-                    + emoji.emojize(":information:")
-                    + "   You have chosen to login via VPN/wifi"
-                )
-
-                # "\n[INFO] Follow the instructions below"
-                time.sleep(1)
-
-                print(
-                    "\n" + emoji.emojize(":information:") + "   Follow the steps below"
-                )
-
-                time.sleep(1)
-
-                print(
-                    color.BOLD
-                    + "\n\nStep 1/1: Please connect to your institution's VPN or wifi, then continue\n"
-                    + color.END
-                )
-
-                time.sleep(1)
-
-                cont = proceed()
-
-                if cont == "1":
-
-                    print(
-                        color.ITALIC
-                        + "\n...you are now being routed to JSTOR home page"
-                        + color.END
-                    )
-
-                    time.sleep(2)
-
-                    print(
-                        color.ITALIC
-                        + "\n...give it a second, we are checking if the page has loaded successfully"
-                        + color.END
-                    )
-
-                    driver.get("https://www.jstor.org/")
-
-                    try:
-
-                        WebDriverWait(driver, 60).until(
-                            expected_conditions.element_to_be_clickable(
-                                (
-                                    By.CLASS_NAME,
-                                    "query-builder-input-group",
-                                )
-                            )
-                        )
-
-                    except:
-                        print(
-                            "\n"
-                            + emoji.emojize(":red_exclamation_mark:")
-                            + color.RED
-                            + " Unable to load JSTOR page\n"
-                            + color.END
-                        )
-
-                        print(
-                            "\n"
-                            + emoji.emojize(":information:")
-                            + "  Check your internet connection and try again\n"
-                        )
-
-                        driver.close()
-                        login_method = login()
-
-                    print(
-                        color.ITALIC + "\n...checking for successful login" + color.END
-                    )
-
-                    time.sleep(2)
-
-                    try:
-                        driver.find_element(By.CLASS_NAME, "pds__access-provided-by")
-                        time.sleep(1)
-                        print(
-                            "\n"
-                            + emoji.emojize(":check_mark_button:")
-                            + color.GREEN
-                            + "  Login was successful!\n"
-                            + color.END
-                        )
-
-                        time.sleep(1)
-
-                        driver.maximize_window()
-
-                        print(
-                            "\n"
-                            + emoji.emojize(":information:")
-                            + "   Login process complete, the browser will run in the background"
-                        )
-
-                        time.sleep(1)
-
-                        print(
-                            "\n"
-                            + emoji.emojize(":information:")
-                            + "   You can continue with other tasks on your computer while your files download"
-                        )
-
-                        time.sleep(wait)
-                        break
-
-                    except:
-                        time.sleep(1)
-                        print(
-                            "\n"
-                            + emoji.emojize(":red_exclamation_mark:")
-                            + color.RED
-                            + "  Login was unsuccessful\n"
-                            + color.END
-                        )
-                        x = main_menu()
-                        if x == "1":
-                            driver.close()
-                            login_method = login()
-                        elif x == "2":
-                            os._exit(0)
-                        continue
-
-                elif cont == "2":
-                    x = main_menu()
-                    if x == "1":
-                        driver.close()
-                        login_method = login()
-                    elif x == "2":
-                        os._exit(0)
-                else:
-                    x = typo()
-                    if x == "1":
-                        driver.close()
-                        login_method = login()
-                    elif x == "2":
-                        os._exit(0)
-
-            elif login_method == "2":
                 # Start the driver session
                 driver = create_driver_session(
                     options(login_method, USER_AGENT, storage_directory)
@@ -319,151 +141,241 @@ while True:
 
                 time.sleep(1)
 
-                print(
-                    "\n"
-                    + emoji.emojize(":information:")
-                    + "   You will be prompted to manually login via the JSTOR website"
-                )
-
-                time.sleep(1)
-
-                cont = proceed()
-
-                if cont == "1":
-
-                    print(
-                        color.ITALIC
-                        + "\n...you are now being routed to JSTOR home page"
-                    )
-
-                    time.sleep(2)
-
-                    print(
-                        "\n...sit tight and wait for Google Chrome to open on your screen"
-                        + color.END
-                    )
-
-                    time.sleep(2)
+                if system == "Windows":
 
                     print(
                         "\n"
-                        + emoji.emojize(":information:")
-                        + "   While the browser opens, read through the login steps"
+                        + colored(" i ", "blue", attrs=["reverse"])
+                        + "   You have chosen to login via VPN/wifi."
+                    )
+
+                    # "\n[INFO] Follow the instructions below"
+                    time.sleep(1)
+
+                    print(
+                        "\n"
+                        + colored(" i ", "blue", attrs=["reverse"])
+                        + "   Follow the steps below:"
                     )
 
                     time.sleep(1)
 
                     print(
-                        color.BOLD
-                        + "\nStep 1/4: Navigate to the top of the JSTOR home page, and click on the link: "
-                        + color.UNDERLINE
-                        + "Log in through your library"
-                        + color.END
-                        + color.BOLD
-                        + "\nStep 2/4: Search for your institution by using the search box"
-                        + "\nStep 3/4: Log in using your institution's login credentials"
-                        + "\nStep 4/4: Accept the cookies"
-                        + color.END
+                        colored(
+                            "\n\nStep 1/1: Please connect to your institution's VPN or wifi, then continue.\n",
+                            "blue",
+                        )
                     )
 
                     time.sleep(1)
-
-                    print(
-                        color.ITALIC
-                        + "\n...give it a second, we are checking if the page has loaded successfully"
-                        + color.END
-                    )
-
-                    driver.get("https://www.jstor.org/")
-
-                    try:
-
-                        WebDriverWait(driver, 60).until(
-                            expected_conditions.element_to_be_clickable(
-                                (By.CLASS_NAME, "query-builder-input-group")
-                            )
-                        )
-                    except:
-                        print(
-                            "\n"
-                            + emoji.emojize(":red_exclamation_mark:")
-                            + color.RED
-                            + " Unable to load JSTOR page\n"
-                            + color.END
-                        )
-
-                        print(
-                            "\n"
-                            + emoji.emojize(":information:")
-                            + "  Check your internet connection and try again\n"
-                        )
-
-                        driver.close()
-                        login_method = login()
-
-                    driver.maximize_window()
-
-                    print(
-                        "\n"
-                        + emoji.emojize(":information:")
-                        + "   Once you have completed the steps, continue"
-                    )
 
                     cont = proceed()
 
                     if cont == "1":
 
+                        print("\n...you are now being routed to JSTOR home page")
+
+                        time.sleep(2)
+
+                        print(
+                            "\n...give it a second, we are checking if the page has loaded successfully"
+                        )
+
+                        driver.get("https://www.jstor.org/")
+
                         try:
 
                             WebDriverWait(driver, 60).until(
                                 expected_conditions.element_to_be_clickable(
-                                    (By.CLASS_NAME, "query-builder-input-group")
+                                    (
+                                        By.CLASS_NAME,
+                                        "query-builder-input-group",
+                                    )
                                 )
                             )
 
                         except:
                             print(
-                                color.RED
-                                + "\n[INFO] Unable to load JSTOR page"
-                                + color.END
+                                "\n"
+                                + colored(" ! ", "red", attrs=["reverse"])
+                                + colored(" Unable to load JSTOR page.\n", "red")
                             )
-                            # print(
-                            #     color.YELLOW
-                            #     + "\n[INFO] Check your internet connection and try again"
-                            #     + color.END
-                            # )
-                            # login_method = login(2)
 
-                        print(
-                            color.ITALIC
-                            + "\n...checking for successful login"
-                            + color.END
-                        )
-                        time.sleep(1)
+                            print(
+                                "\n"
+                                + colored(" i ", "blue", attrs=["reverse"])
+                                + "  Check your internet connection and try again.\n"
+                            )
+
+                            driver.close()
+                            login_method = login()
+
+                        print("\n...checking for successful login")
+
+                        time.sleep(2)
 
                         try:
                             driver.find_element(
                                 By.CLASS_NAME, "pds__access-provided-by"
                             )
+
                             time.sleep(1)
+
                             print(
                                 "\n"
-                                + emoji.emojize(":check_mark_button:")
-                                + color.GREEN
-                                + "  Login was successful!\n"
-                                + color.END
+                                + colored(" ! ", "green", attrs=["reverse"])
+                                + colored("  Login was successful!\n", "green")
                             )
 
                             time.sleep(1)
 
                             driver.maximize_window()
 
-                            driver.set_window_position(-2024, 2024)
+                            print(
+                                "\n"
+                                + colored(" i ", "blue", attrs=["reverse"])
+                                + "   Login process complete, the browser will run in the background."
+                            )
+
+                            time.sleep(1)
+
+                            print(
+                                "\n"
+                                + colored(" i ", "blue", attrs=["reverse"])
+                                + "   You can continue with other tasks on your computer while your files download."
+                            )
+
+                            time.sleep(wait)
+                            break
+
+                        except:
+                            time.sleep(1)
+
+                            print(
+                                "\n"
+                                + colored(" ! ", "red", attrs=["reverse"])
+                                + colored("  Login was unsuccessful\n", "red")
+                            )
+
+                            x = main_menu(system)
+
+                            if x == "1":
+                                driver.close()
+                                login_method = login()
+                            elif x == "2":
+                                os._exit(0)
+                            continue
+
+                    elif cont == "2":
+
+                        x = main_menu(system)
+                        if x == "1":
+                            driver.close()
+                            login_method = login()
+                        elif x == "2":
+                            os._exit(0)
+                    else:
+
+                        x = typo()
+                        if x == "1":
+                            driver.close()
+                            login_method = login()
+                        elif x == "2":
+                            os._exit(0)
+
+                else:
+                    print(
+                        "\n"
+                        + emoji.emojize(":information:")
+                        + "   You have chosen to login via VPN/wifi."
+                    )
+
+                    # "\n[INFO] Follow the instructions below"
+                    time.sleep(1)
+
+                    print(
+                        "\n"
+                        + emoji.emojize(":information:")
+                        + "   Follow the steps below:"
+                    )
+
+                    time.sleep(1)
+
+                    print(
+                        colored(
+                            "\n\nStep 1/1: Please connect to your institution's VPN or wifi, then continue.\n",
+                            attrs=["bold"],
+                        )
+                    )
+
+                    time.sleep(1)
+
+                    cont = proceed()
+
+                    if cont == "1":
+
+                        print("\n...you are now being routed to JSTOR home page")
+
+                        time.sleep(2)
+
+                        print(
+                            "\n...give it a second, we are checking if the page has loaded successfully"
+                        )
+
+                        driver.get("https://www.jstor.org/")
+
+                        try:
+
+                            WebDriverWait(driver, 60).until(
+                                expected_conditions.element_to_be_clickable(
+                                    (
+                                        By.CLASS_NAME,
+                                        "query-builder-input-group",
+                                    )
+                                )
+                            )
+
+                        except:
+                            print(
+                                "\n"
+                                + emoji.emojize(":red_exclamation_mark:")
+                                + colored(" Unable to load JSTOR page.\n", "red")
+                            )
 
                             print(
                                 "\n"
                                 + emoji.emojize(":information:")
-                                + "   Login process complete, the browser will run in the background"
+                                + "  Check your internet connection and try again.\n"
+                            )
+
+                            driver.close()
+                            login_method = login()
+
+                        print("\n...checking for successful login")
+
+                        time.sleep(2)
+
+                        try:
+                            driver.find_element(
+                                By.CLASS_NAME, "pds__access-provided-by"
+                            )
+
+                            time.sleep(1)
+
+                            print(
+                                "\n"
+                                + emoji.emojize(":check_mark_button:")
+                                + colored("  Login was successful!\n", "green")
+                            )
+
+                            time.sleep(1)
+
+                            driver.maximize_window()
+
+                            print(
+                                "\n"
+                                + emoji.emojize(":information:")
+                                + "   Login process complete, the browser will run in the background."
                             )
 
                             time.sleep(1)
@@ -471,7 +383,7 @@ while True:
                             print(
                                 "\n"
                                 + emoji.emojize(":information:")
-                                + "   You can continue with other tasks while your files download"
+                                + "   You can continue with other tasks on your computer while your files download."
                             )
 
                             time.sleep(wait)
@@ -482,11 +394,11 @@ while True:
                             print(
                                 "\n"
                                 + emoji.emojize(":red_exclamation_mark:")
-                                + color.RED
-                                + " Login was unsuccessful\n"
-                                + color.END
+                                + colored("  Login was unsuccessful\n", "red")
                             )
-                            x = main_menu()
+
+                            x = main_menu(system)
+
                             if x == "1":
                                 driver.close()
                                 login_method = login()
@@ -495,7 +407,208 @@ while True:
                             continue
 
                     elif cont == "2":
-                        x = main_menu()
+
+                        x = main_menu(system)
+                        if x == "1":
+                            driver.close()
+                            login_method = login()
+                        elif x == "2":
+                            os._exit(0)
+
+                    else:
+
+                        x = typo()
+                        if x == "1":
+                            driver.close()
+                            login_method = login()
+                        elif x == "2":
+                            os._exit(0)
+
+            elif login_method == "2":
+                # Start the driver session
+                driver = create_driver_session(
+                    options(login_method, USER_AGENT, storage_directory)
+                )
+
+                time.sleep(1)
+
+                if system == "Windows":
+
+                    print(
+                        "\n"
+                        + colored(" i ", "blue", attrs=["reverse"])
+                        + "   You will be prompted to manually login via the JSTOR website."
+                    )
+
+                    time.sleep(1)
+
+                    cont = proceed()
+
+                    if cont == "1":
+
+                        print("\n...you are now being routed to JSTOR home page")
+
+                        time.sleep(2)
+
+                        print(
+                            "\n...sit tight and wait for Google Chrome to open on your screen\n"
+                        )
+
+                        time.sleep(2)
+
+                        print(
+                            "\n"
+                            + colored(" i ", "blue", attrs=["reverse"])
+                            + "   While the browser opens, read through the login steps:"
+                        )
+
+                        time.sleep(1)
+
+                        print(
+                            colored(
+                                "\nStep 1/4: Navigate to the top of the JSTOR home page, and click on the link: ",
+                                "blue",
+                            )
+                            + colored(
+                                "Log in through your library.",
+                                "blue",
+                                attrs=["reverse"],
+                            )
+                            + colored(
+                                "\nStep 2/4: Search for your institution by using the search box.\nStep 3/4: Log in using your institution's login credentials.\nStep 4/4: Accept the cookies.",
+                                "blue",
+                            )
+                        )
+
+                        time.sleep(1)
+
+                        print(
+                            "\n...give it a second, we are checking if the page has loaded successfully\n"
+                        )
+
+                        driver.get("https://www.jstor.org/")
+
+                        try:
+
+                            WebDriverWait(driver, 60).until(
+                                expected_conditions.element_to_be_clickable(
+                                    (By.CLASS_NAME, "query-builder-input-group")
+                                )
+                            )
+                        except:
+                            print(
+                                "\n"
+                                + colored(" ! ", "red", attrs=["reverse"])
+                                + colored(" Unable to load JSTOR page.\n", "red")
+                            )
+
+                            print(
+                                "\n"
+                                + colored(" i ", "blue", attrs=["reverse"])
+                                + "  Check your internet connection and try again.\n"
+                            )
+
+                            driver.close()
+                            login_method = login()
+
+                        driver.maximize_window()
+
+                        print(
+                            "\n"
+                            + colored(" i ", "blue", attrs=["reverse"])
+                            + "   Once you have completed the steps, continue:"
+                        )
+
+                        cont = proceed()
+
+                        if cont == "1":
+
+                            try:
+
+                                WebDriverWait(driver, 60).until(
+                                    expected_conditions.element_to_be_clickable(
+                                        (By.CLASS_NAME, "query-builder-input-group")
+                                    )
+                                )
+
+                            except:
+                                print(
+                                    "\n"
+                                    + colored(" ! ", "red", attrs=["reverse"])
+                                    + colored(" Unable to load JSTOR page.\n", "red")
+                                )
+
+                            print("\n...checking for successful login")
+
+                            time.sleep(1)
+
+                            try:
+                                driver.find_element(
+                                    By.CLASS_NAME, "pds__access-provided-by"
+                                )
+                                time.sleep(1)
+                                print(
+                                    "\n"
+                                    + colored(" ! ", "green", attrs=["reverse"])
+                                    + colored("  Login was successful!\n", "green")
+                                )
+
+                                time.sleep(1)
+
+                                driver.maximize_window()
+
+                                driver.set_window_position(-2024, 2024)
+
+                                print(
+                                    "\n"
+                                    + colored(" i ", "blue", attrs=["reverse"])
+                                    + "   Login process complete, the browser will run in the background."
+                                )
+
+                                time.sleep(1)
+
+                                print(
+                                    "\n"
+                                    + colored(" i ", "blue", attrs=["reverse"])
+                                    + "   You can continue with other tasks while your files download."
+                                )
+
+                                time.sleep(wait)
+                                break
+
+                            except:
+                                time.sleep(1)
+                                print(
+                                    "\n"
+                                    + colored(" ! ", "red", attrs=["reverse"])
+                                    + colored(" Login was unsuccessful\n", "red")
+                                )
+
+                                x = main_menu(system)
+                                if x == "1":
+                                    driver.close()
+                                    login_method = login()
+                                elif x == "2":
+                                    os._exit(0)
+                                continue
+
+                        elif cont == "2":
+                            x = main_menu(system)
+                            if x == "1":
+                                driver.close()
+                                login_method = login()
+                            elif x == "2":
+                                os._exit(0)
+                        else:
+                            x = typo()
+                            if x == "1":
+                                driver.close()
+                                login_method = login()
+                            elif x == "2":
+                                os._exit(0)
+
+                    elif cont == "2":
+                        x = main_menu(system)
                         if x == "1":
                             driver.close()
                             login_method = login()
@@ -509,26 +622,199 @@ while True:
                         elif x == "2":
                             os._exit(0)
 
-                elif cont == "2":
-                    x = main_menu()
-                    if x == "1":
-                        driver.close()
-                        login_method = login()
-                    elif x == "2":
-                        os._exit(0)
                 else:
-                    x = typo()
-                    if x == "1":
-                        driver.close()
-                        login_method = login()
-                    elif x == "2":
-                        os._exit(0)
+
+                    print(
+                        "\n"
+                        + emoji.emojize(":information:")
+                        + "   You will be prompted to manually login via the JSTOR website."
+                    )
+
+                    time.sleep(1)
+
+                    cont = proceed()
+
+                    if cont == "1":
+
+                        print("\n...you are now being routed to JSTOR home page")
+
+                        time.sleep(2)
+
+                        print(
+                            "\n...sit tight and wait for Google Chrome to open on your screen\n"
+                        )
+
+                        time.sleep(2)
+
+                        print(
+                            "\n"
+                            + emoji.emojize(":information:")
+                            + "   While the browser opens, read through the login steps:"
+                        )
+
+                        time.sleep(1)
+
+                        print(
+                            colored(
+                                "\nStep 1/4: Navigate to the top of the JSTOR home page, and click on the link: ",
+                                attrs=["bold"],
+                            )
+                            + colored(
+                                "Log in through your library.", attrs=["underline"]
+                            )
+                            + colored(
+                                "\nStep 2/4: Search for your institution by using the search box.\nStep 3/4: Log in using your institution's login credentials.\nStep 4/4: Accept the cookies.",
+                                attrs=["bold"],
+                            )
+                        )
+
+                        time.sleep(1)
+
+                        print(
+                            "\n...give it a second, we are checking if the page has loaded successfully\n"
+                        )
+
+                        driver.get("https://www.jstor.org/")
+
+                        try:
+
+                            WebDriverWait(driver, 60).until(
+                                expected_conditions.element_to_be_clickable(
+                                    (By.CLASS_NAME, "query-builder-input-group")
+                                )
+                            )
+                        except:
+                            print(
+                                "\n"
+                                + emoji.emojize(":red_exclamation_mark:")
+                                + colored(" Unable to load JSTOR page.\n", "red")
+                            )
+
+                            print(
+                                "\n"
+                                + emoji.emojize(":information:")
+                                + "  Check your internet connection and try again.\n"
+                            )
+
+                            driver.close()
+                            login_method = login()
+
+                        driver.maximize_window()
+
+                        print(
+                            "\n"
+                            + emoji.emojize(":information:")
+                            + "   Once you have completed the steps, continue:"
+                        )
+
+                        cont = proceed()
+
+                        if cont == "1":
+
+                            try:
+
+                                WebDriverWait(driver, 60).until(
+                                    expected_conditions.element_to_be_clickable(
+                                        (By.CLASS_NAME, "query-builder-input-group")
+                                    )
+                                )
+
+                            except:
+                                print(
+                                    "\n"
+                                    + emoji.emojize(":red_exclamation_mark:")
+                                    + colored(" Unable to load JSTOR page.\n", "red")
+                                )
+
+                            print("\n...checking for successful login")
+
+                            time.sleep(1)
+
+                            try:
+                                driver.find_element(
+                                    By.CLASS_NAME, "pds__access-provided-by"
+                                )
+                                time.sleep(1)
+                                print(
+                                    "\n"
+                                    + emoji.emojize(":check_mark_button:")
+                                    + colored("  Login was successful!\n", "green")
+                                )
+
+                                time.sleep(1)
+
+                                driver.maximize_window()
+
+                                driver.set_window_position(-2024, 2024)
+
+                                print(
+                                    "\n"
+                                    + emoji.emojize(":information:")
+                                    + "   Login process complete, the browser will run in the background."
+                                )
+
+                                time.sleep(1)
+
+                                print(
+                                    "\n"
+                                    + emoji.emojize(":information:")
+                                    + "   You can continue with other tasks while your files download."
+                                )
+
+                                time.sleep(wait)
+                                break
+
+                            except:
+                                time.sleep(1)
+                                print(
+                                    "\n"
+                                    + emoji.emojize(":red_exclamation_mark:")
+                                    + colored(" Login was unsuccessful\n", "red")
+                                )
+
+                                x = main_menu(system)
+                                if x == "1":
+                                    driver.close()
+                                    login_method = login()
+                                elif x == "2":
+                                    os._exit(0)
+                                continue
+
+                        elif cont == "2":
+                            x = main_menu(system)
+                            if x == "1":
+                                driver.close()
+                                login_method = login()
+                            elif x == "2":
+                                os._exit(0)
+                        else:
+                            x = typo()
+                            if x == "1":
+                                driver.close()
+                                login_method = login()
+                            elif x == "2":
+                                os._exit(0)
+
+                    elif cont == "2":
+                        x = main_menu(system)
+                        if x == "1":
+                            driver.close()
+                            login_method = login()
+                        elif x == "2":
+                            os._exit(0)
+                    else:
+                        x = typo()
+                        if x == "1":
+                            driver.close()
+                            login_method = login()
+                        elif x == "2":
+                            os._exit(0)
 
             else:
                 x = typo()
                 if x == "1":
                     driver.close()
-                    login_method = login()
+                    login_method = login(system)
                 elif x == "2":
                     os._exit(0)
 

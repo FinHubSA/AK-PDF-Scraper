@@ -9,7 +9,7 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 
 
-def user_agent():
+def user_agent(system):
 
     try:
 
@@ -35,12 +35,12 @@ def user_agent():
 
     except:
 
-        user_agent = user_agent_fixed()
+        user_agent = user_agent_fixed(system)
 
     return user_agent
 
 
-def user_agent_fixed():
+def user_agent_fixed(system):
 
     user_agent_win = [
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36",
@@ -95,8 +95,6 @@ def user_agent_fixed():
         "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.64 Safari/537.36",
         "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.0.0 Safari/537.36",
     ]
-
-    system = platform.system()
 
     if system == "Darwin":
 
