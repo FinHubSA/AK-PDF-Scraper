@@ -40,7 +40,7 @@ def latest_downloaded_pdf(storage_directory, src_directory):
 def create_driver_session(chrome_options):
 
     logging.getLogger("WDM").setLevel(logging.NOTSET)
-    os.environ["WDM_LOG"] = "false"
+    # os.environ["WDM_LOG"] = "false"
     os.environ["WDM_LOG_LEVEL"] = "0"
 
     driver = webdriver.Chrome(

@@ -1,6 +1,5 @@
 import time
 from termcolor import colored
-from pyfiglet import Figlet
 import emoji
 
 
@@ -30,8 +29,10 @@ def proceed():
 
 def welcome(system):
 
-    f = Figlet(font="standard")
-    print(colored(f.renderText("Welcome to Aaron's Kit!"), "green"))
+    # f = Figlet(font="standard")
+    # print(colored(f.renderText("Welcome to Aaron's Kit!"), "green"))
+
+    print(colored("\n\nWelcome to Aaron's Kit!", attrs = ["reverse"]))
 
     print(
         colored(
