@@ -276,7 +276,7 @@ while True:
                             os._exit(0)
                     else:
 
-                        x = typo()
+                        x = typo(system)
                         if x == "1":
                             driver.close()
                             login_method = login()
@@ -417,7 +417,7 @@ while True:
 
                     else:
 
-                        x = typo()
+                        x = typo(system)
                         if x == "1":
                             driver.close()
                             login_method = login()
@@ -600,7 +600,7 @@ while True:
                             elif x == "2":
                                 os._exit(0)
                         else:
-                            x = typo()
+                            x = typo(system)
                             if x == "1":
                                 driver.close()
                                 login_method = login()
@@ -615,7 +615,7 @@ while True:
                         elif x == "2":
                             os._exit(0)
                     else:
-                        x = typo()
+                        x = typo(system)
                         if x == "1":
                             driver.close()
                             login_method = login()
@@ -788,7 +788,7 @@ while True:
                             elif x == "2":
                                 os._exit(0)
                         else:
-                            x = typo()
+                            x = typo(system)
                             if x == "1":
                                 driver.close()
                                 login_method = login()
@@ -803,7 +803,7 @@ while True:
                         elif x == "2":
                             os._exit(0)
                     else:
-                        x = typo()
+                        x = typo(system)
                         if x == "1":
                             driver.close()
                             login_method = login()
@@ -811,7 +811,7 @@ while True:
                             os._exit(0)
 
             else:
-                x = typo()
+                x = typo(system)
                 if x == "1":
                     driver.close()
                     login_method = login(system)
