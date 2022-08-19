@@ -101,7 +101,7 @@ if system == "Windows":
     os.system("color")
 
 # To create an executable file we need to set the file source directory
-# os.chdir(src_directory)
+os.chdir(src_directory)
 
 # Aaron's Kit welcome
 welcome(system)
