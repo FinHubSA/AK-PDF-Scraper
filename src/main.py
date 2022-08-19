@@ -951,7 +951,7 @@ while True:
                 if not (os.path.exists(url) or os.path.exists(url_pending)):
 
                     success, start_time = recaptcha_solver(
-                        driver, url, url_pending, wait, src_directory
+                        driver, url, url_pending, wait, src_directory, jstor_url
                     )
 
                     if success:
@@ -1026,7 +1026,7 @@ while True:
         if not (os.path.exists(url) or os.path.exists(url_pending)):
 
             success, start_time = recaptcha_solver(
-                driver, url, url_pending, wait, misc_directory
+                driver, url, url_pending, wait, misc_directory, jstor_url
             )
 
             if not success:
