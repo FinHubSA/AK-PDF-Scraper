@@ -23,3 +23,9 @@ with size (in bytes): 2472069
 scraper started at: 2022-08-18 14:10:26.807506
 scraper ended at: 2022-08-18 14:10:47.816695
 download time (in seconds): 1.0091888904571533
+
+for ID: 10.2307/746556
+with size (in bytes): 1440793
+scraper started at: 2022-08-19 13:04:23.356378
+scraper ended at: 2022-08-19 13:04:44.412838
+download time (in seconds): 1.056459903717041

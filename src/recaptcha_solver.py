@@ -6,6 +6,7 @@ import os
 import re
 from datetime import datetime
 import requests
+import platform
 
 import pydub
 import speech_recognition as sr
@@ -212,6 +213,15 @@ def recaptcha_solver(driver, url, url_pending, wait, misc_directory):
                         print("Exported audio file to .wav")
                     except Exception as e:
                         print("[ERR] Failed to convert file as .wav")
+                        print("Ffmpeg is required, please install ffmpeg via https://ffmpeg.org/")
+                        
+                        if platform.system() == "Windows":
+                            print("For installation instructions visit: https://windowsloop.com/install-ffmpeg-windows-10/")
+                        elif platform.system() == "Darwin":
+                            print("For installation instructions visit: https://bbc.github.io/bbcat-orchestration-docs/installation-mac-manual/")
+                        else:
+                            print("For installation instructions visit: https://linuxize.com/post/how-to-install-ffmpeg-on-debian-9/")
+                        
                         print(e)
                         success = False
                         is_recaptcha_control_active = False
