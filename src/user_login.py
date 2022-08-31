@@ -137,11 +137,11 @@ def vpn_or_manual(system):
         )
 
         print(
-            "\nIf you choose to login via the JSTOR website, this program will direct you to enter your credentials via your university portal on JSTOR."
+            "\nIf you choose to login via the JSTOR website, you will be prompted to enter your login details via your university portal on JSTOR."
         )
 
         print(
-            "\nIf you choose to login via VPN or wifi, your credentials will already be authenticated and you will not need to provide any login details."
+            "\nIf you choose to login via VPN or wifi, your credentials will already be authenticated and you won't need to provide any login details."
         )
 
         time.sleep(1)
@@ -175,11 +175,11 @@ def vpn_or_manual(system):
         )
 
         print(
-            "\nIf you choose to login via the JSTOR website, this program will direct you to enter your credentials via your university portal on JSTOR."
+            "\nIf you choose to login via the JSTOR website, you will be prompted to enter your login details via your university portal on JSTOR."
         )
 
         print(
-            "\nIf you choose to login via VPN or wifi, your credentials will already be authenticated and you will not need to provide any login details."
+            "\nIf you choose to login via VPN or wifi, your credentials will already be authenticated and you won't need to provide any login details."
         )
 
         time.sleep(1)

@@ -487,7 +487,7 @@ while True:
                             print(
                                 "\n"
                                 + colored(" i ", "blue", attrs=["reverse"])
-                                + "   Do not exit/close the window as this will abort the download process."
+                                + "   Do not exit/close this window as this will abort the download process."
                             )
 
                             time.sleep(wait)
@@ -636,7 +636,7 @@ while True:
                             print(
                                 "\n"
                                 + emoji.emojize(":information:")
-                                + "   Do not exit/close the window as this will abort the download process."
+                                + "   Do not exit/close this window as this will abort the download process."
                             )
 
                             time.sleep(wait)
@@ -823,7 +823,15 @@ while True:
                                 print(
                                     "\n"
                                     + colored(" i ", "blue", attrs=["reverse"])
-                                    + "   You can continue with other tasks while your files download."
+                                    + "   You can minimize this window and continue with other tasks on your computer while your files download."
+                                )
+
+                                time.sleep(1)
+
+                                print(
+                                    "\n"
+                                    + colored(" i ", "blue", attrs=["reverse"])
+                                    + "   Do not exit/close this window as this will abort the download process."
                                 )
 
                                 time.sleep(wait)
@@ -1011,7 +1019,15 @@ while True:
                                 print(
                                     "\n"
                                     + emoji.emojize(":information:")
-                                    + "   You can continue with other tasks while your files download."
+                                    + "   You can minimize this window and continue with other tasks on your computer while your files download."
+                                )
+
+                                time.sleep(1)
+
+                                print(
+                                    "\n"
+                                    + emoji.emojize(":information:")
+                                    + "   Do not exit/close this window as this will abort the download process."
                                 )
 
                                 time.sleep(wait)
