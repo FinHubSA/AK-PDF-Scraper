@@ -3,17 +3,25 @@ import speedtest
 # returns the user download speed
 def download_speed():
 
-    try:
+    speed = False
+    retry = 0
+    while speed == False and retry <= 3:
 
-        speed_test = speedtest.Speedtest()
+        try:
 
-        download_speed = speed_test.download()
+            speed_test = speedtest.Speedtest()
 
-        mbps = download_speed / (1024 * 1024)
+            download_speed = speed_test.download()
 
-    except:
+            mbps = download_speed / (1024 * 1024)
 
-        mbps = 15
+            speed = True
+
+        except:
+
+            mbps = "Error"
+
+            retry = +1
 
     return mbps
 

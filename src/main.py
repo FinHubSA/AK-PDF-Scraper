@@ -95,7 +95,8 @@ src_directory = os.path.dirname(__file__)
 
 misc_directory = os.path.normpath(src_directory + os.sep + os.pardir)
 
-system = platform.system()
+# system = platform.system()
+system = "Windows"
 
 if system == "Windows":
     os.system("color")
@@ -106,17 +107,252 @@ os.chdir(src_directory)
 # Aaron's Kit welcome
 welcome(system)
 
-# def User Agent
-USER_AGENT = user_agent(system)
+# Calculate the internet speed and driver sleep time
+internet_retry = True
 
-# Calculate the driver sleep time
-print("\n...determining internet speed")
+while internet_retry == True:
+    print("\n\n...determining internet speed")
 
-mbps = download_speed()
+    mbps = download_speed()
 
-print(colored("\nYour internet speed is: " + str(round(mbps, 2)) + " mbps", "green"))
+    time.sleep(2)
+
+    if mbps == "Error":
+
+        if system == "Windows":
+
+            print(
+                "\n\n"
+                + colored(" ! ", "yellow", attrs=["reverse"])
+                + colored(
+                    "   It seems that your internet speed is unstable at the moment.",
+                    "yellow",
+                )
+            )
+
+            print(
+                "\n\n"
+                + colored(" i ", "blue", attrs=["reverse"])
+                + "   Please check your internet connection, and then make a selection."
+            )
+
+            print(
+                "\n"
+                + colored(" i ", "blue", attrs=["reverse"])
+                + "   Note that an unstable internet connection might interfere with the download process."
+            )
+
+            internet_typo = True
+
+            while internet_typo:
+                internet_option = input(
+                    colored(
+                        "\n-- Type [1] to retry speed check\n-- Type [2] to continue with an unstable connection\n   : "
+                    )
+                )
+
+                if internet_option == "1":
+                    internet_typo = False
+                elif internet_option == "2":
+                    mbps = 15
+                    internet_typo = False
+                    internet_retry = False
+                else:
+                    print(
+                        "\n\n"
+                        + colored(" ? ", "yellow", attrs=["reverse"])
+                        + colored(
+                            "   It appears that you made a typo, please re-enter your selection.\n",
+                            "yellow",
+                        )
+                    )
+
+        else:
+
+            print(
+                "\n\n"
+                + emoji.emojize(":loudspeaker:")
+                + colored(
+                    "   It seems that your internet speed is unstable at the moment.",
+                    "yellow",
+                )
+            )
+
+            print(
+                "\n\n"
+                + emoji.emojize(":information:")
+                + "   Please check your internet connection, and then make a selection."
+            )
+
+            print(
+                "\n"
+                + emoji.emojize(":information:")
+                + "   Note that an unstable internet connection might interfere with the download process."
+            )
+
+            internet_typo = True
+
+            while internet_typo == True:
+                internet_option = input(
+                    colored(
+                        "\n-- Type [1] to retry speed check\n-- Type [2] to continue with an unstable connection\n   : "
+                    )
+                )
+
+                if internet_option == "1":
+                    internet_typo = False
+                elif internet_option == "2":
+                    mbps = 15
+                    internet_typo = False
+                    internet_retry = False
+                else:
+                    print(
+                        "\n\n"
+                        + emoji.emojize(":loudspeaker:")
+                        + colored(
+                            "   It appears that you made a typo, please re-enter your selection.\n",
+                            "yellow",
+                        )
+                    )
+
+    elif mbps <= 5:
+
+        if system == "Windows":
+
+            print(
+                "\n\n"
+                + colored(" ! ", "yellow", attrs=["reverse"])
+                + colored("   Your internet speed is less than 5 mbps.", "yellow")
+            )
+
+            print(
+                "\n\n"
+                + colored(" i ", "blue", attrs=["reverse"])
+                + "   Please check your internet connection, and then make a selection"
+            )
+
+            print(
+                "\n"
+                + colored(" i ", "blue", attrs=["reverse"])
+                + "   Note that a slow internet connection might interfere with the download process."
+            )
+
+            internet_typo = True
+
+            while internet_typo:
+                internet_option = input(
+                    colored(
+                        "\n-- Type [1] to retry speed check\n-- Type [2] to continue with a slow connection\n   : "
+                    )
+                )
+
+                if internet_option == "1":
+                    internet_typo = False
+                elif internet_option == "2":
+                    mbps = 15
+                    internet_typo = False
+                    internet_retry = False
+                else:
+                    print(
+                        "\n\n"
+                        + colored(" ? ", "yellow", attrs=["reverse"])
+                        + colored(
+                            "   It appears that you made a typo, please re-enter your selection.\n",
+                            "yellow",
+                        )
+                    )
+
+        else:
+            print(
+                "\n\n"
+                + emoji.emojize(":loudspeaker:")
+                + colored("   Your internet speed is less than 5 mbps.", "yellow")
+            )
+
+            print(
+                "\n\n"
+                + emoji.emojize(":information:")
+                + "   Please check your internet connection, and then make a selection"
+            )
+
+            print(
+                "\n"
+                + emoji.emojize(":information:")
+                + "   Note that a slow internet connection might interfere with the download process."
+            )
+
+            internet_typo = True
+
+            while internet_typo == True:
+                internet_option = input(
+                    colored(
+                        "\n-- Type [1] to retry speed check\n-- Type [2] to continue with a slow connection\n   : "
+                    )
+                )
+
+                if internet_option == "1":
+                    internet_typo = False
+                elif internet_option == "2":
+                    mbps = 15
+                    internet_typo = False
+                    internet_retry = False
+                else:
+                    print(
+                        "\n\n"
+                        + emoji.emojize(":loudspeaker:")
+                        + colored(
+                            "   It appears that you made a typo, please re-enter your selection.\n",
+                            "yellow",
+                        )
+                    )
+
+    else:
+        if system == "Windows":
+            print(
+                "\n\n"
+                + colored(" ! ", "green", attrs=["reverse"])
+                + colored(
+                    "   Your internet speed is: " + str(round(mbps, 2)) + " mbps",
+                    "green",
+                )
+            )
+        else:
+            print(
+                "\n\n"
+                + emoji.emojize(":check_mark_button:")
+                + colored(
+                    "   Your internet speed is: " + str(round(mbps, 2)) + " mbps",
+                    "green",
+                )
+            )
+
+        internet_retry = False
 
 wait = delay(mbps)
+
+# def User Agent
+print("\n\n...determining User Agent")
+
+USER_AGENT = user_agent(system)
+if system == "Windows":
+    print(
+        "\n"
+        + colored(" ! ", "green", attrs=["reverse"])
+        + colored(
+            "   User Agent found",
+            "green",
+        )
+    )
+else:
+    print(
+        "\n"
+        + emoji.emojize(":check_mark_button:")
+        + colored(
+            "   User Agent found",
+            "green",
+        )
+    )
+
 
 now = datetime.now().timestamp()
 
@@ -211,7 +447,7 @@ while True:
                             driver.close()
                             login_method = login()
 
-                        print("\n...checking for successful login")
+                        print("\n...checking for successful login\n")
 
                         time.sleep(2)
 
@@ -243,7 +479,15 @@ while True:
                             print(
                                 "\n"
                                 + colored(" i ", "blue", attrs=["reverse"])
-                                + "   You can continue with other tasks on your computer while your files download."
+                                + "   You can minimize this window and continue with other tasks on your computer while your files download."
+                            )
+
+                            time.sleep(1)
+
+                            print(
+                                "\n"
+                                + colored(" i ", "blue", attrs=["reverse"])
+                                + "   Do not exit/close the window as this will abort the download process."
                             )
 
                             time.sleep(wait)
@@ -352,7 +596,7 @@ while True:
                             driver.close()
                             login_method = login()
 
-                        print("\n...checking for successful login")
+                        print("\n...checking for successful login\n")
 
                         time.sleep(2)
 
@@ -384,7 +628,15 @@ while True:
                             print(
                                 "\n"
                                 + emoji.emojize(":information:")
-                                + "   You can continue with other tasks on your computer while your files download."
+                                + "   You can minimize this window and continue with other tasks on your computer while your files download."
+                            )
+
+                            time.sleep(1)
+
+                            print(
+                                "\n"
+                                + emoji.emojize(":information:")
+                                + "   Do not exit/close the window as this will abort the download process."
                             )
 
                             time.sleep(wait)
@@ -539,7 +791,7 @@ while True:
                                     + colored(" Unable to load JSTOR page.\n", "red")
                                 )
 
-                            print("\n...checking for successful login")
+                            print("\n...checking for successful login\n")
 
                             time.sleep(1)
 
@@ -727,7 +979,7 @@ while True:
                                     + colored(" Unable to load JSTOR page.\n", "red")
                                 )
 
-                            print("\n...checking for successful login")
+                            print("\n...checking for successful login\n")
 
                             time.sleep(1)
 
@@ -814,8 +1066,7 @@ while True:
             else:
                 x = typo(system)
                 if x == "1":
-                    driver.close()
-                    login_method = login(system)
+                    login_method = login()
                 elif x == "2":
                     os._exit(0)
 

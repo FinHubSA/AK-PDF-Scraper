@@ -8,7 +8,6 @@ def login():
     login_method = input(
         colored(
             "\n-- Type [1] to login via institution VPN or wifi\n-- Type [2] to manually login via the JSTOR website\n   : ",
-            "magenta",
         )
     )
 
@@ -17,12 +16,7 @@ def login():
 
 def proceed():
 
-    proceed = input(
-        colored(
-            "\n-- Type [1] to continue\n-- Type [2] to restart\n   : ",
-            "magenta",
-        )
-    )
+    proceed = input(colored("\n-- Type [1] to continue\n-- Type [2] to restart\n   : "))
 
     return proceed
 
@@ -32,7 +26,7 @@ def welcome(system):
     # f = Figlet(font="standard")
     # print(colored(f.renderText("Welcome to Aaron's Kit!"), "green"))
 
-    print(colored("\n\nWelcome to Aaron's Kit!", attrs = ["reverse"]))
+    print(colored("\n\nWelcome to Aaron's Kit!", attrs=["reverse"]))
 
     print(
         colored(
@@ -65,18 +59,17 @@ def welcome(system):
         )
 
         print(
-            "\n\nWhile your files download, "
-            + colored("please do not:", attrs=["reverse"])
+            "\n\nWhile the program runs " + colored("please do not:", attrs=["reverse"])
         )
 
         print(
-            "\na) Close Google Chrome.\nb) Interfere with Google Chrome while your files are being downloaded."
+            "\na) Close the Google Chrome window that will be opened in the next steps.\nb) Interfere with the Google Chrome window unless prompted to do so."
         )
 
         input(
-            colored("\n\n-- Press ", "magenta")
-            + colored("ENTER/RETURN", "magenta", attrs=["reverse"])
-            + colored(" to continue: ", "magenta")
+            colored("\n\n-- Press ")
+            + colored("ENTER/RETURN", attrs=["reverse"])
+            + colored(" to continue: ")
         )
 
     else:
@@ -104,18 +97,18 @@ def welcome(system):
         )
 
         print(
-            "\n\nWhile your files download, "
+            "\n\nWhile the program runs, "
             + colored("please do not:", attrs=["bold", "underline"])
         )
 
         print(
-            "\na) Close Google Chrome.\nb) Interfere with Google Chrome while your files are being downloaded."
+            "\na) Close the Google Chrome window that will be opened in the next steps.\nb) Interfere with the Google Chrome window unless prompted to do so."
         )
 
         input(
-            colored("\n\n-- Press ", "magenta")
-            + colored("ENTER/RETURN", "magenta", attrs=["bold"])
-            + colored(" to continue: ", "magenta")
+            colored("\n\n-- Press ")
+            + colored("ENTER/RETURN", attrs=["bold"])
+            + colored(" to continue: ")
         )
 
 
@@ -126,7 +119,7 @@ def vpn_or_manual(system):
     if system == "Windows":
 
         print(
-            "\n\n"
+            "\n\n\n"
             + colored(" i ", "blue", attrs=["reverse"])
             + "   To continue, a JSTOR user login is required, either via institution VPN/wifi or manually via the JSTOR website."
         )
@@ -139,9 +132,21 @@ def vpn_or_manual(system):
             + "   No login information will be recorded in the process."
         )
 
+        print(
+            "\n\n" + colored("User credential security information", attrs=["reverse"])
+        )
+
+        print(
+            "\nIf you choose to login via the JSTOR website, this program will direct you to enter your credentials via your university portal on JSTOR."
+        )
+
+        print(
+            "\nIf you choose to login via VPN or wifi, your credentials will already be authenticated and you will not need to provide any login details."
+        )
+
         time.sleep(1)
 
-        print("\n\n" + colored("JSTOR Login Instructions:", attrs=["reverse"]) + "\n")
+        print("\n\n\n" + colored("JSTOR Login Instructions:", attrs=["reverse"]) + "\n")
 
         print(
             "\n"
@@ -152,7 +157,7 @@ def vpn_or_manual(system):
     else:
 
         print(
-            "\n\n"
+            "\n\n\n"
             + emoji.emojize(":information:")
             + "   To continue, a JSTOR user login is required, either via institution VPN/wifi or manually via the JSTOR website."
         )
@@ -165,10 +170,22 @@ def vpn_or_manual(system):
             + "   No login information will be recorded in the process."
         )
 
+        print(
+            "\n\n" + colored("User credential security information", attrs=["reverse"])
+        )
+
+        print(
+            "\nIf you choose to login via the JSTOR website, this program will direct you to enter your credentials via your university portal on JSTOR."
+        )
+
+        print(
+            "\nIf you choose to login via VPN or wifi, your credentials will already be authenticated and you will not need to provide any login details."
+        )
+
         time.sleep(1)
 
         print(
-            "\n\n"
+            "\n\n\n"
             + colored("JSTOR Login Instructions:", attrs=["bold", "underline"])
             + "\n"
         )
@@ -216,7 +233,7 @@ def main_menu(system):
             + colored("[2]", attrs=["bold"])
         )
 
-    select = input(colored("\n-- Please enter your selection: ", "magenta"))
+    select = input(colored("\n-- Please enter your selection: "))
 
     return select
 
@@ -226,10 +243,10 @@ def typo(system):
     if system == "Windows":
 
         print(
-            "\n"
+            "\n\n"
             + colored(" ? ", "yellow", attrs=["reverse"])
             + colored(
-                "  It appears that you made a typo, you are being directed to the main selection menu",
+                "   It appears that you made a typo, you are being directed to the main selection menu.\n",
                 "yellow",
             )
         )
@@ -237,10 +254,10 @@ def typo(system):
     else:
 
         print(
-            "\n"
+            "\n\n"
             + emoji.emojize(":loudspeaker:")
             + colored(
-                "  It appears that you made a typo, you are being directed to the main selection menu",
+                "   It appears that you made a typo, you are being directed to the main selection menu.\n",
                 "yellow",
             )
         )

@@ -29,3 +29,123 @@ with size (in bytes): 1440793
 scraper started at: 2022-08-19 13:04:23.356378
 scraper ended at: 2022-08-19 13:04:44.412838
 download time (in seconds): 1.056459903717041
+
+for ID: 10.2307/746557
+with size (in bytes): 2748220
+scraper started at: 2022-08-29 21:01:27.852143
+scraper ended at: 2022-08-29 21:01:49.396552
+download time (in seconds): 11.544409036636353
+
+for ID: 10.2307/746558
+with size (in bytes): 5870437
+scraper started at: 2022-08-29 21:01:55.995578
+scraper ended at: 2022-08-29 21:02:30.082834
+download time (in seconds): 24.08725595474243
+
+for ID: 10.2307/746559
+with size (in bytes): 1970801
+scraper started at: 2022-08-29 21:02:35.690323
+scraper ended at: 2022-08-29 21:02:46.694852
+download time (in seconds): 1.0045289993286133
+
+for ID: 10.2307/746560
+with size (in bytes): 1286233
+scraper started at: 2022-08-29 21:02:52.633247
+scraper ended at: 2022-08-29 21:03:03.640231
+download time (in seconds): 1.006983995437622
+
+for ID: 10.2307/746561
+with size (in bytes): 1815398
+scraper started at: 2022-08-29 21:03:09.748043
+scraper ended at: 2022-08-29 21:03:20.757851
+download time (in seconds): 1.009807825088501
+
+for ID: 10.2307/746562
+with size (in bytes): 671744
+scraper started at: 2022-08-29 21:03:25.979418
+scraper ended at: 2022-08-29 21:03:36.986279
+download time (in seconds): 1.0068609714508057
+
+for ID: 10.2307/746563
+with size (in bytes): 1183373
+scraper started at: 2022-08-29 21:03:42.392578
+scraper ended at: 2022-08-29 21:03:53.398469
+download time (in seconds): 1.0058910846710205
+
+for ID: 10.2307/746692
+with size (in bytes): 274001
+scraper started at: 2022-08-29 21:03:59.635663
+scraper ended at: 2022-08-29 21:04:10.641866
+download time (in seconds): 1.0062029361724854
+
+for ID: 10.2307/746693
+with size (in bytes): 1356347
+scraper started at: 2022-08-29 21:04:15.210794
+scraper ended at: 2022-08-29 21:04:26.213878
+download time (in seconds): 1.0030839443206787
+
+for ID: 10.2307/746694
+with size (in bytes): 3089550
+scraper started at: 2022-08-29 21:04:31.768034
+scraper ended at: 2022-08-29 21:04:46.790419
+download time (in seconds): 5.022385120391846
+
+for ID: 10.2307/746695
+with size (in bytes): 4246447
+scraper started at: 2022-08-29 21:04:51.858133
+scraper ended at: 2022-08-29 21:05:04.871092
+download time (in seconds): 3.0129590034484863
+
+for ID: 10.2307/746696
+with size (in bytes): 2879469
+scraper started at: 2022-08-29 21:05:10.350822
+scraper ended at: 2022-08-29 21:05:21.354487
+download time (in seconds): 1.0036649703979492
+
+for ID: 10.2307/746697
+with size (in bytes): 1327527
+scraper started at: 2022-08-29 21:05:26.347590
+scraper ended at: 2022-08-29 21:05:37.356287
+download time (in seconds): 1.0086970329284668
+
+for ID: 10.2307/746698
+with size (in bytes): 2156813
+scraper started at: 2022-08-29 21:05:42.038966
+scraper ended at: 2022-08-29 21:05:53.045320
+download time (in seconds): 1.0063540935516357
+
+for ID: 10.2307/746699
+with size (in bytes): 969544
+scraper started at: 2022-08-29 21:05:58.697123
+scraper ended at: 2022-08-29 21:06:09.707997
+download time (in seconds): 1.0108740329742432
+
+for ID: 10.2307/746700
+with size (in bytes): 1063533
+scraper started at: 2022-08-29 21:06:14.805748
+scraper ended at: 2022-08-29 21:06:25.814375
+download time (in seconds): 1.008626937866211
+
+for ID: 10.2307/746701
+with size (in bytes): 947466
+scraper started at: 2022-08-29 21:06:31.371085
+scraper ended at: 2022-08-29 21:06:42.380201
+download time (in seconds): 1.0091161727905273
+
+for ID: 10.2307/746702
+with size (in bytes): 970675
+scraper started at: 2022-08-29 21:06:47.788922
+scraper ended at: 2022-08-29 21:06:58.797333
+download time (in seconds): 1.008410930633545
+
+for ID: 10.2307/746703
+with size (in bytes): 1007716
+scraper started at: 2022-08-31 14:46:49.269128
+scraper ended at: 2022-08-31 14:47:00.322451
+download time (in seconds): 1.0533230304718018
+
+for ID: 10.2307/746704
+with size (in bytes): 722057
+scraper started at: 2022-08-31 14:47:06.903320
+scraper ended at: 2022-08-31 14:47:17.911103
+download time (in seconds): 1.0077829360961914
