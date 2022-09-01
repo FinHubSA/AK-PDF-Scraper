@@ -95,10 +95,13 @@ def recaptcha_solver(driver, url, url_pending, wait, misc_directory, jstor_url):
         recaptcha_log = +1
         randint = random.randrange(4, 8)
 
+        # Make sure that reCAPTCHA does not get stuck in a loop
         if recaptcha_log >= randint:
 
             print("[ERR] Too many iterations, restart driver")
+
             success = False
+
             break
 
         try:
@@ -137,6 +140,7 @@ def recaptcha_solver(driver, url, url_pending, wait, misc_directory, jstor_url):
                 try:
                     # switch to recaptcha audio challenge frame
                     # need to test this (theoretically, if the challenge frame is not visible, it should raise an exception)
+                    # alternatively, try to click on the checkbox again. If it does not work, move on to next section.
                     driver.switch_to.default_content()
                     driver.switch_to.frame(recaptcha_challenge_frame)
 
@@ -236,7 +240,7 @@ def recaptcha_solver(driver, url, url_pending, wait, misc_directory, jstor_url):
                             + colored("ENTER/RETURN", "magenta")
                             + colored(" to continue: ", "magenta")
                         )
-                        
+
                         success = False
                         is_recaptcha_control_active = False
                         break
@@ -287,7 +291,8 @@ def recaptcha_solver(driver, url, url_pending, wait, misc_directory, jstor_url):
                         is_recaptcha_control_active = False
                         break
                     else:
-                        continue
+                        # What do we do if there are multiple audio challenges to solve?
+                        is_recaptcha_control_active = True
 
                 except:
                     print("[INFO] Recurring checkbox")

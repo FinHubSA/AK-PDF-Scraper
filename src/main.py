@@ -9,6 +9,8 @@ import emoji
 from termcolor import colored
 import os
 
+logging.getLogger().setLevel(logging.CRITICAL)
+
 import pandas as pd
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
@@ -38,10 +40,6 @@ def latest_downloaded_pdf(storage_directory, src_directory):
 
 
 def create_driver_session(chrome_options):
-
-    logging.getLogger("WDM").setLevel(logging.NOTSET)
-    # os.environ["WDM_LOG"] = "false"
-    os.environ["WDM_LOG_LEVEL"] = "0"
 
     driver = webdriver.Chrome(
         service=Service(ChromeDriverManager().install()),
@@ -73,7 +71,7 @@ def options(login_method, USER_AGENT, storage_directory):
     chrome_options.add_argument("--disable-blink-features=AutomationControlled")
     chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
     chrome_options.add_experimental_option("useAutomationExtension", False)
-    chrome_options.add_experimental_option("excludeSwitches", ["enable-logging"])
+    # chrome_options.add_experimental_option("excludeSwitches", ["enable-logging"])
     chrome_options.add_experimental_option(
         "prefs",
         {
@@ -95,8 +93,8 @@ src_directory = os.path.dirname(__file__)
 
 misc_directory = os.path.normpath(src_directory + os.sep + os.pardir)
 
-# system = platform.system()
-system = "Windows"
+system = platform.system()
+# system = "Windows"
 
 if system == "Windows":
     os.system("color")
