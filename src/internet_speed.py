@@ -21,7 +21,7 @@ def download_speed():
 
             mbps = "Error"
 
-            retry = +1
+            retry += 1
 
     return mbps
 

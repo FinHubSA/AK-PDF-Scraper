@@ -1,3 +1,4 @@
+from logging import exception
 import time
 import pickle
 import random
@@ -92,13 +93,13 @@ def recaptcha_solver(driver, url, url_pending, wait, misc_directory, jstor_url):
 
     while is_recaptcha_control_active:
 
-        recaptcha_log = +1
-        randint = random.randrange(4, 8)
+        recaptcha_log += 1
+        randint = random.randrange(3, 5)
 
         # Make sure that reCAPTCHA does not get stuck in a loop
         if recaptcha_log >= randint:
 
-            print("[ERR] Too many iterations, restart driver")
+            print("[ERR] IP address has been blocked by reCAPTCHA, restart browser")
 
             success = False
 
@@ -106,12 +107,13 @@ def recaptcha_solver(driver, url, url_pending, wait, misc_directory, jstor_url):
 
         try:
             # switch to checkbox
-            time.sleep(wait)
+            # time.sleep(wait)
 
             # test to make reCAPTCHA solve fail: driver.switch_to.frame(recaptcha_challenge_frame)
+            driver.switch_to.default_content()
             driver.switch_to.frame(recaptcha_control_frame)
 
-            # click on checkbox to activate recaptcha
+            # click on checkbox to activate recaptcha TESTING HERE
             driver.find_element(By.CLASS_NAME, "recaptcha-checkbox-border").click()
             print("checkbox clicked")
 
@@ -137,24 +139,32 @@ def recaptcha_solver(driver, url, url_pending, wait, misc_directory, jstor_url):
 
             while is_recaptcha_challenge_active:
 
+                # try:
+                # switch to recaptcha audio challenge frame
+                # need to test this (theoretically, if the challenge frame is not visible, it should raise an exception) -DOES NOT WORK
+                # alternatively, try to click on the checkbox again. If it does not work, move on to next section.
+                # driver.switch_to.default_content()
+                # driver.switch_to.frame(recaptcha_challenge_frame)
+
+                # click on audio challenge
+                # try:
+                #     time.sleep(random.randrange(10, 15, 1))
+                #     driver.find_element(By.ID, "recaptcha-audio-button").click()
+                #     print("Switched to audio control frame")
+                # except Exception as e:
+                #     print("[ERR] IP address has been blocked by reCAPTCHA")
+                #     print(e)
+                #     success = False
+                #     is_recaptcha_control_active = False
+                #     break
                 try:
-                    # switch to recaptcha audio challenge frame
-                    # need to test this (theoretically, if the challenge frame is not visible, it should raise an exception)
-                    # alternatively, try to click on the checkbox again. If it does not work, move on to next section.
+
                     driver.switch_to.default_content()
                     driver.switch_to.frame(recaptcha_challenge_frame)
 
-                    # click on audio challenge
-                    try:
-                        time.sleep(random.randrange(10, 15, 1))
-                        driver.find_element(By.ID, "recaptcha-audio-button").click()
-                        print("Switched to audio control frame")
-                    except Exception as e:
-                        print("[ERR] IP address has been blocked by reCAPTCHA")
-                        print(e)
-                        success = False
-                        is_recaptcha_control_active = False
-                        break
+                    time.sleep(random.randrange(10, 15, 1))
+                    driver.find_element(By.ID, "recaptcha-audio-button").click()
+                    print("Switched to audio control frame")
 
                     try:
                         # switch to recaptcha audio challenge frame
@@ -218,7 +228,7 @@ def recaptcha_solver(driver, url, url_pending, wait, misc_directory, jstor_url):
                         print("Exported audio file to .wav")
                     except Exception as e:
 
-                        print(colored("!" + "   Failed to convert file as .wav", "red"))
+                        print(colored("!" + "   Failed to convert file to .wav", "red"))
 
                         if platform.system() == "Windows":
                             print(
@@ -236,9 +246,9 @@ def recaptcha_solver(driver, url, url_pending, wait, misc_directory, jstor_url):
                         driver.get(jstor_url)
 
                         input(
-                            colored("\n-- Once installed, press ", "magenta")
-                            + colored("ENTER/RETURN", "magenta")
-                            + colored(" to continue: ", "magenta")
+                            colored("\n-- Once installed, press ")
+                            + colored("ENTER/RETURN")
+                            + colored(" to continue: ")
                         )
 
                         success = False

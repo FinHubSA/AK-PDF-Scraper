@@ -1175,7 +1175,7 @@ while True:
 
             restart = None
 
-            t_c_try_accept = +1
+            t_c_try_accept += 1
 
             # Accept cookies
             try:
