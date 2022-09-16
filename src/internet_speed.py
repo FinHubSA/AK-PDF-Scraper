@@ -3,9 +3,9 @@ import speedtest
 # returns the user download speed
 def download_speed():
 
-    speed = False
     retry = 0
-    while speed == False and retry <= 3:
+    speed = False
+    while speed == False and retry < 4:
 
         try:
 

@@ -1137,7 +1137,10 @@ while True:
 
             mbps = download_speed()
 
-            wait = delay(mbps)
+            try:
+                wait = delay(mbps)
+            except:
+                wait = 15
 
             now = datetime.now().timestamp()
 
