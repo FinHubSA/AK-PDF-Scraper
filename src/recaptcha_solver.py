@@ -139,7 +139,6 @@ def recaptcha_solver(driver, url, url_pending, wait, misc_directory, jstor_url):
 
             ##Test here
             switched_to_audio = False
-
             while is_recaptcha_challenge_active:
 
                 if not switched_to_audio:

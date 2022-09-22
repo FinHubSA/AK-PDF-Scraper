@@ -1078,7 +1078,7 @@ while True:
                             print(
                                 "\n\n"
                                 + colored(
-                                    "Please select an Author from the list below.\n\n",
+                                    "Please select an Author from the list below:\n",
                                     "blue",
                                 )
                             )
@@ -1260,7 +1260,7 @@ while True:
                             print(
                                 "\n\n"
                                 + colored(
-                                    "Please select an Journal from the list below.\n\n",
+                                    "Please select an Journal from the list below:\n",
                                     "blue",
                                 )
                             )
@@ -1505,7 +1505,7 @@ while True:
                             print(
                                 "\n\n"
                                 + colored(
-                                    "Please select an Author from the list below.\n\n",
+                                    "Please select an Author from the list below:\n",
                                     attrs=["bold"],
                                 )
                             )
@@ -1685,7 +1685,7 @@ while True:
                             print(
                                 "\n\n"
                                 + colored(
-                                    "Please select an Journal from the list below.\n\n",
+                                    "Please select an Journal from the list below:\n",
                                     attrs=["bold"],
                                 )
                             )
@@ -1877,20 +1877,16 @@ while True:
 
         time.sleep(wait)
 
-    # define the jstor landing page window
+        Article_ID_list = Article_ID_list[article_index:]
 
     t_c_accepted = False
 
     t_c_try_accept = 0
 
-    article_count = 0
-
     # Loop through article ID's
-    for article in Article_ID_list:
+    for index, article_json in enumerate(Article_ID_list):
 
-        article_count += 1
-
-        article = article["articleJstorID"]
+        article = article_json["articleJstorID"]
 
         # wait = delay(end_time, start_time, download_time_list)
         # Calculate the waiting time every 30 mins
@@ -2035,6 +2031,8 @@ while True:
                     "[ERR] reCAPTCHA could not be solved or pdf could not be downloaded, restarting driver session"
                 )
 
+                restart = True
+
                 restart_count = +1
 
                 break
@@ -2092,11 +2090,55 @@ while True:
 
         driver.get(jstor_url)
 
-        if article_count == len(Article_ID_list):
+        if article_json == Article_ID_list[-1]:
+
+            if system == "Windows":
+
+                print(
+                    "\n"
+                    + colored(" ! ", "green", attrs=["reverse"])
+                    + colored(
+                        "   You have successfully uploaded your requested papers they can also be found here: "
+                        + storage_directory,
+                        "green",
+                    )
+                )
+
+                print(
+                    "\n"
+                    + colored(" ! ", "green", attrs=["reverse"])
+                    + colored(
+                        "   You can exit/close this window." "green",
+                    )
+                )
+
+            else:
+
+                print(
+                    "\n"
+                    + emoji.emojize(":check_mark_button:")
+                    + colored(
+                        "   You have successfully uploaded your requested papers they can also be found here: "
+                        + storage_directory
+                        + ".",
+                        "green",
+                    )
+                )
+
+                print(
+                    "\n"
+                    + emoji.emojize(":check_mark_button:")
+                    + colored(
+                        "   You can exit/close this window.",
+                        "green",
+                    )
+                )
+
+            driver.close()
             break
 
-    if article_count == len(Article_ID_list):
-        print("program done!")
-        break
-    else:
+    if restart == True:
+        article_index = index
         time.sleep(wait * 10)
+    else:
+        break

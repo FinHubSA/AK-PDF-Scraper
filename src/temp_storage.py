@@ -4,10 +4,9 @@ from pathlib import Path
 
 def get_temp_storage_path():
 
-    path = os.path.join(str(Path.home()), "AaronsKitTempStorage")
+    path = os.path.join(str(Path.home()), "AaronsKit_PDF_Downloads")
 
     return path
-
 
 
 def rename_file(old_name, new_name):
