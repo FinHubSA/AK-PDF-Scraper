@@ -3,6 +3,17 @@ from termcolor import colored
 import emoji
 
 
+def link(uri, label=None):
+    if label is None:
+        label = uri
+    parameters = ""
+
+    # OSC 8 ; params ; URI ST <name> OSC 8 ;; ST
+    escape_mask = "\033]8;{};{}\033\\{}\033]8;;\033\\"
+
+    return escape_mask.format(parameters, uri, label)
+
+
 def login():
 
     login_method = input(
@@ -52,10 +63,16 @@ def welcome(system):
             + "   You will need Google Chrome installed on your device."
         )
 
+        print(
+            "\n"
+            + colored(" i ", "blue", attrs=["reverse"])
+            + "   You will need ffmpeg installed on your device."
+        )
+
         print("\n\nBefore you start, " + colored("ensure that you:", attrs=["reverse"]))
 
         print(
-            "\na) Have Google Chrome installed. To install, visit https://support.google.com/chrome/answer/95346?hl=en&ref_topic=7439538. \nb) Have a stable internet connection.\nc) Keep your device on charge and set to 'never sleep' while on battery and on charge."
+            "\na) Have Google Chrome installed. To install, visit https://support.google.com/chrome/answer/95346?hl=en&ref_topic=7439538. \nb) Have ffmpeg installed. For installation instructions, visit https://www.wikihow.com/Install-FFmpeg-on-Windows. \nc) Have a stable internet connection.\nd) Keep your device on charge and set to 'never sleep' while on battery and on charge."
         )
 
         print(
@@ -88,12 +105,18 @@ def welcome(system):
         )
 
         print(
+            "\n"
+            + emoji.emojize(":information:")
+            + "   You will need ffmpeg installed on your device."
+        )
+
+        print(
             "\n\nBefore you start, "
             + colored("ensure that you:", attrs=["bold", "underline"])
         )
 
         print(
-            "\na) Have Google Chrome installed. To install, visit https://support.google.com/chrome/answer/95346?hl=en&ref_topic=7439538. \nb) Have a stable internet connection.\nc) Keep your device on charge and set to 'never sleep' while on battery and on charge."
+            "\na) Have Google Chrome installed. To install, visit https://support.google.com/chrome/answer/95346?hl=en&ref_topic=7439538. \nb) Have ffmpeg installed. For installation instructions, visit https://bbc.github.io/bbcat-orchestration-docs/installation-mac-manual/. \nc) Have a stable internet connection.\nd) Keep your device on charge and set to 'never sleep' while on battery and on charge."
         )
 
         print(

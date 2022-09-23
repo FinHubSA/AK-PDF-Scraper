@@ -587,3 +587,33 @@ with size (in bytes): 1556955
 scraper started at: 2022-09-22 13:40:16.231410
 scraper ended at: 2022-09-22 13:40:38.918463
 download time (in seconds): 12.687052965164185
+
+for ID: 10.2307/23786975
+with size (in bytes): 941539
+scraper started at: 2022-09-23 12:07:29.883328
+scraper ended at: 2022-09-23 12:07:50.893806
+download time (in seconds): 1.0104780197143555
+
+for ID: 10.2307/41669697
+with size (in bytes): 1471820
+scraper started at: 2022-09-23 13:49:54.503456
+scraper ended at: 2022-09-23 13:50:17.322593
+download time (in seconds): 12.81913685798645
+
+for ID: 10.2307/41669697
+with size (in bytes): 1471820
+scraper started at: 2022-09-23 14:19:36.377781
+scraper ended at: 2022-09-23 14:19:47.642295
+download time (in seconds): 1.2645139694213867
+
+for ID: 10.2307/41669697
+with size (in bytes): 1471820
+scraper started at: 2022-09-23 15:19:50.828576
+scraper ended at: 2022-09-23 15:20:18.067975
+download time (in seconds): 12.239398956298828
+
+for ID: 10.2307/40716796
+with size (in bytes): 585222
+scraper started at: 2022-09-23 15:49:20.074792
+scraper ended at: 2022-09-23 15:49:31.570731
+download time (in seconds): 1.495939016342163

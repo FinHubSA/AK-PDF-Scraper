@@ -96,7 +96,6 @@ src_directory = os.path.dirname(__file__)
 misc_directory = os.path.normpath(src_directory + os.sep + os.pardir)
 
 system = platform.system()
-# system = "Windows"
 
 if system == "Windows":
     os.system("color")
@@ -334,6 +333,7 @@ wait = delay(mbps)
 print("\n\n...determining User Agent")
 
 USER_AGENT = user_agent(system)
+
 if system == "Windows":
     print(
         "\n"
@@ -1559,29 +1559,67 @@ while True:
                                     f"https://api-service-mrz6aygprq-oa.a.run.app/api/articles?authorName={Author_Selected_urlenc}&format=json&scraping=1"
                                 ).json()
 
-                                print(
-                                    "\n"
-                                    + emoji.emojize(":check_mark_button:")
-                                    + colored(
-                                        "  List of articles from selected Author found\n",
-                                        "green",
+                                if len(Article_ID_list) > 0:
+
+                                    print(
+                                        "\n"
+                                        + emoji.emojize(":check_mark_button:")
+                                        + colored(
+                                            "  List of articles from selected Author found\n",
+                                            "green",
+                                        )
                                     )
-                                )
 
-                                time.sleep(1)
+                                    time.sleep(1)
 
-                                author_search = False
+                                    author_search = False
 
-                                search_criteria_typo = False
+                                    search_criteria_typo = False
+
+                                else:
+
+                                    print(
+                                        "\n\n"
+                                        + emoji.emojize(":loudspeaker:")
+                                        + colored(
+                                            "   It appears that all articles by this author are already available.\n",
+                                            "yellow",
+                                        )
+                                    )
+
+                                    author_list_not_found_typo = True
+
+                                    while author_list_not_found_typo == True:
+
+                                        author_not_found = input(
+                                            colored(
+                                                "\n-- Type [1] to retry Author Search\n-- Type [2] to search by a different criteria\n   : ",
+                                            )
+                                        )
+
+                                        if author_not_found == "1":
+                                            break
+                                        elif author_not_found == "2":
+                                            author_search = False
+                                            search_criteria_typo = True
+                                            break
+                                        else:
+                                            print(
+                                                "\n\n"
+                                                + emoji.emojize(":loudspeaker:")
+                                                + colored(
+                                                    "   It appears that you made a typo, please re-enter your selection.\n",
+                                                    "yellow",
+                                                )
+                                            )
 
                             except:
 
-                                # Add option to download articles by this author
                                 print(
                                     "\n\n"
-                                    + emoji.emojize(":loudspeaker:")
+                                    + emoji.emojize(":red_exclamation_mark:")
                                     + colored(
-                                        "   It appears that all articles by this author are already available.\n",
+                                        "   An Unexpected error has occured.\n",
                                         "yellow",
                                     )
                                 )
@@ -1741,30 +1779,70 @@ while True:
                                     f"https://api-service-mrz6aygprq-oa.a.run.app/api/articles?journalName={Journal_Selected_urlenc}&format=json&scraping=1"
                                 ).json()
 
-                                print(
-                                    "\n"
-                                    + emoji.emojize(":check_mark_button:")
-                                    + colored(
-                                        "  List of articles from selected Journal found\n",
-                                        "green",
+                                if len(Article_ID_list) > 0:
+
+                                    print(
+                                        "\n"
+                                        + emoji.emojize(":check_mark_button:")
+                                        + colored(
+                                            "  List of articles from selected Journal found\n",
+                                            "green",
+                                        )
                                     )
-                                )
 
-                                time.sleep(1)
+                                    time.sleep(1)
 
-                                journal_search = False
+                                    journal_search = False
 
-                                search_criteria_typo = False
+                                    search_criteria_typo = False
+
+                                else:
+
+                                    # Add option to download articles by this author
+                                    print(
+                                        "\n\n"
+                                        + emoji.emojize(":loudspeaker:")
+                                        + colored(
+                                            "   It appears that all articles from this journal are already available.\n",
+                                            "yellow",
+                                        )
+                                    )
+
+                                    journal_list_not_found_typo = True
+
+                                    while journal_list_not_found_typo == True:
+
+                                        journal_not_found = input(
+                                            colored(
+                                                "\n-- Type [1] to retry Journal Search\n-- Type [2] to search by a different criteria\n   : ",
+                                            )
+                                        )
+
+                                        if journal_not_found == "1":
+                                            break
+                                        elif journal_not_found == "2":
+                                            journal_search = False
+                                            search_criteria_typo = True
+                                            break
+                                        else:
+                                            print(
+                                                "\n\n"
+                                                + emoji.emojize(":loudspeaker:")
+                                                + colored(
+                                                    "   It appears that you made a typo, please re-enter your selection.\n",
+                                                    "yellow",
+                                                )
+                                            )
 
                             except:
 
                                 # Add option to download articles by this author
                                 print(
                                     "\n\n"
-                                    + emoji.emojize(":loudspeaker:")
+                                    + emoji.emojize(":red_exclamation_mark:")
                                     + colored(
-                                        "   It appears that all articles from this journal are already available.\n",
-                                        "yellow",
+                                        "   An unexpected error occured.\n",
+                                        "red",
                                     )
                                 )
 
@@ -1886,11 +1964,11 @@ while True:
     # Loop through article ID's
     for index, article_json in enumerate(Article_ID_list):
 
+        print(Article_ID_list)
         article = article_json["articleJstorID"]
+        print(article)
 
-        # wait = delay(end_time, start_time, download_time_list)
-        # Calculate the waiting time every 30 mins
-        # to adjust wait according to user internet speed
+        # Calculate the waiting time every 30 mins to adjust wait according to user internet speed
         if datetime.now().timestamp() >= now + 1200:
 
             mbps = download_speed()
@@ -1941,7 +2019,7 @@ while True:
 
         while not t_c_accepted and t_c_try_accept <= 3:
 
-            restart = None
+            restart = False
 
             t_c_try_accept += 1
 
@@ -2088,6 +2166,17 @@ while True:
                 "\ndownload time (in seconds): " + str(end_time - start_time - wait)
             )
 
+        # Upload pdf file to Google Drive
+        files = {"file": open(doi, "rb")}
+        data = {"articleJstorID": article}
+        response = requests.post(
+            "https://api-service-mrz6aygprq-oa.a.run.app/api/articles/pdf",
+            files=files,
+            data=data,
+            verify=False,
+        )
+
+        # Navigate to home page
         driver.get(jstor_url)
 
         if article_json == Article_ID_list[-1]:
@@ -2141,4 +2230,5 @@ while True:
         article_index = index
         time.sleep(wait * 10)
     else:
+        print("here now")
         break
