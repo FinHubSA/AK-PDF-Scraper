@@ -8,9 +8,9 @@ import emoji
 import os
 import requests
 import urllib.parse
-import uuid
+import string
+import random
 
-import pandas as pd
 from termcolor import colored
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
@@ -1957,6 +1957,8 @@ while True:
 
         Article_ID_list = Article_ID_list[article_index:]
 
+    restart = False
+
     t_c_accepted = False
 
     t_c_try_accept = 0
@@ -1986,13 +1988,15 @@ while True:
             storage_directory, article.split("/")[-1] + ".pdf.crdownload"
         )
 
+        s = string.ascii_lowercase + string.digits
+
         doi = os.path.join(
             storage_directory,
             article.split("/")[0]
             + "-"
             + article.split("/")[-1]
             + "-"
-            + str(uuid.uuid4())
+            + "".join(random.sample(s, 12))
             + ".pdf",
         )
 
@@ -2018,8 +2022,6 @@ while True:
         # The t&c's only pop up each time you restart the browser session
 
         while not t_c_accepted and t_c_try_accept <= 3:
-
-            restart = False
 
             t_c_try_accept += 1
 
@@ -2223,12 +2225,14 @@ while True:
                     )
                 )
 
-            driver.close()
-            break
+        else:
+            continue
 
-    if restart == True:
-        article_index = index
-        time.sleep(wait * 10)
-    else:
-        print("here now")
+    if article_json == Article_ID_list[-1] and not restart:
+        driver.close()
         break
+    else:
+        driver.get(jstor_url)
+
+    article_index = index
+    time.sleep(wait * 10)
