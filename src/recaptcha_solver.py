@@ -1,4 +1,3 @@
-from logging import exception
 import time
 import pickle
 import random
@@ -8,8 +7,8 @@ import re
 from datetime import datetime
 import requests
 import platform
-from termcolor import colored
 
+from termcolor import colored
 import pydub
 import speech_recognition as sr
 from selenium.webdriver.support.ui import WebDriverWait
@@ -298,8 +297,6 @@ def recaptcha_solver(driver, url, url_pending, wait, misc_directory, jstor_url):
                         success = True
                         is_recaptcha_control_active = False
                         break
-
-                    # If it has not been solved, the while loop will run again. NEED TO TEST!!!
 
     print("program stopped")
 

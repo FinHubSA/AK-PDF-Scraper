@@ -1,17 +1,8 @@
 import time
+
 from termcolor import colored
 import emoji
-
-
-def link(uri, label=None):
-    if label is None:
-        label = uri
-    parameters = ""
-
-    # OSC 8 ; params ; URI ST <name> OSC 8 ;; ST
-    escape_mask = "\033]8;{};{}\033\\{}\033]8;;\033\\"
-
-    return escape_mask.format(parameters, uri, label)
+import climage
 
 
 def login():
@@ -33,9 +24,6 @@ def proceed():
 
 
 def welcome(system):
-
-    # f = Figlet(font="standard")
-    # print(colored(f.renderText("Welcome to Aaron's Kit!"), "green"))
 
     print(colored("\n\nWelcome to Aaron's Kit!", attrs=["reverse"]))
 
@@ -155,19 +143,21 @@ def vpn_or_manual(system):
             + "   No login information will be recorded in the process."
         )
 
+        time.sleep(1)
+
         print(
             "\n\n" + colored("User credential security information", attrs=["reverse"])
         )
 
         print(
-            "\nIf you choose to login via the JSTOR website, you will be prompted to enter your login details via your university portal on JSTOR."
+            "\n\nIf you choose to login via the JSTOR website, you will be prompted to enter your login details via your university portal on JSTOR."
         )
 
         print(
             "\nIf you choose to login via VPN or wifi, your credentials will already be authenticated and you won't need to provide any login details."
         )
 
-        time.sleep(1)
+        time.sleep(2)
 
         print("\n\n\n" + colored("JSTOR Login Instructions:", attrs=["reverse"]) + "\n")
 
@@ -193,19 +183,21 @@ def vpn_or_manual(system):
             + "   No login information will be recorded in the process."
         )
 
+        time.sleep(1)
+
         print(
             "\n\n" + colored("User credential security information", attrs=["reverse"])
         )
 
         print(
-            "\nIf you choose to login via the JSTOR website, you will be prompted to enter your login details via your university portal on JSTOR."
+            "\n\nIf you choose to login via the JSTOR website, you will be prompted to enter your login details via your university portal on JSTOR."
         )
 
         print(
             "\nIf you choose to login via VPN or wifi, your credentials will already be authenticated and you won't need to provide any login details."
         )
 
-        time.sleep(1)
+        time.sleep(2)
 
         print(
             "\n\n\n"

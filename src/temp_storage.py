@@ -14,13 +14,11 @@ def rename_file(old_name, new_name):
     os.rename(old_name, new_name)
 
 
-# def count_files(directory):
+def delete_files(new_name):
 
-#     countfiles = len(os.listdir(directory))
-
-#     return countfiles
+    os.remove(new_name)
 
 
-# def delete_temp_storage(directory):
+def delete_temp_storage(directory):
 
-#     os.rmdir(directory)
+    os.rmdir(directory)

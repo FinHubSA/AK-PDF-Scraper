@@ -1,13 +1,20 @@
 import speedtest
+import time
+import platform
+import emoji
+
+from termcolor import colored
 
 # returns the user download speed
 def download_speed():
 
     retry = 0
     speed = False
-    while speed == False and retry < 4:
+    while speed == False and retry <= 3:
 
         try:
+
+            time.sleep(1)
 
             speed_test = speedtest.Speedtest()
 
@@ -31,59 +38,243 @@ def delay(mbps):
 
     if mbps <= 10:
 
-        x = 30
+        wait = 30
 
     elif mbps <= 25:
 
-        x = 20
+        wait = 20
 
     elif mbps <= 75:
 
-        x = 15
+        wait = 15
 
     else:
 
-        x = 10
+        wait = 10
 
-    return x
+    return wait
 
 
-# returns the average time it takes to download a pdf file taken as a 5 point moving average
-# def delay(end_time, start_time, download_time_list):
+def internet_speed_retry(system):
+    internet_retry = True
 
-# max_waiting_time = 30
+    while internet_retry == True:
 
-# waiting_time = random.randrange(10, 15, 1)
+        print("\n\ndetermining internet speed...")
 
-# download_time = end_time - start_time
+        mbps = download_speed()
 
-# download_time_list.append(download_time)
+        time.sleep(1)
 
-# if len(download_time_list) != 1:
+        if mbps == "Error":
 
-#     prev_wait = download_time_list[-2]
+            if system == "Windows":
 
-# else:
+                print(
+                    "\n\n"
+                    + colored(" ! ", "yellow", attrs=["reverse"])
+                    + colored(
+                        "   It seems that your internet speed is unstable at the moment.",
+                        "yellow",
+                    )
+                )
 
-#     prev_wait = 0
+                print(
+                    "\n\n"
+                    + colored(" i ", "blue", attrs=["reverse"])
+                    + "   Please check your internet connection, and then make a selection."
+                )
 
-# if len(download_time_list) < 6:
+                print(
+                    "\n"
+                    + colored(" i ", "blue", attrs=["reverse"])
+                    + "   Note that an unstable internet connection might interfere with the download process."
+                )
 
-#     avg_download_time = (
-#         ((waiting_time + sum(download_time_list)) / len(download_time_list))
-#         - prev_wait
-#     ) * 2
+                internet_typo = True
 
-# else:
+                while internet_typo:
+                    internet_option = input(
+                        colored(
+                            "\n-- Type [1] to retry speed check\n-- Type [2] to continue with an unstable connection\n   : "
+                        )
+                    )
 
-#     avg_download_time = ((sum(download_time_list[-5:]) / 5) - prev_wait) * 2
+                    if internet_option == "1":
+                        internet_typo = False
+                    elif internet_option == "2":
+                        mbps = 15
+                        internet_typo = False
+                        internet_retry = False
+                    else:
+                        print(
+                            "\n\n"
+                            + colored(" ? ", "yellow", attrs=["reverse"])
+                            + colored(
+                                "   It appears that you made a typo, please re-enter your selection.\n",
+                                "yellow",
+                            )
+                        )
 
-# if avg_download_time <= max_waiting_time:
+            else:
 
-#     print(avg_download_time)
-#     return avg_download_time
+                print(
+                    "\n\n"
+                    + emoji.emojize(":loudspeaker:")
+                    + colored(
+                        "   It seems that your internet speed is unstable at the moment.",
+                        "yellow",
+                    )
+                )
 
-# else:
+                print(
+                    "\n\n"
+                    + emoji.emojize(":information:")
+                    + "   Please check your internet connection, and then make a selection."
+                )
 
-#     print(max_waiting_time)
-#     return max_waiting_time
+                print(
+                    "\n"
+                    + emoji.emojize(":information:")
+                    + "   Note that an unstable internet connection might interfere with the download process."
+                )
+
+                internet_typo = True
+
+                while internet_typo == True:
+                    internet_option = input(
+                        colored(
+                            "\n-- Type [1] to retry speed check\n-- Type [2] to continue with an unstable connection\n   : "
+                        )
+                    )
+
+                    if internet_option == "1":
+                        internet_typo = False
+                    elif internet_option == "2":
+                        mbps = 15
+                        internet_typo = False
+                        internet_retry = False
+                    else:
+                        print(
+                            "\n\n"
+                            + emoji.emojize(":loudspeaker:")
+                            + colored(
+                                "   It appears that you made a typo, please re-enter your selection.\n",
+                                "yellow",
+                            )
+                        )
+
+        elif mbps <= 5:
+
+            if system == "Windows":
+
+                print(
+                    "\n\n"
+                    + colored(" ! ", "yellow", attrs=["reverse"])
+                    + colored("   Your internet speed is less than 5 mbps.", "yellow")
+                )
+
+                print(
+                    "\n\n"
+                    + colored(" i ", "blue", attrs=["reverse"])
+                    + "   Please check your internet connection, and then make a selection"
+                )
+
+                print(
+                    "\n"
+                    + colored(" i ", "blue", attrs=["reverse"])
+                    + "   Note that a slow internet connection might interfere with the download process."
+                )
+
+                internet_typo = True
+
+                while internet_typo:
+                    internet_option = input(
+                        colored(
+                            "\n-- Type [1] to retry speed check\n-- Type [2] to continue with a slow connection\n   : "
+                        )
+                    )
+
+                    if internet_option == "1":
+                        internet_typo = False
+                    elif internet_option == "2":
+                        mbps = 15
+                        internet_typo = False
+                        internet_retry = False
+                    else:
+                        print(
+                            "\n\n"
+                            + colored(" ? ", "yellow", attrs=["reverse"])
+                            + colored(
+                                "   It appears that you made a typo, please re-enter your selection.\n",
+                                "yellow",
+                            )
+                        )
+
+            else:
+                print(
+                    "\n\n"
+                    + emoji.emojize(":loudspeaker:")
+                    + colored("   Your internet speed is less than 5 mbps.", "yellow")
+                )
+
+                print(
+                    "\n\n"
+                    + emoji.emojize(":information:")
+                    + "   Please check your internet connection, and then make a selection"
+                )
+
+                print(
+                    "\n"
+                    + emoji.emojize(":information:")
+                    + "   Note that a slow internet connection might interfere with the download process."
+                )
+
+                internet_typo = True
+
+                while internet_typo == True:
+                    internet_option = input(
+                        colored(
+                            "\n-- Type [1] to retry speed check\n-- Type [2] to continue with a slow connection\n   : "
+                        )
+                    )
+
+                    if internet_option == "1":
+                        internet_typo = False
+                    elif internet_option == "2":
+                        mbps = 15
+                        internet_typo = False
+                        internet_retry = False
+                    else:
+                        print(
+                            "\n\n"
+                            + emoji.emojize(":loudspeaker:")
+                            + colored(
+                                "   It appears that you made a typo, please re-enter your selection.\n",
+                                "yellow",
+                            )
+                        )
+
+        else:
+            if system == "Windows":
+                print(
+                    "\n\n"
+                    + colored(" ! ", "green", attrs=["reverse"])
+                    + colored(
+                        "   Your internet speed is: " + str(round(mbps, 2)) + " mbps",
+                        "green",
+                    )
+                )
+            else:
+                print(
+                    "\n\n"
+                    + emoji.emojize(":check_mark_button:")
+                    + colored(
+                        "   Your internet speed is: " + str(round(mbps, 2)) + " mbps",
+                        "green",
+                    )
+                )
+
+            internet_retry = False
+
+    return mbps
