@@ -2,7 +2,6 @@ import time
 
 from termcolor import colored
 import emoji
-import climage
 
 
 def login():
