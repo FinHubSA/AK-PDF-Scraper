@@ -970,7 +970,7 @@ while True:
                             )
 
                             Article_ID_list = requests.get(
-                                f"https://api-service-mrz6aygprq-oa.a.run.app/api/articles?authorName={Author_Selected_urlenc}&scraping=1"
+                                f"https://api-service-mrz6aygprq-oa.a.run.app/api/articles?authorName={Author_Selected_urlenc}&scraped=0"
                             )
 
                             if Article_ID_list.status_code == 200:
@@ -1202,7 +1202,7 @@ while True:
                             )
 
                             Article_ID_list = requests.get(
-                                f"https://api-service-mrz6aygprq-oa.a.run.app/api/articles?journalName={Journal_Selected_urlenc}&scraping=1"
+                                f"https://api-service-mrz6aygprq-oa.a.run.app/api/articles?journalName={Journal_Selected_urlenc}&scraped=0"
                             )
 
                             if Article_ID_list.status_code == 200:
@@ -1492,7 +1492,7 @@ while True:
                             )
 
                             Article_ID_list = requests.get(
-                                f"https://api-service-mrz6aygprq-oa.a.run.app/api/articles?authorName={Author_Selected_urlenc}&scraping=1"
+                                f"https://api-service-mrz6aygprq-oa.a.run.app/api/articles?authorName={Author_Selected_urlenc}&scraped=0"
                             )
 
                             if Article_ID_list.status_code == 200:
@@ -1718,7 +1718,7 @@ while True:
                             )
 
                             Article_ID_list = requests.get(
-                                f"https://api-service-mrz6aygprq-oa.a.run.app/api/articles?journalName={Journal_Selected_urlenc}&scraping=1"
+                                f"https://api-service-mrz6aygprq-oa.a.run.app/api/articles?journalName={Journal_Selected_urlenc}&scraped=0"
                             )
 
                             if Article_ID_list.status_code == 200:
