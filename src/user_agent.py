@@ -1,12 +1,13 @@
 import time
 import random
 import logging
+import emoji
 
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
-
+from termcolor import colored
 
 def user_agent(system):
 
@@ -35,6 +36,27 @@ def user_agent(system):
     except:
 
         user_agent = user_agent_fixed(system)
+
+    if system == "Windows":
+
+        print(
+            "\n"
+            + colored(" ! ", "green", attrs=["reverse"])
+            + colored(
+                "   User Agent found",
+                "green",
+            )
+        )
+    else:
+
+        print(
+            "\n"
+            + emoji.emojize(":check_mark_button:")
+            + colored(
+                "   User Agent found",
+                "green",
+            )
+        )
 
     return user_agent
 

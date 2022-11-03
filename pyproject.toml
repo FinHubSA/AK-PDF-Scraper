@@ -20,6 +20,7 @@ ffmpeg = "^1.4"
 termcolor = "^1.1.0"
 libgen-uploader = "^0.2.0"
 progressbar = "^2.5"
+packaging = "^21.3"
 
 [tool.poetry.dev-dependencies]
 black = "^22.3.0"
