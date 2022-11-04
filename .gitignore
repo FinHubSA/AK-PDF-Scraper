@@ -59,6 +59,10 @@ coverage.xml
 .pytest_cache/
 cover/
 
+# recaptcha stuff
+*.mp3
+*.pkl
+
 # Translations
 *.mo
 *.pot

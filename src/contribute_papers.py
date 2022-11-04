@@ -204,7 +204,7 @@ def latest_downloaded_pdf(storage_directory, src_directory):
 
 def download_articles():
 
-    global restart, t_c_accepted, t_c_try_accept, article_index, Article_ID_list, now, wait, src_directory
+    global restart, t_c_accepted, t_c_try_accept, article_index, Article_ID_list, now, wait, src_directory, storage_directory
 
     # loop through user requested article ID's
     # if error occurs, restart the web session and start at last indexed ID - TEST
