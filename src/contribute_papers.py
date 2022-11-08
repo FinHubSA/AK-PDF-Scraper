@@ -62,20 +62,7 @@ def contribute_papers():
             
             # traceback.print_exc()
 
-            print(
-                "\n"
-                + colored(" ! ", "yellow", attrs=["reverse"])
-                + colored(
-                    "   Something went wrong, you might have an unstable internet connection",
-                    "yellow",
-                )
-            )
-
-            input(
-                colored("\n\n-- Please check your connection and then press ")
-                + colored("ENTER/RETURN", attrs=["reverse"])
-                + colored(" to continue: ")
-            )
+            print_error(e)
 
             internet_speed_retry(system)
 
@@ -87,7 +74,7 @@ def contribute_papers():
 
 
 def print_error(e):
-    print(e)
+    # print(e)
 
     # Error occured, try to check internet and try again.
     if system == "Windows":
