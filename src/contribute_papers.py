@@ -60,7 +60,22 @@ def contribute_papers():
             download_articles()
         except Exception as e:
             
-            traceback.print_exc()
+            # traceback.print_exc()
+
+            print(
+                "\n"
+                + colored(" ! ", "yellow", attrs=["reverse"])
+                + colored(
+                    "   Something went wrong, you might have an unstable internet connection",
+                    "yellow",
+                )
+            )
+
+            input(
+                colored("\n\n-- Please check your connection and then press ")
+                + colored("ENTER/RETURN", attrs=["reverse"])
+                + colored(" to continue: ")
+            )
 
             internet_speed_retry(system)
 
@@ -111,7 +126,7 @@ def print_error(e):
 
 def setup():
     
-    global system, now, USER_AGENT, wait, driver, storage_directory, misc_directory, mbps
+    global system, now, USER_AGENT, wait, driver, storage_directory, src_directory, misc_directory, mbps
     
     storage_directory = get_temp_storage_path()
 
@@ -128,16 +143,16 @@ def setup():
     os.chdir(src_directory)
 
     # calculate the internet speed and driver sleep time
-    # mbps = internet_speed_retry(system)
+    mbps = internet_speed_retry(system)
 
-    # wait = delay(mbps)
-    wait = 10
+    wait = delay(mbps)
+    # wait = 10
 
     # define the User Agent
     print("\n\ndetermining User Agent...")
 
-    # USER_AGENT = user_agent(system)
-    USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.61 Safari/537.36"
+    USER_AGENT = user_agent(system)
+    # USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.61 Safari/537.36"
 
     # define loop to facilitate restart when an error occurs
     now = datetime.now().timestamp()
@@ -204,7 +219,7 @@ def latest_downloaded_pdf(storage_directory, src_directory):
 
 def download_articles():
 
-    global restart, t_c_accepted, t_c_try_accept, article_index, Article_ID_list, now, wait, src_directory, storage_directory
+    global restart, t_c_accepted, t_c_try_accept, article_index, Article_ID_list, now, wait, src_directory, storage_directory, restart_count
 
     # loop through user requested article ID's
     # if error occurs, restart the web session and start at last indexed ID - TEST
@@ -504,7 +519,7 @@ def download_articles():
     # stop when all articles have downloaded, otherwise navigate to home page and restart web session
     if article_json == Article_ID_list[-1] and not restart:
         driver.close()
-        return
+        os._exit(0)
     else:
         driver.get(jstor_url)
 

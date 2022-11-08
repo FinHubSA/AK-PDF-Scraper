@@ -5105,3 +5105,15 @@ with size (in bytes): 969800
 scraper started at: 2022-09-29 19:11:35.777654
 scraper ended at: 2022-09-29 19:11:46.787071
 download time (in seconds): 1.0094170570373535
+
+for ID: 10.2307/3006418
+with size (in bytes): 228752
+scraper started at: 2022-11-04 10:45:56.435929
+scraper ended at: 2022-11-04 10:46:07.615246
+download time (in seconds): 1.1793169975280762
+
+for ID: 10.2307/40250038
+with size (in bytes): 432288
+scraper started at: 2022-11-04 10:50:28.230054
+scraper ended at: 2022-11-04 10:50:43.256273
+download time (in seconds): 5.026219129562378

@@ -111,7 +111,7 @@ def select_action():
     action = input(
         colored(
             "\n-- Type [1] to download papers"
-            +"\n-- Type [2] contribute papers"
+            +"\n-- Type [2] to contribute papers"
             +"\n-- Type [3] to exit"
             +"\n   : ",
         )
