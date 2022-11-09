@@ -1,16 +1,25 @@
 import requests
 import urllib.parse
 import time
+import emoji
 
 from termcolor import colored
 
-def select_author():
 
-    print(
-        "\n"
-        + colored(" i ", attrs=["reverse"])
-        + "   You have chosen to search by Author Name.\n"
-    )
+def select_author(system):
+
+    if system == "Windows":
+        print(
+            "\n"
+            + colored(" i ", attrs=["reverse"])
+            + "   You have chosen to search by Author Name.\n"
+        )
+    else:
+        print(
+            "\n"
+            + emoji.emojize(":information:")
+            + "   You have chosen to search by Author Name.\n"
+        )
 
     print(
         "\n"
@@ -69,9 +78,7 @@ def select_author():
                 else:
                     print(
                         "\n\n"
-                        + colored(
-                            " ! ", "yellow", attrs=["reverse"]
-                        )
+                        + colored(" ! ", "yellow", attrs=["reverse"])
                         + colored(
                             "   It appears that you made a typo, please re-enter your selection.\n",
                             "yellow",
@@ -80,13 +87,22 @@ def select_author():
 
             continue
 
-        print(
-            "\n\n"
-            + colored(
-                "Please select an Author from the list below:\n",
-                "blue",
+        if system == "Windows":
+            print(
+                "\n\n"
+                + colored(
+                    "Please select an Author from the list below:\n",
+                    "blue",
+                )
             )
-        )
+        else:
+            print(
+                "\n\n"
+                + colored(
+                    "Please select an Author from the list below:\n",
+                    attrs=["bold"],
+                )
+            )
 
         time.sleep(1)
 
@@ -96,12 +112,7 @@ def select_author():
 
             author_list_number += 1
 
-            print(
-                "["
-                + str(author_list_number)
-                + "] "
-                + Author_Name["authorName"]
-            )
+            print("[" + str(author_list_number) + "] " + Author_Name["authorName"])
 
         Author_Number_typo = True
 
@@ -129,12 +140,22 @@ def select_author():
 
         return Author_List_json[int(Author_Number) - 1]
 
-def select_journal():
-    print(
-        "\n"
-        + colored(" i ", attrs=["reverse"])
-        + "   You have chosen to search by Journal Name.\n"
-    )
+
+def select_journal(system):
+
+    if system == "Windows":
+        print(
+            "\n"
+            + colored(" i ", attrs=["reverse"])
+            + "   You have chosen to search by Journal Name.\n"
+        )
+
+    else:
+        print(
+            "\n"
+            + emoji.emojize(":information:")
+            + "   You have chosen to search by Journal Name.\n"
+        )
 
     print(
         "\n"
@@ -162,24 +183,43 @@ def select_journal():
 
     except:
 
-        print(
-            "\n\n"
-            + colored(" ! ", "yellow", attrs=["reverse"])
-            + colored(
-                "   The requested Journal could not be found.\n",
-                "yellow",
+        if system == "Windows":
+            print(
+                "\n\n"
+                + colored(" ! ", "yellow", attrs=["reverse"])
+                + colored(
+                    "   The requested Journal could not be found.\n",
+                    "yellow",
+                )
             )
-        )
+        else:
+            print(
+                "\n\n"
+                + emoji.emojize(":loudspeaker:")
+                + colored(
+                    "   The requested Journal could not be found.\n",
+                    "yellow",
+                )
+            )
 
         return {}
 
-    print(
-        "\n\n"
-        + colored(
-            "Please select a Journal from the list below:\n",
-            "blue",
+    if system == "Windows":
+        print(
+            "\n\n"
+            + colored(
+                "Please select a Journal from the list below:\n",
+                "blue",
+            )
         )
-    )
+    else:
+        print(
+            "\n\n"
+            + colored(
+                "Please select a Journal from the list below:\n",
+                attrs=["bold"],
+            )
+        )
 
     time.sleep(1)
 
@@ -189,12 +229,7 @@ def select_journal():
 
         journal_list_number += 1
 
-        print(
-            "["
-            + str(journal_list_number)
-            + "] "
-            + Journal_Name["journalName"]
-        )
+        print("[" + str(journal_list_number) + "] " + Journal_Name["journalName"])
 
     Journal_Number_typo = True
 
@@ -208,21 +243,32 @@ def select_journal():
 
         if int(Journal_Number) not in list(range(1, 11)):
 
-            print(
-                "\n\n"
-                + colored(" ! ", "yellow", attrs=["reverse"])
-                + colored(
-                    "   It appears that you made a typo, please re-enter your selection.\n",
-                    "yellow",
+            if system == "Windows":
+                print(
+                    "\n\n"
+                    + colored(" ! ", "yellow", attrs=["reverse"])
+                    + colored(
+                        "   It appears that you made a typo, please re-enter your selection.\n",
+                        "yellow",
+                    )
                 )
-            )
+            else:
+                print(
+                    "\n\n"
+                    + emoji.emojize(":loudspeaker:")
+                    + colored(
+                        "   It appears that you made a typo, please re-enter your selection.\n",
+                        "yellow",
+                    )
+                )
 
         else:
             Journal_Number_typo = False
 
     return Journal_List_json[int(Journal_Number) - 1]
 
-def select_issue(journal_id):
+
+def select_issue(journal_id, system):
 
     issue_list_json = requests.get(
         f"https://api-service-mrz6aygprq-oa.a.run.app/api/issues?journalID={journal_id}"
@@ -234,24 +280,43 @@ def select_issue(journal_id):
 
     except:
 
-        print(
-            "\n\n"
-            + colored(" ! ", "yellow", attrs=["reverse"])
-            + colored(
-                "   The requested Issues could not be found.\n",
-                "yellow",
+        if system == "Windows":
+            print(
+                "\n\n"
+                + colored(" ! ", "yellow", attrs=["reverse"])
+                + colored(
+                    "   The requested Journal could not be found.\n",
+                    "yellow",
+                )
             )
-        )
+        else:
+            print(
+                "\n\n"
+                + emoji.emojize(":loudspeaker:")
+                + colored(
+                    "   The requested Journal could not be found.\n",
+                    "yellow",
+                )
+            )
 
         return {}
 
-    print(
-        "\n\n"
-        + colored(
-            "Please select an Issue from the list below:\n",
-            "blue",
+    if system == "windows":
+        print(
+            "\n\n"
+            + colored(
+                "Please select an Issue from the list below:\n",
+                "blue",
+            )
         )
-    )
+    else:
+        print(
+            "\n\n"
+            + colored(
+                "Please select an Issue from the list below:\n",
+                attrs=["bold"],
+            )
+        )
 
     time.sleep(1)
 
@@ -265,9 +330,14 @@ def select_issue(journal_id):
             "["
             + str(issue_list_number)
             + "] "
-            + "Vol. " + str(issue["volume"]) + ", "
-            + "No. " + str(issue["number"]) + ", "
-            + "Year. " + str(issue["year"])
+            + "Vol. "
+            + str(issue["volume"])
+            + ", "
+            + "No. "
+            + str(issue["number"])
+            + ", "
+            + "Year. "
+            + str(issue["year"])
         )
 
     issue_number_typo = True
@@ -282,14 +352,24 @@ def select_issue(journal_id):
 
         if int(issue_number) not in list(range(1, issue_list_number)):
 
-            print(
-                "\n\n"
-                + colored(" ! ", "yellow", attrs=["reverse"])
-                + colored(
-                    "   It appears that you made a typo, please re-enter your selection.\n",
-                    "yellow",
+            if system == "windows":
+                print(
+                    "\n\n"
+                    + colored(" ! ", "yellow", attrs=["reverse"])
+                    + colored(
+                        "   It appears that you made a typo, please re-enter your selection.\n",
+                        "yellow",
+                    )
                 )
-            )
+            else:
+                print(
+                    "\n\n"
+                    + emoji.emojize(":loudspeaker:")
+                    + colored(
+                        "   It appears that you made a typo, please re-enter your selection.\n",
+                        "yellow",
+                    )
+                )
 
         else:
             issue_number_typo = False
