@@ -107,12 +107,7 @@ def select_author():
 
             author_list_number += 1
 
-            print(
-                "["
-                + str(author_list_number)
-                + "] "
-                + Author_Name["authorName"]
-            )
+            print("[" + str(author_list_number) + "] " + Author_Name["authorName"])
 
         Author_Number_typo = True
 
@@ -179,13 +174,35 @@ def select_journal():
 
     except:
 
+        if system == "Windows":
+            print(
+                "\n\n"
+                + colored(" ! ", "yellow", attrs=["reverse"])
+                + colored(
+                    "   The requested Journal could not be found.\n",
+                    "yellow",
+                )
+            )
+        else:
+            print(
+                "\n\n"
+                + emoji.emojize(":loudspeaker:")
+                + colored(
+                    "   The requested Journal could not be found.\n",
+                    "yellow",
+                )
+            )
+
+        return {}
+
+    if system == "Windows":
         print(
             "\n\n"
             + (colored(" ! ", "yellow", attrs=["reverse"])) * (is_windows)
             + (emoji.emojize(":loudspeaker:")) * (not is_windows)
             + colored(
-                "   The requested Journal could not be found.\n",
-                "yellow",
+                "Please select a Journal from the list below:\n",
+                "blue",
             )
         )
 
@@ -211,12 +228,7 @@ def select_journal():
 
         journal_list_number += 1
 
-        print(
-            "["
-            + str(journal_list_number)
-            + "] "
-            + Journal_Name["journalName"]
-        )
+        print("[" + str(journal_list_number) + "] " + Journal_Name["journalName"])
 
     Journal_Number_typo = True
 
@@ -245,7 +257,8 @@ def select_journal():
 
     return Journal_List_json[int(Journal_Number) - 1]
 
-def select_issue(journal_id):
+
+def select_issue(journal_id, system):
 
     issue_list_json = requests.get(
         f"https://api-service-mrz6aygprq-oa.a.run.app/api/issues?journalID={journal_id}"
@@ -257,6 +270,28 @@ def select_issue(journal_id):
 
     except:
 
+        if system == "Windows":
+            print(
+                "\n\n"
+                + colored(" ! ", "yellow", attrs=["reverse"])
+                + colored(
+                    "   The requested Journal could not be found.\n",
+                    "yellow",
+                )
+            )
+        else:
+            print(
+                "\n\n"
+                + emoji.emojize(":loudspeaker:")
+                + colored(
+                    "   The requested Journal could not be found.\n",
+                    "yellow",
+                )
+            )
+
+        return {}
+
+    if system == "windows":
         print(
             "\n\n"
             + (colored(" ! ", "yellow", attrs=["reverse"])) * (is_windows)
@@ -293,9 +328,14 @@ def select_issue(journal_id):
             "["
             + str(issue_list_number)
             + "] "
-            + "Vol. " + str(issue["volume"]) + ", "
-            + "No. " + str(issue["number"]) + ", "
-            + "Year. " + str(issue["year"])
+            + "Vol. "
+            + str(issue["volume"])
+            + ", "
+            + "No. "
+            + str(issue["number"])
+            + ", "
+            + "Year. "
+            + str(issue["year"])
         )
 
     issue_number_typo = True

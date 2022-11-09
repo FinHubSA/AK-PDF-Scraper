@@ -37,11 +37,20 @@ from user_login import *
 warnings.filterwarnings("ignore")
 logging.getLogger().setLevel(logging.CRITICAL)
 
-system = jstor_url = now = USER_AGENT = wait = driver = storage_directory = Article_ID_list = src_directory = misc_directory = None
+system = (
+    jstor_url
+) = (
+    now
+) = (
+    USER_AGENT
+) = (
+    wait
+) = driver = storage_directory = Article_ID_list = src_directory = misc_directory = None
 
 restart_count = article_index = t_c_try_accept = mbps = index = 0
 
 restart = t_c_accepted = False
+
 
 def contribute_papers():
 
@@ -65,7 +74,7 @@ def contribute_papers():
             get_article_ids()
             download_articles()
         except Exception as e:
-            
+
             # traceback.print_exc()
 
             print_error(e)
@@ -117,10 +126,11 @@ def print_error(e):
             + colored(" to continue: ")
         )
 
+
 def setup():
-    
+
     global system, now, USER_AGENT, wait, driver, storage_directory, src_directory, misc_directory, mbps
-    
+
     storage_directory = get_temp_storage_path()
 
     src_directory = os.path.dirname(__file__)
@@ -161,6 +171,7 @@ def create_driver_session(chrome_options):
 
     return driver
 
+
 def options(login_method, USER_AGENT, storage_directory):
     chrome_options = webdriver.ChromeOptions()
 
@@ -184,6 +195,7 @@ def options(login_method, USER_AGENT, storage_directory):
     )
     return chrome_options
 
+
 def restart_driver_session(jstor_url, chrome_options, executor_url, session_id):
 
     driver = webdriver.Remote(command_executor=executor_url, options=chrome_options)
@@ -206,6 +218,7 @@ def latest_downloaded_pdf(storage_directory, src_directory):
     os.chdir(src_directory)
 
     return latest_pdf
+
 
 def download_articles():
 
@@ -412,9 +425,7 @@ def download_articles():
             log.write(
                 "\nscraper started at: " + str(datetime.fromtimestamp(start_time))
             )
-            log.write(
-                "\nscraper ended at: " + str(datetime.fromtimestamp(end_time))
-            )
+            log.write("\nscraper ended at: " + str(datetime.fromtimestamp(end_time)))
             log.write(
                 "\ndownload time (in seconds): " + str(end_time - start_time - wait)
             )
@@ -446,9 +457,7 @@ def download_articles():
         elif response.status_code == 404:
 
             print(
-                "\nCould not find article: "
-                + article_json["title"]
-                + " in database."
+                "\nCould not find article: " + article_json["title"] + " in database."
             )
 
         elif response.status_code == 500:
@@ -516,6 +525,7 @@ def download_articles():
     article_index = index
     time.sleep(wait * 10)
 
+
 def get_article_ids():
 
     global Article_ID_list, jstor_url
@@ -529,9 +539,7 @@ def get_article_ids():
             open(os.path.join(misc_directory, "cookies.pkl"), "wb"),
         )
 
-        cookies = pickle.load(
-            open(os.path.join(misc_directory, "cookies.pkl"), "rb")
-        )
+        cookies = pickle.load(open(os.path.join(misc_directory, "cookies.pkl"), "rb"))
 
         for cookie in cookies:
             driver.add_cookie(cookie)
@@ -629,9 +637,7 @@ def get_article_ids():
                                 else:
                                     print(
                                         "\n\n"
-                                        + colored(
-                                            " ! ", "yellow", attrs=["reverse"]
-                                        )
+                                        + colored(" ! ", "yellow", attrs=["reverse"])
                                         + colored(
                                             "   It appears that you made a typo, please re-enter your selection.\n",
                                             "yellow",
@@ -785,9 +791,7 @@ def get_article_ids():
                                 else:
                                     print(
                                         "\n\n"
-                                        + colored(
-                                            " ! ", "yellow", attrs=["reverse"]
-                                        )
+                                        + colored(" ! ", "yellow", attrs=["reverse"])
                                         + colored(
                                             "   It appears that you made a typo, please re-enter your selection.\n",
                                             "yellow",
@@ -859,9 +863,7 @@ def get_article_ids():
                                 else:
                                     print(
                                         "\n\n"
-                                        + colored(
-                                            " ! ", "yellow", attrs=["reverse"]
-                                        )
+                                        + colored(" ! ", "yellow", attrs=["reverse"])
                                         + colored(
                                             "   It appears that you made a typo, please re-enter your selection.\n",
                                             "yellow",
@@ -918,9 +920,7 @@ def get_article_ids():
                                 Journal_Number_typo = False
 
                         Journal_Selected_urlenc = urllib.parse.quote(
-                            Journal_List_json[int(Journal_Number) - 1][
-                                "journalName"
-                            ]
+                            Journal_List_json[int(Journal_Number) - 1]["journalName"]
                         )
 
                         Article_ID_list = requests.get(
@@ -1017,9 +1017,7 @@ def get_article_ids():
                                 else:
                                     print(
                                         "\n\n"
-                                        + colored(
-                                            " ! ", "yellow", attrs=["reverse"]
-                                        )
+                                        + colored(" ! ", "yellow", attrs=["reverse"])
                                         + colored(
                                             "   It appears that you made a typo, please re-enter your selection.\n",
                                             "yellow",
@@ -1434,9 +1432,7 @@ def get_article_ids():
                                 Journal_Number_typo = False
 
                         Journal_Selected_urlenc = urllib.parse.quote(
-                            Journal_List_json[int(Journal_Number) - 1][
-                                "journalName"
-                            ]
+                            Journal_List_json[int(Journal_Number) - 1]["journalName"]
                         )
 
                         Article_ID_list = requests.get(
@@ -1586,6 +1582,3 @@ def get_article_ids():
         time.sleep(wait)
 
         Article_ID_list = Article_ID_list[article_index:]
-
-
-

@@ -47,14 +47,17 @@ def welcome():
         )
     )
 
+
 def select_action():
+
+    print("\n" + emoji.emojize(":information:") + "   Please make a selection below")
 
     action = input(
         colored(
             "\n-- Type [1] to download papers"
-            +"\n-- Type [2] to contribute papers"
-            +"\n-- Type [3] to exit"
-            +"\n   : ",
+            + "\n-- Type [2] to contribute papers"
+            + "\n-- Type [3] to exit"
+            + "\n   : ",
         )
     )
 
@@ -66,6 +69,7 @@ def select_action():
         os._exit(0)
     else:
         return select_action()
+
 
 welcome()
 
