@@ -1,23 +1,31 @@
 import requests
 import urllib.parse
 import time
+import platform
+import emoji
 
 from termcolor import colored
+
+system = platform.system()
+
+is_windows = False
+
+if system == "Windows":
+    is_windows = True
 
 def select_author():
 
     print(
         "\n"
-        + colored(" i ", attrs=["reverse"])
+        + (colored(" i ", attrs=["reverse"])) * (is_windows)
+        + (emoji.emojize(":information:")) * (not is_windows)
         + "   You have chosen to search by Author Name.\n"
     )
 
     print(
         "\n"
-        + colored(
-            "Please enter the Name and Surname of an Author (EXAMPLE: Rebecca Gould).\n",
-            "blue",
-        )
+        + colored("Please enter the Name and Surname of an Author (EXAMPLE: Rebecca Gould).\n","blue") * (is_windows)
+        + colored("Please enter the Name and Surname of an Author (EXAMPLE: Rebecca Gould)\n", attrs=["bold"]) * (not is_windows)
     )
 
     author_search = True
@@ -44,7 +52,8 @@ def select_author():
 
             print(
                 "\n\n"
-                + colored(" ! ", "yellow", attrs=["reverse"])
+                + (colored(" ! ", "yellow", attrs=["reverse"])) * (is_windows)
+                + (emoji.emojize(":loudspeaker:")) * (not is_windows)
                 + colored(
                     "   The requested Author could not be found.\n",
                     "yellow",
@@ -69,23 +78,25 @@ def select_author():
                 else:
                     print(
                         "\n\n"
-                        + colored(
-                            " ! ", "yellow", attrs=["reverse"]
-                        )
+                        + (colored(" ! ", "yellow", attrs=["reverse"])) * (is_windows)
+                        + (emoji.emojize(":loudspeaker:")) * (not is_windows)
                         + colored(
                             "   It appears that you made a typo, please re-enter your selection.\n",
                             "yellow",
                         )
                     )
-
             continue
-
+        
         print(
             "\n\n"
-            + colored(
+            + (colored(
                 "Please select an Author from the list below:\n",
                 "blue",
-            )
+            )) * (is_windows)
+            + (colored(
+                "Please select an Author from the list below:\n",
+                attrs=["bold"],
+            )) * (not is_windows)
         )
 
         time.sleep(1)
@@ -117,7 +128,8 @@ def select_author():
 
                 print(
                     "\n\n"
-                    + colored(" ! ", "yellow", attrs=["reverse"])
+                    + (colored(" ! ", "yellow", attrs=["reverse"])) * (is_windows)
+                    + (emoji.emojize(":loudspeaker:")) * (not is_windows)
                     + colored(
                         "   It appears that you made a typo, please re-enter your selection.\n",
                         "yellow",
@@ -132,16 +144,21 @@ def select_author():
 def select_journal():
     print(
         "\n"
-        + colored(" i ", attrs=["reverse"])
+        + (colored(" i ", attrs=["reverse"])) * (is_windows)
+        + (emoji.emojize(":information:")) * (not is_windows)
         + "   You have chosen to search by Journal Name.\n"
     )
 
     print(
         "\n"
-        + colored(
+        + (colored(
             "Please enter the Name of a Journal (EXAMPLE: Journal of Financial Education).\n",
             "blue",
-        )
+        )) * (is_windows)
+        + (colored(
+            "Please enter the Name of a Journal (EXAMPLE: Journal of Financial Education).\n",
+            attrs=["bold"],
+        )) * (not is_windows)
     )
 
     Journal_Name = input(
@@ -164,7 +181,8 @@ def select_journal():
 
         print(
             "\n\n"
-            + colored(" ! ", "yellow", attrs=["reverse"])
+            + (colored(" ! ", "yellow", attrs=["reverse"])) * (is_windows)
+            + (emoji.emojize(":loudspeaker:")) * (not is_windows)
             + colored(
                 "   The requested Journal could not be found.\n",
                 "yellow",
@@ -175,10 +193,14 @@ def select_journal():
 
     print(
         "\n\n"
-        + colored(
+        + (colored(
             "Please select a Journal from the list below:\n",
             "blue",
-        )
+        )) * (is_windows)
+        + (colored(
+            "Please select a Journal from the list below:\n",
+            attrs=["bold"],
+        )) * (not is_windows)
     )
 
     time.sleep(1)
@@ -210,7 +232,8 @@ def select_journal():
 
             print(
                 "\n\n"
-                + colored(" ! ", "yellow", attrs=["reverse"])
+                + (colored(" ! ", "yellow", attrs=["reverse"])) * (is_windows)
+                + (emoji.emojize(":loudspeaker:")) * (not is_windows)
                 + colored(
                     "   It appears that you made a typo, please re-enter your selection.\n",
                     "yellow",
@@ -236,9 +259,10 @@ def select_issue(journal_id):
 
         print(
             "\n\n"
-            + colored(" ! ", "yellow", attrs=["reverse"])
+            + (colored(" ! ", "yellow", attrs=["reverse"])) * (is_windows)
+            + (emoji.emojize(":loudspeaker:")) * (not is_windows)
             + colored(
-                "   The requested Issues could not be found.\n",
+                "   The Journal has no contributed Issues. Please contribute to the repository.\n",
                 "yellow",
             )
         )
@@ -247,10 +271,14 @@ def select_issue(journal_id):
 
     print(
         "\n\n"
-        + colored(
+        + (colored(
             "Please select an Issue from the list below:\n",
             "blue",
-        )
+        )) * (is_windows)
+        + (colored(
+            "Please select an Issue from the list below:\n",
+            attrs=["bold"],
+        )) * (not is_windows)
     )
 
     time.sleep(1)
@@ -284,7 +312,8 @@ def select_issue(journal_id):
 
             print(
                 "\n\n"
-                + colored(" ! ", "yellow", attrs=["reverse"])
+                + (colored(" ! ", "yellow", attrs=["reverse"])) * (is_windows)
+                + (emoji.emojize(":loudspeaker:")) * (not is_windows)
                 + colored(
                     "   It appears that you made a typo, please re-enter your selection.\n",
                     "yellow",

@@ -45,14 +45,20 @@ restart = t_c_accepted = False
 
 def contribute_papers():
 
-    global driver, mbps, driver, system, index, restart_count, article_index
+    global driver, mbps, driver, system, index, restart_count, article_index, storage_directory, USER_AGENT
 
     setup()
+
+    login_requirements(system)
+
+    login_instructions(system)
 
     # login
     logged_in = False
     while (not logged_in):
-        logged_in = login(driver, system)
+        login_method = get_login_method()
+        driver = create_driver_session(options(login_method, USER_AGENT, storage_directory))
+        logged_in = login(driver, login_method, system)
     
     while True:
         try:
@@ -130,23 +136,19 @@ def setup():
     os.chdir(src_directory)
 
     # calculate the internet speed and driver sleep time
-    mbps = internet_speed_retry(system)
+    # mbps = internet_speed_retry(system)
 
-    wait = delay(mbps)
-    # wait = 10
+    # wait = delay(mbps)
+    wait = 10
 
     # define the User Agent
     print("\n\ndetermining User Agent...")
 
-    USER_AGENT = user_agent(system)
-    # USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.61 Safari/537.36"
+    # USER_AGENT = user_agent(system)
+    USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.61 Safari/537.36"
 
     # define loop to facilitate restart when an error occurs
     now = datetime.now().timestamp()
-
-    driver = create_driver_session(
-        options(get_login_method, USER_AGENT, storage_directory)
-    )
 
 def create_driver_session(chrome_options):
 
@@ -164,6 +166,7 @@ def options(login_method, USER_AGENT, storage_directory):
 
     if login_method == "1":
         chrome_options.headless = True
+
     chrome_options.add_argument(f"user-agent={USER_AGENT}")
     chrome_options.add_argument("--disable-blink-features=AutomationControlled")
     chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])

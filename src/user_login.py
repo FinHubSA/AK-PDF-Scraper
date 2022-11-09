@@ -8,22 +8,13 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.common.by import By
 
-def login(driver, system):
-
-    login_requirements(system)
-
-    login_instructions(system)
-
-    login_method = get_login_method()
+def login(driver, login_method, system):
 
     if login_method == "1":
         return vpn_login(driver, system)
-    elif login_method == "2":
+    
+    if login_method == "2":
         return manual_login(driver, system)
-    elif login_method == "3":
-        os._exit(0)
-    else:
-        return login(driver, system)
 
 def vpn_login(driver, system):
 
@@ -312,16 +303,22 @@ def get_login_method():
         )
     )
 
-    return login_method
+    if login_method == "1" or login_method == "2":
+        return login_method
+
+    if login_method == "3":
+        os._exit(0)
+
+    return get_login_method()
 
 def proceed():
 
-    proceed = input(colored("\n-- Type [1] to continue\n-- Type [2] to restart\n   : "))
+    proceed_input = input(colored("\n-- Type [1] to continue\n-- Type [2] to restart\n   : "))
 
-    if proceed != "1" and proceed != "2":
+    if proceed_input != "1" and proceed_input != "2":
         return proceed()
 
-    return proceed
+    return proceed_input
 
 def login_requirements(system):
 
