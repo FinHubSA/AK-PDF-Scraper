@@ -146,16 +146,16 @@ def setup():
     os.chdir(src_directory)
 
     # calculate the internet speed and driver sleep time
-    # mbps = internet_speed_retry(system)
+    mbps = internet_speed_retry(system)
 
-    # wait = delay(mbps)
-    wait = 10
+    wait = delay(mbps)
+    # wait = 10
 
     # define the User Agent
     print("\n\ndetermining User Agent...")
 
-    # USER_AGENT = user_agent(system)
-    USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.61 Safari/537.36"
+    USER_AGENT = user_agent(system)
+    # USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.61 Safari/537.36"
 
     # define loop to facilitate restart when an error occurs
     now = datetime.now().timestamp()

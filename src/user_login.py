@@ -165,8 +165,8 @@ def manual_login(driver, system):
 
         print(
             "\n"
-            + colored(" i ", "blue", attrs=["reverse"]) * (is_windows)
-            + emoji.emojize(":information:") * (not is_windows)
+            + (colored(" i ", "blue", attrs=["reverse"])) * (is_windows)
+            + (emoji.emojize(":information:")) * (not is_windows)
             + "   While the browser opens, read through the login steps:"
         )
 

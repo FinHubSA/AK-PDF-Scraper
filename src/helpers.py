@@ -14,6 +14,7 @@ if system == "Windows":
     is_windows = True
 
 def select_author():
+    global is_windows
 
     print(
         "\n"
@@ -137,6 +138,8 @@ def select_author():
         return Author_List_json[int(Author_Number) - 1]
 
 def select_journal():
+    global is_windows
+
     print(
         "\n"
         + (colored(" i ", attrs=["reverse"])) * (is_windows)
@@ -258,7 +261,8 @@ def select_journal():
     return Journal_List_json[int(Journal_Number) - 1]
 
 
-def select_issue(journal_id, system):
+def select_issue(journal_id):
+    global is_windows
 
     issue_list_json = requests.get(
         f"https://api-service-mrz6aygprq-oa.a.run.app/api/issues?journalID={journal_id}"

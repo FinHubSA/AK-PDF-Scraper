@@ -21,7 +21,6 @@ is_windows = False
 if system == "Windows":
     is_windows = True
 
-
 def download_papers():
 
     while True:
@@ -33,9 +32,9 @@ def download_papers():
             os.system("color")
 
         if download_criteria == "1":
-            download_by_journal(system)
+            download_by_journal()
         elif download_criteria == "2":
-            download_by_author(system)
+            download_by_author()
         elif download_criteria == "3":
             os._exit(0)
 
@@ -71,10 +70,10 @@ def download_by_author():
             "\n"
             + (colored(" i ", "blue", attrs=["reverse"])) * (is_windows)
             + (emoji.emojize(":information:")) * (not is_windows)
-            + (f"Downloading articles for {author_name}.\n")
+            + (f" Downloading articles for {author_name}.\n")
         )
 
-        get_articles(system, author_name=author_name)
+        get_articles(author_name=author_name)
 
 def download_by_journal():
     global is_windows
@@ -138,7 +137,7 @@ def download_by_journal():
 
         issue_id = issue["issueID"]
 
-        get_articles(system, issue_id=issue_id)
+        get_articles(issue_id=issue_id)
 
 
 def get_articles(journal_id = None, issue_id = None, author_name = None):
@@ -148,17 +147,16 @@ def get_articles(journal_id = None, issue_id = None, author_name = None):
         articles = requests.get(
             f"https://api-service-mrz6aygprq-oa.a.run.app/api/articles?journalID={journal_id}&scraped=1"
         )
-
     elif issue_id:
         articles = requests.get(
             f"https://api-service-mrz6aygprq-oa.a.run.app/api/articles?issueID={issue_id}&scraped=1"
         )
     elif author_name:
-        # print("author id", author_name)
+        # print("author name", author_name)
         articles = requests.get(
             f"https://api-service-mrz6aygprq-oa.a.run.app/api/articles?authorName={author_name}&scraped=1"
         )
-
+    
     articles = articles.json()
 
     articles_size = len(articles)
@@ -187,7 +185,6 @@ def bulk_download(articles):
     global is_windows
 
     cpus = cpu_count()
-    # print("cpu count "+str(cpus))
 
     results = ThreadPool(cpus - 1).imap_unordered(download_url, articles)
 
