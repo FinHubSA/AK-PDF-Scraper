@@ -2,6 +2,8 @@ from termcolor import colored
 import emoji
 import platform
 import json
+from algosdk import account, encoding, mnemonic
+import time
 
 system = platform.system()
 # system = "Windows"
@@ -69,42 +71,225 @@ def existing_account():
 
     f.close()
 
-    have_address = "n"
-
-    if user_address_dict != "{}":
+    if user_address_dict != {}:
 
         user_address = user_address_dict["address"]
 
         have_address = input(
-            "\n\nWe have your existing address on record, please confirm that "
+            "\n\n"
+            + (colored(" i ", "blue", attrs=["reverse"])) * (is_windows)
+            + emoji.emojize(":information:") * (not is_windows)
+            + "   We have an existing address on record for you."
+            + "\n\n\nPlease confirm that "
             + colored(user_address, attrs=["bold"])
             + " is your current Algorand address "
             + colored("[Y/n]: ", attrs=["bold"])
         )
 
-        if have_address.strip() == "n":
+    else:
+        have_address = "n"
 
-            user_address = input("\n\nPlease enter your Algorand address: ")
+    if have_address.strip() == "n":
 
-            # confirm that address is valid
+        retry_address = "1"
 
-            user_address_dict["address"] = user_address
+        while retry_address.strip() == "1":
 
-            # store the address
-            with open("address.json", "w") as f:
-                json.dump(user_address_dict, f, indent=4, sort_keys=True)
+            user_address = input(
+                "\n\n"
+                + (colored(" i ", "blue", attrs=["reverse"])) * (is_windows)
+                + emoji.emojize(":information:") * (not is_windows)
+                + "   Please enter your Algorand address: "
+            )
 
-            f.close()
+            if encoding.is_valid_address(user_address):
+                print(
+                    "\n\n"
+                    + (colored(" ! ", "green", attrs=["reverse"])) * (is_windows)
+                    + emoji.emojize(":check_mark_button:") * (not is_windows)
+                    + colored(
+                        "   This address is valid! We will keep it on record for future contributions.",
+                        "green",
+                    )
+                )
+
+                print(
+                    "\n"
+                    + (colored(" ! ", "green", attrs=["reverse"])) * (is_windows)
+                    + emoji.emojize(":check_mark_button:") * (not is_windows)
+                    + colored(
+                        "   You are all set up! You will receive ALGO into this address at the end of the donation period.",
+                        "green",
+                    )
+                )
+
+                retry_address = "2"
+
+            else:
+                print(
+                    "\n\n"
+                    + colored(" ! ", "yellow", attrs=["reverse"]) * (is_windows)
+                    + emoji.emojize(":loudspeaker:") * (not is_windows)
+                    + colored("  This address is invalid.", "yellow")
+                )
+
+                retry_address_typo = True
+
+                while retry_address_typo == True:
+
+                    retry_address = input(
+                        colored(
+                            "\n-- Type [1] to retry"
+                            + "\n-- Type [2] to create a new account"
+                            + "\n   : ",
+                        )
+                    )
+
+                    if retry_address.strip() == "1":
+
+                        retry_address_typo = False
+
+                    elif retry_address.strip() == "2":
+
+                        time.sleep(2)
+
+                        private_key, address = account.generate_account()
+
+                        user_address = address
+
+                        passphrase = mnemonic.from_private_key(private_key)
+
+                        print(
+                            colored("\n\nYour passphrase is: ", "green")
+                            + colored(passphrase, "green", attrs=["bold"]),
+                        )
+
+                        print(
+                            colored("\n\nYour address is: ", "green")
+                            + colored(address, "green", attrs=["bold"]),
+                        )
+
+                        print(
+                            "\n\n"
+                            + colored(
+                                "Please note the following information to keep your account details safe:",
+                                attrs=["bold", "underline"],
+                            )
+                            + "\n\n• Make sure that you store your passphrase and address in a secure place."
+                            + colored("\n• It is best practice ", attrs=["bold"])
+                            + "to write your passphrase on a piece of paper and store it somewhere safe."
+                            + colored("\n• It is not advised ", attrs=["bold"])
+                            + "to store your passphrase on a device that has internet connectivity."
+                        )
+
+                        print(
+                            "\n\n"
+                            + (colored(" ! ", "green", attrs=["reverse"]))
+                            * (is_windows)
+                            + emoji.emojize(":check_mark_button:") * (not is_windows)
+                            + colored(
+                                "   You are all set up! You will receive ALGO into this address at the end of the donation period.",
+                                "green",
+                            )
+                        )
+
+                        retry_address_typo = False
+
+                    else:
+
+                        print(
+                            "\n\n"
+                            + colored(" ! ", "yellow", attrs=["reverse"]) * (is_windows)
+                            + emoji.emojize(":loudspeaker:") * (not is_windows)
+                            + colored(
+                                "   It appears that you made a typo, please re-enter your selection.\n",
+                                "yellow",
+                            )
+                        )
+
+        user_address_dict["address"] = user_address
+
+        # store the address
+        with open("address.json", "w") as f:
+            json.dump(user_address_dict, f, indent=4, sort_keys=True)
+
+        f.close()
+
+    elif have_address.strip() == "Y":
+        print(
+            "\n\n"
+            + (colored(" ! ", "green", attrs=["reverse"])) * (is_windows)
+            + emoji.emojize(":check_mark_button:") * (not is_windows)
+            + colored(
+                "   You are all set up! You will receive ALGO into this address at the end of the donation period.",
+                "green",
+            )
+        )
+    else:
+        print(
+            "\n"
+            + (colored(" ! ", "yellow", attrs=["reverse"])) * (is_windows)
+            + emoji.emojize(":loudspeaker:") * (not is_windows)
+            + colored("   Typo, try again.\n", "yellow")
+        )
+
+        existing_account()
 
 
 def create_account():
 
-    # guide user to create an account
-    print("works")
+    time.sleep(2)
 
-    # return user account and passphrase
+    private_key, address = account.generate_account()
+
+    user_address = address
+
+    passphrase = mnemonic.from_private_key(private_key)
+
+    print(
+        colored("\n\nYour passphrase is: ", "green")
+        + colored(passphrase, "green", attrs=["bold"]),
+    )
+
+    print(
+        colored("\n\nYour address is: ", "green")
+        + colored(address, "green", attrs=["bold"]),
+    )
+
+    print(
+        "\n\n"
+        + colored(
+            "Please note the following information to keep your account details safe:",
+            attrs=["bold", "underline"],
+        )
+        + "\n\n• Make sure that you store your passphrase and address in a secure place."
+        + colored("\n• It is best practice ", attrs=["bold"])
+        + "to write your passphrase on a piece of paper and store it somewhere safe."
+        + colored("\n• It is not advised ", attrs=["bold"])
+        + "to store your passphrase on a device that has internet connectivity."
+    )
+
+    print(
+        "\n\n"
+        + (colored(" ! ", "green", attrs=["reverse"])) * (is_windows)
+        + emoji.emojize(":check_mark_button:") * (not is_windows)
+        + colored(
+            "   You are all set up! You will receive ALGO into this address at the end of the donation period.",
+            "green",
+        )
+    )
+
+    with open("address.json", "r") as f:
+
+        user_address_dict = json.load(f)
+
+    user_address_dict["address"] = user_address
 
     # store the address
+    with open("address.json", "w") as f:
+        json.dump(user_address_dict, f, indent=4, sort_keys=True)
+
+    f.close()
 
 
 donation_explainer()
