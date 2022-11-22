@@ -9,6 +9,7 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from termcolor import colored
 
+
 def user_agent(system):
 
     try:
@@ -40,7 +41,7 @@ def user_agent(system):
     if system == "Windows":
 
         print(
-            "\n"
+            "\n\n"
             + colored(" ! ", "green", attrs=["reverse"])
             + colored(
                 "   User Agent found",
@@ -50,7 +51,7 @@ def user_agent(system):
     else:
 
         print(
-            "\n"
+            "\n\n"
             + emoji.emojize(":check_mark_button:")
             + colored(
                 "   User Agent found",

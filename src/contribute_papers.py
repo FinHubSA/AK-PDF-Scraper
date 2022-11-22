@@ -30,6 +30,7 @@ from temp_storage import (
     delete_temp_storage,
 )
 
+from donations import donation_explainer
 from internet_speed import download_speed, delay, internet_speed_retry
 from download_papers import download_papers
 from user_login import *
@@ -60,15 +61,19 @@ def contribute_papers():
 
     login_requirements(system)
 
+    donation_explainer()
+
     login_instructions(system)
 
     # login
     logged_in = False
-    while (not logged_in):
+    while not logged_in:
         login_method = get_login_method()
-        driver = create_driver_session(options(login_method, USER_AGENT, storage_directory))
+        driver = create_driver_session(
+            options(login_method, USER_AGENT, storage_directory)
+        )
         logged_in = login(driver, login_method, system)
-    
+
     while True:
         try:
             get_article_ids()
@@ -159,6 +164,7 @@ def setup():
 
     # define loop to facilitate restart when an error occurs
     now = datetime.now().timestamp()
+
 
 def create_driver_session(chrome_options):
 
