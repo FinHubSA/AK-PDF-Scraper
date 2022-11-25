@@ -4,6 +4,7 @@ import platform
 import json
 from algosdk import account, encoding, mnemonic
 import time
+import os.path
 
 system = platform.system()
 # system = "Windows"
@@ -14,7 +15,7 @@ if system == "Windows":
     is_windows = True
 
 
-def donation_explainer():
+def donation_explainer(misc_directory):
 
     print("\n\nGreat! You are on your way to make a contribution!")
     print(
@@ -25,10 +26,13 @@ def donation_explainer():
         "\n• Aaron's Kit users donate ALGO. \n• After a set payout time period, the ALGO is aggregated and distributed to all Aaron's Kit contributors, like you. \n• The amount of ALGO you receive is weighted according to the number of papers you have scraped in the payout time period.\n• To receive ALGO, all you need is an Algorand account.\n"
     )
 
-    donation_options()
+    user_address = donation_options(misc_directory)
+
+    return user_address
 
 
-def donation_options():
+def donation_options(misc_directory):
+
     global is_windows
 
     print(
@@ -48,11 +52,11 @@ def donation_options():
     )
 
     if donation_action.strip() == "1":
-        existing_account()
+        user_address = existing_account(misc_directory)
     elif donation_action.strip() == "2":
-        create_account()
+        user_address = create_account(misc_directory)
     elif donation_action.strip() == "3":
-        return
+        user_address = ""
     else:
         print(
             "\n"
@@ -60,12 +64,14 @@ def donation_options():
             + emoji.emojize(":loudspeaker:") * (not is_windows)
             + colored("   Typo, try again.\n", "yellow")
         )
-        return donation_options()
+        return donation_options(misc_directory)
+
+    return user_address
 
 
-def existing_account():
+def existing_account(misc_directory):
 
-    with open("address.json", "r") as f:
+    with open(os.path.join(misc_directory, "address.json"), "r") as f:
 
         user_address_dict = json.load(f)
 
@@ -210,10 +216,12 @@ def existing_account():
         user_address_dict["address"] = user_address
 
         # store the address
-        with open("address.json", "w") as f:
+        with open(os.path.join(misc_directory, "address.json"), "w") as f:
             json.dump(user_address_dict, f, indent=4, sort_keys=True)
 
         f.close()
+
+        return user_address
 
     elif have_address.strip() == "Y":
         print(
@@ -233,10 +241,12 @@ def existing_account():
             + colored("   Typo, try again.\n", "yellow")
         )
 
-        existing_account()
+        existing_account(misc_directory)
+
+    return user_address
 
 
-def create_account():
+def create_account(misc_directory):
 
     time.sleep(2)
 
@@ -279,17 +289,21 @@ def create_account():
         )
     )
 
-    with open("address.json", "r") as f:
+    with open(os.path.join(misc_directory, "address.json"), "r") as f:
 
         user_address_dict = json.load(f)
 
     user_address_dict["address"] = user_address
 
     # store the address
-    with open("address.json", "w") as f:
+    with open(os.path.join(misc_directory, "address.json"), "w") as f:
         json.dump(user_address_dict, f, indent=4, sort_keys=True)
 
     f.close()
 
+    return user_address
 
-donation_explainer()
+
+# misc_directory = "/Users/danaebouwer/Documents/Work/Aarons-kit/PDF_Scraper"
+# algorandAddress = donation_explainer(misc_directory)
+# print(algorandAddress)

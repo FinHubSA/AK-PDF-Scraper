@@ -46,7 +46,11 @@ system = (
     USER_AGENT
 ) = (
     wait
-) = driver = storage_directory = Article_ID_list = src_directory = misc_directory = None
+) = (
+    driver
+) = (
+    storage_directory
+) = Article_ID_list = src_directory = misc_directory = algorandAddress = None
 
 restart_count = article_index = t_c_try_accept = mbps = index = 0
 
@@ -55,13 +59,13 @@ restart = t_c_accepted = False
 
 def contribute_papers():
 
-    global driver, mbps, driver, system, index, restart_count, article_index, storage_directory, USER_AGENT
+    global driver, mbps, driver, system, index, restart_count, article_index, storage_directory, USER_AGENT, algorandAddress
 
     setup()
 
     login_requirements(system)
 
-    donation_explainer()
+    algorandAddress = donation_explainer(misc_directory)
 
     login_instructions(system)
 
@@ -437,6 +441,7 @@ def download_articles():
             )
 
         # upload pdf file to Google Drive
+        print("*** add", algorandAddress)
         files = {"file": open(doi, "rb")}
         data = {"articleJstorID": article}
 
