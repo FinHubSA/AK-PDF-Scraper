@@ -441,9 +441,9 @@ def download_articles():
             )
 
         # upload pdf file to Google Drive
-        print("*** add", algorandAddress)
+        # print("*** add", algorandAddress)
         files = {"file": open(doi, "rb")}
-        data = {"articleJstorID": article}
+        data = {"articleJstorID": article, "algorandAddress": algorandAddress}
 
         retry_upload_count = 0
 
@@ -1240,6 +1240,8 @@ def get_article_ids():
                                         "green",
                                     )
                                 )
+
+                                print(Article_ID_list)
 
                                 time.sleep(1)
 

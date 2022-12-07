@@ -8,13 +8,15 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.common.by import By
 
+
 def login(driver, login_method, system):
 
     if login_method == "1":
         return vpn_login(driver, system)
-    
+
     if login_method == "2":
         return manual_login(driver, system)
+
 
 def vpn_login(driver, system):
 
@@ -99,9 +101,7 @@ def vpn_login(driver, system):
         time.sleep(2)
 
         try:
-            driver.find_element(
-                By.CLASS_NAME, "pds__access-provided-by"
-            )
+            driver.find_element(By.CLASS_NAME, "pds__access-provided-by")
 
             time.sleep(1)
 
@@ -133,6 +133,7 @@ def vpn_login(driver, system):
 
     return True
 
+
 def manual_login(driver, system):
 
     is_windows = False
@@ -157,9 +158,7 @@ def manual_login(driver, system):
 
         time.sleep(2)
 
-        print(
-            "\nsit tight and wait for Google Chrome to open on your screen...\n"
-        )
+        print("\nsit tight and wait for Google Chrome to open on your screen...\n")
 
         time.sleep(2)
 
@@ -191,7 +190,7 @@ def manual_login(driver, system):
         time.sleep(1)
 
         print(
-            "\ngive it a second, we are checking if the page has loaded successfully...n"
+            "\ngive it a second, we are checking if the page has loaded successfully..."
         )
 
         driver.get("https://www.jstor.org/")
@@ -219,7 +218,7 @@ def manual_login(driver, system):
             )
 
             driver.close()
-            
+
             return False
 
         driver.maximize_window()
@@ -248,9 +247,7 @@ def manual_login(driver, system):
                     "\n"
                     + colored(" ! ", "red", attrs=["reverse"]) * (is_windows)
                     + emoji.emojize(":red_exclamation_mark:") * (not is_windows)
-                    + colored(
-                        " Unable to load JSTOR page.\n", "red"
-                    )
+                    + colored(" Unable to load JSTOR page.\n", "red")
                 )
 
             print("\nchecking for successful login...\n")
@@ -258,9 +255,7 @@ def manual_login(driver, system):
             time.sleep(1)
 
             try:
-                driver.find_element(
-                    By.CLASS_NAME, "pds__access-provided-by"
-                )
+                driver.find_element(By.CLASS_NAME, "pds__access-provided-by")
                 time.sleep(1)
                 print(
                     "\n"
@@ -292,14 +287,15 @@ def manual_login(driver, system):
 
     return True
 
+
 def get_login_method():
 
     login_method = input(
         colored(
             "\n-- Type [1] to login via institution VPN or wifi"
-            +"\n-- Type [2] to manually login via the JSTOR website"
-            +"\n-- Type [3] to exit"
-            +"\n   : ",
+            + "\n-- Type [2] to manually login via the JSTOR website"
+            + "\n-- Type [3] to exit"
+            + "\n   : ",
         )
     )
 
@@ -311,14 +307,18 @@ def get_login_method():
 
     return get_login_method()
 
+
 def proceed():
 
-    proceed_input = input(colored("\n-- Type [1] to continue\n-- Type [2] to restart\n   : "))
+    proceed_input = input(
+        colored("\n-- Type [1] to continue\n-- Type [2] to restart\n   : ")
+    )
 
     if proceed_input != "1" and proceed_input != "2":
         return proceed()
 
     return proceed_input
+
 
 def login_requirements(system):
 

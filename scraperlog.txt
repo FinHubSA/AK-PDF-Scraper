@@ -5153,3 +5153,399 @@ with size (in bytes): 408433
 scraper started at: 2022-11-25 10:58:45.688633
 scraper ended at: 2022-11-25 10:59:07.872995
 download time (in seconds): 12.184361934661865
+
+for ID: 10.2307/20716314
+with size (in bytes): 408449
+scraper started at: 2022-12-05 16:09:55.864170
+scraper ended at: 2022-12-05 16:10:06.873875
+download time (in seconds): 1.009704828262329
+
+for ID: 10.2307/20716128
+with size (in bytes): 327197
+scraper started at: 2022-12-05 16:10:14.016406
+scraper ended at: 2022-12-05 16:10:25.025213
+download time (in seconds): 1.0088069438934326
+
+for ID: 10.2307/20716290
+with size (in bytes): 1521401
+scraper started at: 2022-12-05 16:10:31.627623
+scraper ended at: 2022-12-05 16:10:42.638069
+download time (in seconds): 1.0104458332061768
+
+for ID: 10.2307/20716243
+with size (in bytes): 1325438
+scraper started at: 2022-12-05 16:10:51.093100
+scraper ended at: 2022-12-05 16:11:02.104078
+download time (in seconds): 1.0109779834747314
+
+for ID: 10.2307/20716322
+with size (in bytes): 1060125
+scraper started at: 2022-12-05 16:11:09.175076
+scraper ended at: 2022-12-05 16:11:20.182422
+download time (in seconds): 1.0073459148406982
+
+for ID: 10.2307/20716408
+with size (in bytes): 340557
+scraper started at: 2022-12-05 16:11:27.987105
+scraper ended at: 2022-12-05 16:11:38.998213
+download time (in seconds): 1.011108160018921
+
+for ID: 10.2307/20716270
+with size (in bytes): 490468
+scraper started at: 2022-12-05 16:11:44.669706
+scraper ended at: 2022-12-05 16:11:55.678574
+download time (in seconds): 1.0088679790496826
+
+for ID: 10.2307/20716189
+with size (in bytes): 485120
+scraper started at: 2022-12-05 16:12:02.871408
+scraper ended at: 2022-12-05 16:12:13.881471
+download time (in seconds): 1.0100629329681396
+
+for ID: 10.2307/24046956
+with size (in bytes): 2844015
+scraper started at: 2022-12-05 16:12:21.185953
+scraper ended at: 2022-12-05 16:12:32.196207
+download time (in seconds): 1.010254144668579
+
+for ID: 10.2307/24046973
+with size (in bytes): 405607
+scraper started at: 2022-12-05 16:12:39.548413
+scraper ended at: 2022-12-05 16:12:50.558477
+download time (in seconds): 1.010063886642456
+
+for ID: 10.2307/90000798
+with size (in bytes): 730880
+scraper started at: 2022-12-05 16:12:58.322457
+scraper ended at: 2022-12-05 16:13:09.334364
+download time (in seconds): 1.0119068622589111
+
+for ID: 10.2307/90000814
+with size (in bytes): 734010
+scraper started at: 2022-12-05 16:13:15.461515
+scraper ended at: 2022-12-05 16:13:26.472457
+download time (in seconds): 1.010941982269287
+
+for ID: 10.2307/90000818
+with size (in bytes): 784999
+scraper started at: 2022-12-05 16:13:32.911496
+scraper ended at: 2022-12-05 16:13:43.918475
+download time (in seconds): 1.006978988647461
+
+for ID: 10.2307/24046924
+with size (in bytes): 450837
+scraper started at: 2022-12-05 16:13:51.633062
+scraper ended at: 2022-12-05 16:14:02.638604
+download time (in seconds): 1.0055420398712158
+
+for ID: 10.2307/24046933
+with size (in bytes): 1868824
+scraper started at: 2022-12-05 16:14:09.179783
+scraper ended at: 2022-12-05 16:14:20.191386
+download time (in seconds): 1.0116028785705566
+
+for ID: 10.2307/24046939
+with size (in bytes): 494387
+scraper started at: 2022-12-05 16:14:27.565532
+scraper ended at: 2022-12-05 16:14:38.574889
+download time (in seconds): 1.00935697555542
+
+for ID: 10.2307/20716141
+with size (in bytes): 389811
+scraper started at: 2022-12-06 09:44:24.274779
+scraper ended at: 2022-12-06 09:44:35.473757
+download time (in seconds): 1.1989779472351074
+
+for ID: 10.2307/20716298
+with size (in bytes): 639795
+scraper started at: 2022-12-06 09:44:45.786827
+scraper ended at: 2022-12-06 09:44:56.792857
+download time (in seconds): 1.0060298442840576
+
+for ID: 10.2307/20716300
+with size (in bytes): 1690587
+scraper started at: 2022-12-06 09:45:04.490278
+scraper ended at: 2022-12-06 09:45:15.499376
+download time (in seconds): 1.0090980529785156
+
+for ID: 10.2307/20716309
+with size (in bytes): 702738
+scraper started at: 2022-12-06 09:45:23.218867
+scraper ended at: 2022-12-06 09:45:34.228516
+download time (in seconds): 1.0096490383148193
+
+for ID: 10.2307/20716123
+with size (in bytes): 387549
+scraper started at: 2022-12-06 09:45:40.913843
+scraper ended at: 2022-12-06 09:45:51.917968
+download time (in seconds): 1.0041251182556152
+
+for ID: 10.2307/20716288
+with size (in bytes): 713679
+scraper started at: 2022-12-06 09:45:58.678627
+scraper ended at: 2022-12-06 09:46:09.688372
+download time (in seconds): 1.0097448825836182
+
+for ID: 10.2307/20716160
+with size (in bytes): 785936
+scraper started at: 2022-12-06 09:46:16.898347
+scraper ended at: 2022-12-06 09:46:27.909237
+download time (in seconds): 1.010890007019043
+
+for ID: 10.2307/20716217
+with size (in bytes): 620073
+scraper started at: 2022-12-06 09:46:34.300844
+scraper ended at: 2022-12-06 09:46:45.312494
+download time (in seconds): 1.0116500854492188
+
+for ID: 10.2307/20716242
+with size (in bytes): 562335
+scraper started at: 2022-12-06 09:46:51.828792
+scraper ended at: 2022-12-06 09:47:02.835970
+download time (in seconds): 1.0071778297424316
+
+for ID: 10.2307/20716319
+with size (in bytes): 554579
+scraper started at: 2022-12-06 09:47:11.696383
+scraper ended at: 2022-12-06 09:47:22.700131
+download time (in seconds): 1.0037479400634766
+
+for ID: 10.2307/20716265
+with size (in bytes): 669476
+scraper started at: 2022-12-06 09:47:29.922126
+scraper ended at: 2022-12-06 09:47:40.932367
+download time (in seconds): 1.0102410316467285
+
+for ID: 10.2307/20716149
+with size (in bytes): 361580
+scraper started at: 2022-12-06 09:47:47.315331
+scraper ended at: 2022-12-06 09:47:58.319926
+download time (in seconds): 1.0045950412750244
+
+for ID: 10.2307/20716150
+with size (in bytes): 2743246
+scraper started at: 2022-12-06 09:48:05.942832
+scraper ended at: 2022-12-06 09:48:16.950706
+download time (in seconds): 1.0078740119934082
+
+for ID: 10.2307/20716465
+with size (in bytes): 583630
+scraper started at: 2022-12-06 09:48:25.078721
+scraper ended at: 2022-12-06 09:48:36.084205
+download time (in seconds): 1.005483865737915
+
+for ID: 10.2307/20716187
+with size (in bytes): 592562
+scraper started at: 2022-12-06 09:48:44.170218
+scraper ended at: 2022-12-06 09:48:55.178134
+download time (in seconds): 1.00791597366333
+
+for ID: 10.2307/20716153
+with size (in bytes): 510922
+scraper started at: 2022-12-06 09:49:01.346262
+scraper ended at: 2022-12-06 09:49:12.353660
+download time (in seconds): 1.0073981285095215
+
+for ID: 10.2307/20716394
+with size (in bytes): 1556044
+scraper started at: 2022-12-06 09:49:19.830717
+scraper ended at: 2022-12-06 09:49:30.841740
+download time (in seconds): 1.0110228061676025
+
+for ID: 10.2307/24046343
+with size (in bytes): 788452
+scraper started at: 2022-12-06 09:49:37.609474
+scraper ended at: 2022-12-06 09:49:48.616707
+download time (in seconds): 1.0072331428527832
+
+for ID: 10.2307/24046215
+with size (in bytes): 2460636
+scraper started at: 2022-12-06 09:49:56.033595
+scraper ended at: 2022-12-06 09:50:07.044294
+download time (in seconds): 1.0106990337371826
+
+for ID: 10.2307/26570544
+with size (in bytes): 439845
+scraper started at: 2022-12-06 09:50:13.717176
+scraper ended at: 2022-12-06 09:50:24.724934
+download time (in seconds): 1.0077581405639648
+
+for ID: 10.2307/24046148
+with size (in bytes): 486106
+scraper started at: 2022-12-06 09:50:32.085122
+scraper ended at: 2022-12-06 09:50:43.092748
+download time (in seconds): 1.0076258182525635
+
+for ID: 10.2307/24045557
+with size (in bytes): 562134
+scraper started at: 2022-12-06 09:50:50.977713
+scraper ended at: 2022-12-06 09:51:01.988991
+download time (in seconds): 1.0112779140472412
+
+for ID: 10.2307/24045720
+with size (in bytes): 318890
+scraper started at: 2022-12-06 09:51:07.353061
+scraper ended at: 2022-12-06 09:51:18.365270
+download time (in seconds): 1.0122089385986328
+
+for ID: 10.2307/24045731
+with size (in bytes): 935623
+scraper started at: 2022-12-06 09:51:25.870384
+scraper ended at: 2022-12-06 09:51:36.882910
+download time (in seconds): 1.012526035308838
+
+for ID: 10.2307/24046695
+with size (in bytes): 981742
+scraper started at: 2022-12-06 09:51:44.534693
+scraper ended at: 2022-12-06 09:51:55.554352
+download time (in seconds): 1.0196590423583984
+
+for ID: 10.2307/24045670
+with size (in bytes): 2283829
+scraper started at: 2022-12-06 09:52:04.301797
+scraper ended at: 2022-12-06 09:52:15.311653
+download time (in seconds): 1.0098559856414795
+
+for ID: 10.2307/24045632
+with size (in bytes): 1765195
+scraper started at: 2022-12-06 09:52:23.249356
+scraper ended at: 2022-12-06 09:52:34.258473
+download time (in seconds): 1.0091168880462646
+
+for ID: 10.2307/24045652
+with size (in bytes): 840713
+scraper started at: 2022-12-06 09:52:40.833417
+scraper ended at: 2022-12-06 09:52:51.845161
+download time (in seconds): 1.0117440223693848
+
+for ID: 10.2307/24045657
+with size (in bytes): 636043
+scraper started at: 2022-12-06 09:53:01.211684
+scraper ended at: 2022-12-06 09:53:12.220796
+download time (in seconds): 1.0091121196746826
+
+for ID: 10.2307/24046317
+with size (in bytes): 557477
+scraper started at: 2022-12-06 09:53:19.602636
+scraper ended at: 2022-12-06 09:53:30.609439
+download time (in seconds): 1.0068027973175049
+
+for ID: 10.2307/24046324
+with size (in bytes): 506720
+scraper started at: 2022-12-06 09:53:37.856892
+scraper ended at: 2022-12-06 09:53:48.868705
+download time (in seconds): 1.0118129253387451
+
+for ID: 10.2307/24045578
+with size (in bytes): 2068826
+scraper started at: 2022-12-06 09:53:53.607975
+scraper ended at: 2022-12-06 09:54:04.613877
+download time (in seconds): 1.0059020519256592
+
+for ID: 10.2307/24045604
+with size (in bytes): 525629
+scraper started at: 2022-12-06 09:54:11.333643
+scraper ended at: 2022-12-06 09:54:22.343225
+download time (in seconds): 1.0095820426940918
+
+for ID: 10.2307/40251262
+with size (in bytes): 1388940
+scraper started at: 2022-12-06 09:54:41.380061
+scraper ended at: 2022-12-06 09:54:52.390226
+download time (in seconds): 1.0101649761199951
+
+for ID: 10.2307/40252584
+with size (in bytes): 2634752
+scraper started at: 2022-12-06 09:54:59.375971
+scraper ended at: 2022-12-06 09:55:10.385598
+download time (in seconds): 1.009626865386963
+
+for ID: 10.2307/40252586
+with size (in bytes): 1541778
+scraper started at: 2022-12-06 09:55:18.052031
+scraper ended at: 2022-12-06 09:55:29.061082
+download time (in seconds): 1.0090508460998535
+
+for ID: 10.2307/40251718
+with size (in bytes): 2947203
+scraper started at: 2022-12-06 09:55:35.853393
+scraper ended at: 2022-12-06 09:55:46.869852
+download time (in seconds): 1.0164589881896973
+
+for ID: 10.2307/40251727
+with size (in bytes): 1104320
+scraper started at: 2022-12-06 09:55:54.802344
+scraper ended at: 2022-12-06 09:56:05.812253
+download time (in seconds): 1.00990891456604
+
+for ID: 10.2307/40251729
+with size (in bytes): 1568306
+scraper started at: 2022-12-06 09:56:12.822100
+scraper ended at: 2022-12-06 09:56:23.826016
+download time (in seconds): 1.0039160251617432
+
+for ID: 10.2307/40253321
+with size (in bytes): 367634
+scraper started at: 2022-12-06 09:56:31.898811
+scraper ended at: 2022-12-06 09:56:42.907747
+download time (in seconds): 1.0089359283447266
+
+for ID: 10.2307/40251777
+with size (in bytes): 1558674
+scraper started at: 2022-12-06 09:56:50.005053
+scraper ended at: 2022-12-06 09:57:01.012323
+download time (in seconds): 1.0072698593139648
+
+for ID: 10.2307/23024686
+with size (in bytes): 4281337
+scraper started at: 2022-12-06 09:57:08.314336
+scraper ended at: 2022-12-06 09:57:19.324484
+download time (in seconds): 1.010148048400879
+
+for ID: 10.2307/40249847
+with size (in bytes): 1252650
+scraper started at: 2022-12-06 09:57:28.245693
+scraper ended at: 2022-12-06 09:57:39.249188
+download time (in seconds): 1.0034949779510498
+
+for ID: 10.2307/40249848
+with size (in bytes): 799598
+scraper started at: 2022-12-06 09:57:46.394628
+scraper ended at: 2022-12-06 09:57:57.402094
+download time (in seconds): 1.0074658393859863
+
+for ID: 10.2307/25799816
+with size (in bytes): 391499
+scraper started at: 2022-12-06 09:58:03.454450
+scraper ended at: 2022-12-06 09:58:14.459627
+download time (in seconds): 1.0051770210266113
+
+for ID: 10.2307/25799821
+with size (in bytes): 2034803
+scraper started at: 2022-12-06 09:58:21.765466
+scraper ended at: 2022-12-06 09:58:32.773763
+download time (in seconds): 1.0082969665527344
+
+for ID: 10.2307/40249708
+with size (in bytes): 1495620
+scraper started at: 2022-12-06 09:58:39.983851
+scraper ended at: 2022-12-06 09:58:50.994212
+download time (in seconds): 1.0103609561920166
+
+for ID: 10.2307/40249716
+with size (in bytes): 3351570
+scraper started at: 2022-12-06 09:58:57.520912
+scraper ended at: 2022-12-06 09:59:08.532159
+download time (in seconds): 1.011247158050537
+
+for ID: 10.2307/40249725
+with size (in bytes): 465830
+scraper started at: 2022-12-06 09:59:16.673916
+scraper ended at: 2022-12-06 09:59:27.681603
+download time (in seconds): 1.0076868534088135
+
+for ID: 10.2307/40252055
+with size (in bytes): 384074
+scraper started at: 2022-12-06 09:59:34.625975
+scraper ended at: 2022-12-06 09:59:45.635101
+download time (in seconds): 1.0091261863708496
