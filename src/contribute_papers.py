@@ -1514,7 +1514,7 @@ def get_article_ids():
 
                             print(
                                 "\n\n"
-                                + emoji.emojize(":red_exclamation_mark:")
+                                + emoji.emojize("c")
                                 + colored(
                                     "   An unexpected error occured.\n",
                                     "red",

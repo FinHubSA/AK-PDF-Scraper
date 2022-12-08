@@ -1,35 +1,11 @@
-import pickle
-import time
 import os.path
-from datetime import datetime
 import logging
-import platform
 import emoji
 import os
-import requests
-import string
-import random
 import warnings
-import urllib.parse
 
 from termcolor import colored
-from selenium import webdriver
-from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions
-from selenium.webdriver.common.by import By
 
-from recaptcha_solver import recaptcha_solver
-from user_agent import user_agent
-from temp_storage import (
-    get_temp_storage_path,
-    rename_file,
-    delete_files,
-    delete_temp_storage,
-)
-
-from internet_speed import download_speed, delay, internet_speed_retry
 from download_papers import download_papers
 from contribute_papers import contribute_papers
 from user_login import *

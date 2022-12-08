@@ -13,6 +13,7 @@ is_windows = False
 if system == "Windows":
     is_windows = True
 
+
 def select_author():
     global is_windows
 
@@ -25,8 +26,16 @@ def select_author():
 
     print(
         "\n"
-        + colored("Please enter the Name and Surname of an Author (EXAMPLE: Rebecca Gould).\n","blue") * (is_windows)
-        + colored("Please enter the Name and Surname of an Author (EXAMPLE: Rebecca Gould)\n", attrs=["bold"]) * (not is_windows)
+        + colored(
+            "Please enter the Name and Surname of an Author (EXAMPLE: Rebecca Gould).\n",
+            "blue",
+        )
+        * (is_windows)
+        + colored(
+            "Please enter the Name and Surname of an Author (EXAMPLE: Rebecca Gould)\n",
+            attrs=["bold"],
+        )
+        * (not is_windows)
     )
 
     author_search = True
@@ -39,11 +48,34 @@ def select_author():
             )
         )
 
-        Author_Name_urlenc = urllib.parse.quote(Author_Name)
+        Author_Name_urlenc = urllib.parse.quote(Author_Name.strip())
 
-        Author_List_json = requests.get(
-            f"https://api-service-mrz6aygprq-oa.a.run.app/api/authors?authorName={Author_Name_urlenc}"
-        )
+        try:
+
+            Author_List_json = requests.get(
+                f"https://api-service-mrz6aygprq-oa.a.run.app/api/authors?authorName={Author_Name_urlenc}"
+            )
+
+        except:
+
+            print(
+                "\n\n"
+                + colored(" ! ", "yellow", attrs=["reverse"]) * (is_windows)
+                + emoji.emojize(":loudspeaker:") * (not is_windows)
+                + colored(
+                    "   Something went wrong, you might have an unstable internet connection",
+                    "yellow",
+                )
+            )
+
+            input(
+                colored("\n\n-- Please check your connection and then press ")
+                + colored("ENTER/RETURN", attrs=["reverse"]) * (is_windows)
+                + colored("ENTER/RETURN", attrs=["bold"]) * (not is_windows)
+                + colored(" to continue: ")
+            )
+
+            return select_author()
 
         try:
 
@@ -51,53 +83,24 @@ def select_author():
 
         except:
 
-            print(
-                "\n\n"
-                + (colored(" ! ", "yellow", attrs=["reverse"])) * (is_windows)
-                + (emoji.emojize(":loudspeaker:")) * (not is_windows)
-                + colored(
-                    "   The requested Author could not be found.\n",
-                    "yellow",
-                )
-            )
+            return {}
 
-            author_list_not_found_typo = True
-
-            while author_list_not_found_typo == True:
-
-                author_not_found = input(
-                    colored(
-                        "\n-- Type [1] to retry Author Search\n-- Type [2] to search by a different criteria\n   : ",
-                    )
-                )
-
-                if author_not_found == "1":
-                    break
-                elif author_not_found == "2":
-                    author_search = False
-                    break
-                else:
-                    print(
-                        "\n\n"
-                        + (colored(" ! ", "yellow", attrs=["reverse"])) * (is_windows)
-                        + (emoji.emojize(":loudspeaker:")) * (not is_windows)
-                        + colored(
-                            "   It appears that you made a typo, please re-enter your selection.\n",
-                            "yellow",
-                        )
-                    )
-            continue
-        
         print(
             "\n\n"
-            + (colored(
-                "Please select an Author from the list below:\n",
-                "blue",
-            )) * (is_windows)
-            + (colored(
-                "Please select an Author from the list below:\n",
-                attrs=["bold"],
-            )) * (not is_windows)
+            + (
+                colored(
+                    "Please select an Author from the list below:\n",
+                    "blue",
+                )
+            )
+            * (is_windows)
+            + (
+                colored(
+                    "Please select an Author from the list below:\n",
+                    attrs=["bold"],
+                )
+            )
+            * (not is_windows)
         )
 
         time.sleep(1)
@@ -120,7 +123,7 @@ def select_author():
                 )
             )
 
-            if int(Author_Number) not in list(range(1, 11)):
+            if Author_Number.strip() not in [str(x) for x in list(range(1, 11))]:
 
                 print(
                     "\n\n"
@@ -137,6 +140,7 @@ def select_author():
 
         return Author_List_json[int(Author_Number) - 1]
 
+
 def select_journal():
     global is_windows
 
@@ -149,14 +153,20 @@ def select_journal():
 
     print(
         "\n"
-        + (colored(
-            "Please enter the Name of a Journal (EXAMPLE: Journal of Financial Education).\n",
-            "blue",
-        )) * (is_windows)
-        + (colored(
-            "Please enter the Name of a Journal (EXAMPLE: Journal of Financial Education).\n",
-            attrs=["bold"],
-        )) * (not is_windows)
+        + (
+            colored(
+                "Please enter the Name of a Journal (EXAMPLE: Journal of Financial Education).\n",
+                "blue",
+            )
+        )
+        * (is_windows)
+        + (
+            colored(
+                "Please enter the Name of a Journal (EXAMPLE: Journal of Financial Education).\n",
+                attrs=["bold"],
+            )
+        )
+        * (not is_windows)
     )
 
     Journal_Name = input(
@@ -167,9 +177,32 @@ def select_journal():
 
     Journal_Name_urlenc = urllib.parse.quote(Journal_Name)
 
-    Journal_List_json = requests.get(
-        f"https://api-service-mrz6aygprq-oa.a.run.app/api/journals?journalName={Journal_Name_urlenc}"
-    )
+    try:
+
+        Journal_List_json = requests.get(
+            f"https://api-service-mrz6aygprq-oa.a.run.app/api/journals?journalName={Journal_Name_urlenc}"
+        )
+
+    except:
+
+        print(
+            "\n\n"
+            + colored(" ! ", "yellow", attrs=["reverse"]) * (is_windows)
+            + emoji.emojize(":loudspeaker:") * (not is_windows)
+            + colored(
+                "   Something went wrong, you might have an unstable internet connection",
+                "yellow",
+            )
+        )
+
+        input(
+            colored("\n\n-- Please check your connection and then press ")
+            + colored("ENTER/RETURN", attrs=["reverse"]) * (is_windows)
+            + colored("ENTER/RETURN", attrs=["bold"]) * (not is_windows)
+            + colored(" to continue: ")
+        )
+
+        return select_journal()
 
     try:
 
@@ -177,50 +210,24 @@ def select_journal():
 
     except:
 
-        if system == "Windows":
-            print(
-                "\n\n"
-                + colored(" ! ", "yellow", attrs=["reverse"])
-                + colored(
-                    "   The requested Journal could not be found.\n",
-                    "yellow",
-                )
-            )
-        else:
-            print(
-                "\n\n"
-                + emoji.emojize(":loudspeaker:")
-                + colored(
-                    "   The requested Journal could not be found.\n",
-                    "yellow",
-                )
-            )
-
-        return {}
-
-    if system == "Windows":
-        print(
-            "\n\n"
-            + (colored(" ! ", "yellow", attrs=["reverse"])) * (is_windows)
-            + (emoji.emojize(":loudspeaker:")) * (not is_windows)
-            + colored(
-                "Please select a Journal from the list below:\n",
-                "blue",
-            )
-        )
-
         return {}
 
     print(
         "\n\n"
-        + (colored(
-            "Please select a Journal from the list below:\n",
-            "blue",
-        )) * (is_windows)
-        + (colored(
-            "Please select a Journal from the list below:\n",
-            attrs=["bold"],
-        )) * (not is_windows)
+        + (
+            colored(
+                "Please select a Journal from the list below:\n",
+                "blue",
+            )
+        )
+        * (is_windows)
+        + (
+            colored(
+                "Please select a Journal from the list below:\n",
+                attrs=["bold"],
+            )
+        )
+        * (not is_windows)
     )
 
     time.sleep(1)
@@ -243,7 +250,7 @@ def select_journal():
             )
         )
 
-        if int(Journal_Number) not in list(range(1, 11)):
+        if Journal_Number.strip() not in [str(x) for x in list(range(1, 11))]:
 
             print(
                 "\n\n"
@@ -256,17 +263,43 @@ def select_journal():
             )
 
         else:
+
             Journal_Number_typo = False
 
     return Journal_List_json[int(Journal_Number) - 1]
 
 
-def select_issue(journal_id):
+def select_issue(journal_name, journal_id):
     global is_windows
 
-    issue_list_json = requests.get(
-        f"https://api-service-mrz6aygprq-oa.a.run.app/api/issues?journalID={journal_id}"
-    )
+    print("Searching for issues in " + journal_name + "...")
+
+    try:
+
+        issue_list_json = requests.get(
+            f"https://api-service-mrz6aygprq-oa.a.run.app/api/issues?journalID={journal_id}"
+        )
+
+    except:
+
+        print(
+            "\n\n"
+            + colored(" ! ", "yellow", attrs=["reverse"]) * (is_windows)
+            + emoji.emojize(":loudspeaker:") * (not is_windows)
+            + colored(
+                "   Something went wrong, you might have an unstable internet connection",
+                "yellow",
+            )
+        )
+
+        input(
+            colored("\n\n-- Please check your connection and then press ")
+            + colored("ENTER/RETURN", attrs=["reverse"]) * (is_windows)
+            + colored("ENTER/RETURN", attrs=["bold"]) * (not is_windows)
+            + colored(" to continue: ")
+        )
+
+        return select_issue(journal_id)
 
     try:
 
@@ -274,50 +307,24 @@ def select_issue(journal_id):
 
     except:
 
-        if system == "Windows":
-            print(
-                "\n\n"
-                + colored(" ! ", "yellow", attrs=["reverse"])
-                + colored(
-                    "   The requested Journal could not be found.\n",
-                    "yellow",
-                )
-            )
-        else:
-            print(
-                "\n\n"
-                + emoji.emojize(":loudspeaker:")
-                + colored(
-                    "   The requested Journal could not be found.\n",
-                    "yellow",
-                )
-            )
-
-        return {}
-
-    if system == "windows":
-        print(
-            "\n\n"
-            + (colored(" ! ", "yellow", attrs=["reverse"])) * (is_windows)
-            + (emoji.emojize(":loudspeaker:")) * (not is_windows)
-            + colored(
-                "   The Journal has no contributed Issues. Please contribute to the repository.\n",
-                "yellow",
-            )
-        )
-
         return {}
 
     print(
         "\n\n"
-        + (colored(
-            "Please select an Issue from the list below:\n",
-            "blue",
-        )) * (is_windows)
-        + (colored(
-            "Please select an Issue from the list below:\n",
-            attrs=["bold"],
-        )) * (not is_windows)
+        + (
+            colored(
+                "Please select an Issue from the list below:\n",
+                "blue",
+            )
+        )
+        * (is_windows)
+        + (
+            colored(
+                "Please select an Issue from the list below:\n",
+                attrs=["bold"],
+            )
+        )
+        * (not is_windows)
     )
 
     time.sleep(1)
@@ -352,7 +359,9 @@ def select_issue(journal_id):
             )
         )
 
-        if int(issue_number) not in list(range(1, issue_list_number)):
+        if int(issue_number).strip() not in [
+            str(x) for x in list(range(1, issue_list_number))
+        ]:
 
             print(
                 "\n\n"

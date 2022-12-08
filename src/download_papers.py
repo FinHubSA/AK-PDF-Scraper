@@ -1,7 +1,6 @@
 import requests
 import time
 import os
-import urllib.parse
 import emoji
 import platform
 
@@ -20,6 +19,7 @@ is_windows = False
 
 if system == "Windows":
     is_windows = True
+
 
 def download_papers():
 
@@ -58,22 +58,37 @@ def get_download_criteria():
 
     return download_criteria
 
+
 def download_by_author():
     global is_windows
 
     author = select_author()
 
-    if "authorID" in author:
-        author_name = author["authorName"]
+    if not ("authorID" in author):
 
         print(
-            "\n"
-            + (colored(" i ", "blue", attrs=["reverse"])) * (is_windows)
-            + (emoji.emojize(":information:")) * (not is_windows)
-            + (f" Downloading articles for {author_name}.\n")
+            "\n\n"
+            + (colored(" ! ", "red", attrs=["reverse"])) * (is_windows)
+            + (emoji.emojize(":red_exclamation_mark:")) * (not is_windows)
+            + colored(
+                "   The requested Author could not be found.\n",
+                "red",
+            )
         )
 
-        get_articles(author_name=author_name)
+        return
+
+    author_name = author["authorName"]
+
+    print(
+        "\n"
+        + (colored(" i ", "blue", attrs=["reverse"])) * (is_windows)
+        + (emoji.emojize(":information:")) * (not is_windows)
+        + (f"   Downloading all articles by {author_name}.\n")
+    )
+
+    get_articles(author_name=author_name)
+
 
 def download_by_journal():
     global is_windows
@@ -83,10 +98,13 @@ def download_by_journal():
     if not ("journalID" in journal):
 
         print(
-            "\n"
-            + (colored(" i ", "red", attrs=["reverse"])) * (is_windows)
-            + (emoji.emojize(":information:")) * (not is_windows)
-            + (f" Journal not found.\n")
+            "\n\n"
+            + colored(" ! ", "red", attrs=["reverse"]) * (is_windows)
+            + emoji.emojize(":red_exclamation_mark:") * (not is_windows)
+            + colored(
+                "   The requested journal could not be found.\n",
+                "red",
+            )
         )
 
         return
@@ -105,58 +123,103 @@ def download_by_journal():
                 + "\n-- Type [2] to download by journal issue"
                 + "\n   : ",
             )
-        )
+        ).strip()
 
         if download_by_issue == "1" or download_by_issue == "2":
             break
+
+        print(
+            "\n\n"
+            + (colored(" ! ", "yellow", attrs=["reverse"])) * (is_windows)
+            + (emoji.emojize(":loudspeaker:")) * (not is_windows)
+            + colored(
+                "   It appears that you made a typo, please re-enter your selection.\n",
+                "yellow",
+            )
+        )
 
     journal_name = journal["journalName"]
     journal_id = journal["journalID"]
 
     if download_by_issue == "1":
-        
+
         print(
             "\n"
             + (colored(" i ", "blue", attrs=["reverse"])) * (is_windows)
             + (emoji.emojize(":information:")) * (not is_windows)
-            + (f" Downloading articles for {journal_name}.\n")
+            + (f"   Downloading all articles from {journal_name}.\n")
         )
 
+        get_articles(journal_id=journal_id)
+
     else:
-        issue = select_issue(journal_id)
+
+        issue = select_issue(journal_name, journal_id)
 
         if not ("issueID" in issue):
             print(
                 "\n"
-                + (colored(" i ", "red", attrs=["reverse"])) * (is_windows)
-                + (emoji.emojize(":information:")) * (not is_windows)
-                + (f" Issue not found.\n")
+                + (colored(" ! ", "yellow", attrs=["reverse"])) * (is_windows)
+                + (emoji.emojize(":loudspeaker:")) * (not is_windows)
+                + (
+                    colored(
+                        f"   This journal does not have any issues, we will download the entire journal instead.\n",
+                        "yellow",
+                    )
+                )
             )
 
-            return
+            get_articles(journal_id=journal_id)
 
         issue_id = issue["issueID"]
 
         get_articles(issue_id=issue_id)
 
 
-def get_articles(journal_id = None, issue_id = None, author_name = None):
+def get_articles(journal_id=None, issue_id=None, author_name=None):
     global is_windows
 
-    if (journal_id):
-        articles = requests.get(
-            f"https://api-service-mrz6aygprq-oa.a.run.app/api/articles?journalID={journal_id}&scraped=1"
+    try:
+
+        if journal_id:
+            articles = requests.get(
+                f"https://api-service-mrz6aygprq-oa.a.run.app/api/articles?journalID={journal_id}&scraped=1"
+            )
+        elif issue_id:
+            articles = requests.get(
+                f"https://api-service-mrz6aygprq-oa.a.run.app/api/articles?issueID={issue_id}&scraped=1"
+            )
+        elif author_name:
+            articles = requests.get(
+                f"https://api-service-mrz6aygprq-oa.a.run.app/api/articles?authorName={author_name}&scraped=1"
+            )
+
+    except:
+
+        print(
+            "\n\n"
+            + colored(" ! ", "yellow", attrs=["reverse"]) * (is_windows)
+            + emoji.emojize(":loudspeaker:") * (not is_windows)
+            + colored(
+                "   Something went wrong, you might have an unstable internet connection",
+                "yellow",
+            )
         )
-    elif issue_id:
-        articles = requests.get(
-            f"https://api-service-mrz6aygprq-oa.a.run.app/api/articles?issueID={issue_id}&scraped=1"
+
+        input(
+            colored("\n\n-- Please check your connection and then press ")
+            + colored("ENTER/RETURN", attrs=["reverse"]) * (is_windows)
+            + colored("ENTER/RETURN", attrs=["bold"]) * (not is_windows)
+            + colored(" to continue: ")
         )
-    elif author_name:
-        # print("author name", author_name)
-        articles = requests.get(
-            f"https://api-service-mrz6aygprq-oa.a.run.app/api/articles?authorName={author_name}&scraped=1"
-        )
-    
+
+        if journal_id:
+            return get_articles(journal_id=journal_id)
+        elif issue_id:
+            return get_articles(issue_id=issue_id)
+        elif author_name:
+            return get_articles(author_name=author_name)
+
     articles = articles.json()
 
     articles_size = len(articles)
@@ -166,23 +229,33 @@ def get_articles(journal_id = None, issue_id = None, author_name = None):
             "\n"
             + (colored(" i ", "blue", attrs=["reverse"])) * (is_windows)
             + (emoji.emojize(":information:")) * (not is_windows)
-            + (f" Downloading {articles_size} articles....\n")
+            + (f"   Downloading {articles_size} articles...\n")
         )
 
         bulk_download(articles)
+
     else:
+
         print(
             "\n"
             + (colored(" i ", "yellow", attrs=["reverse"])) * (is_windows)
             + (emoji.emojize(":loudspeaker:")) * (not is_windows)
             + colored(
-                " No articles were found. Please contribute to the repository.\n",
+                " Unfortunately we currently have no articles for this search criteria.\n",
                 "yellow",
             )
         )
 
+        return download_papers()
+
+
 def bulk_download(articles):
     global is_windows
+
+    path = os.path.join(str(Path.home() / "Downloads"), "AaronsKit_PDF_Downloads")
+
+    if not os.path.exists(path):
+        os.makedirs(path)
 
     cpus = cpu_count()
 
@@ -195,17 +268,18 @@ def bulk_download(articles):
 
     print(
         "\n"
-        + (colored(" i ", "blue", attrs=["reverse"])) * (is_windows)
-        + (emoji.emojize(":information:")) * (not is_windows)
-        + (f" Successfully downloaded {results_size} articles.\n")
+        + (colored(" ! ", "green", attrs=["reverse"])) * (is_windows)
+        + (emoji.emojize(":check_mark_button:")) * (not is_windows)
+        + (
+            f"   Successfully downloaded {results_size} articles! Navigate to AaronsKit_PDF_Downloads in your downloads folder to view your files.\n"
+        )
     )
+
 
 def download_url(article):
     # print("article ", article["title"])
 
     path = os.path.join(str(Path.home() / "Downloads"), "AaronsKit_PDF_Downloads")
-    if not os.path.exists(path):
-        os.makedirs(path)
 
     bucket_url = article["bucketURL"]
 
@@ -220,6 +294,5 @@ def download_url(article):
             f.write(r.content)
         return (url, time.time() - t0)
     except Exception as e:
+        # what should the user do when exception occurs?
         print("Exception in download_url():", e)
-
-
