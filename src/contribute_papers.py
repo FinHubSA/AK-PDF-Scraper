@@ -10,7 +10,6 @@ import requests
 import string
 import random
 import warnings
-import traceback
 
 import urllib.parse
 from termcolor import colored
@@ -32,7 +31,6 @@ from temp_storage import (
 
 from donations import donation_explainer
 from internet_speed import download_speed, delay, internet_speed_retry
-from download_papers import download_papers
 from user_login import *
 
 warnings.filterwarnings("ignore")
@@ -55,6 +53,13 @@ system = (
 restart_count = article_index = t_c_try_accept = mbps = index = 0
 
 restart = t_c_accepted = False
+
+system = platform.system()
+
+is_windows = False
+
+if system == "Windows":
+    is_windows = True
 
 
 def contribute_papers():
@@ -88,7 +93,7 @@ def contribute_papers():
 
             print_error(e)
 
-            internet_speed_retry(system)
+            internet_speed_retry(is_windows)
 
             wait = delay(mbps)
 
@@ -98,42 +103,24 @@ def contribute_papers():
 
 
 def print_error(e):
-    # print(e)
 
     # Error occured, try to check internet and try again.
-    if system == "Windows":
-
-        print(
-            "\n"
-            + colored(" ! ", "yellow", attrs=["reverse"])
-            + colored(
-                "   Something went wrong, you might have an unstable internet connection",
-                "yellow",
-            )
+    print(
+        "\n"
+        + colored(" ! ", "yellow", attrs=["reverse"]) * (is_windows)
+        + emoji.emojize(":loudspeaker:") * (not is_windows)
+        + colored(
+            "   Something went wrong, you might have an unstable internet connection",
+            "yellow",
         )
+    )
 
-        input(
-            colored("\n\n-- Please check your connection and then press ")
-            + colored("ENTER/RETURN", attrs=["reverse"])
-            + colored(" to continue: ")
-        )
-
-    else:
-
-        print(
-            "\n"
-            + emoji.emojize(":loudspeaker:")
-            + colored(
-                "   Something went wrong, you might have an unstable internet connection",
-                "yellow",
-            )
-        )
-
-        input(
-            colored("\n\n-- Please check your connection and then press ")
-            + colored("ENTER/RETURN", attrs=["bold"])
-            + colored(" to continue: ")
-        )
+    input(
+        colored("\n\n-- Please check your connection and then press ")
+        + colored("ENTER/RETURN", attrs=["reverse"]) * (is_windows)
+        + colored("ENTER/RETURN", attrs=["bold"]) * (not is_windows)
+        + colored(" to continue: ")
+    )
 
 
 def setup():
@@ -155,15 +142,14 @@ def setup():
     os.chdir(src_directory)
 
     # calculate the internet speed and driver sleep time
-    mbps = internet_speed_retry(system)
+    mbps = internet_speed_retry(is_windows)
 
     wait = delay(mbps)
-    # wait = 10
 
     # define the User Agent
     print("\n\ndetermining User Agent...")
 
-    USER_AGENT = user_agent(system)
+    USER_AGENT = user_agent(is_windows)
     # USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.61 Safari/537.36"
 
     # define loop to facilitate restart when an error occurs
@@ -485,44 +471,24 @@ def download_articles():
         if article_json == Article_ID_list[-1]:
             delete_temp_storage(storage_directory)
 
-            if system == "Windows":
-
-                print(
-                    "\n"
-                    + colored(" ! ", "green", attrs=["reverse"])
-                    + colored(
-                        "   You have successfully uploaded your requested papers.",
-                        "green",
-                    )
+            print(
+                "\n"
+                + colored(" ! ", "green", attrs=["reverse"]) * (is_windows)
+                + emoji.emojize(":check_mark_button:") * (not is_windows)
+                + colored(
+                    "   You have successfully uploaded your requested papers.",
+                    "green",
                 )
+            )
 
-                print(
-                    "\n"
-                    + colored(" ! ", "green", attrs=["reverse"])
-                    + colored(
-                        "   You can exit/close this window." "green",
-                    )
+            print(
+                "\n"
+                + colored(" ! ", "green", attrs=["reverse"]) * (is_windows)
+                + emoji.emojize(":check_mark_button:") * (not is_windows)
+                + colored(
+                    "   You can exit/close this window." "green",
                 )
-
-            else:
-
-                print(
-                    "\n"
-                    + emoji.emojize(":check_mark_button:")
-                    + colored(
-                        "   You have successfully uploaded your requested papers.",
-                        "green",
-                    )
-                )
-
-                print(
-                    "\n"
-                    + emoji.emojize(":check_mark_button:")
-                    + colored(
-                        "   You can exit/close this window.",
-                        "green",
-                    )
-                )
+            )
 
             break
 
@@ -560,72 +526,216 @@ def get_article_ids():
         jstor_url = driver.current_url
 
         # User select which papers they would like to download (API Call)
-        if system == "Windows":
 
-            print(
-                "\n\n"
-                + colored("JSTOR PDF download specification:\n", attrs=["reverse"])
+        print(
+            "\n\n"
+            + colored("JSTOR PDF download specification:\n", attrs=["reverse"])
+            * (is_windows)
+            + colored(
+                "JSTOR PDF download specification:\n",
+                attrs=["bold", "underline"],
             )
+            * (not is_windows)
+        )
 
-            print(
-                "\n"
-                + colored(" i ", attrs=["reverse"])
-                + "   Please select your search criteria"
-            )
+        print(
+            "\n"
+            + colored(" i ", attrs=["reverse"]) * (is_windows)
+            + emoji.emojize(":information:") * (not is_windows)
+            + "   Please select your search criteria."
+        )
 
-            search_criteria_typo = True
+        search_criteria_typo = True
 
-            while search_criteria_typo == True:
+        while search_criteria_typo == True:
 
-                search_criteria = input(
-                    colored(
-                        "\n-- Type [1] to search by Author Name\n-- Type [2] to search by Journal Name\n   : ",
-                    )
+            search_criteria = input(
+                colored(
+                    "\n-- Type [1] to search by Author Name\n-- Type [2] to search by Journal Name\n   : ",
+                )
+            ).strip()
+
+            if search_criteria == "1":
+
+                print(
+                    "\n"
+                    + colored(" i ", attrs=["reverse"]) * (is_windows)
+                    + emoji.emojize(":information:") * (not is_windows)
+                    + "   You have chosen to search by Author Name.\n"
                 )
 
-                if search_criteria == "1":
-
-                    print(
-                        "\n"
-                        + colored(" i ", attrs=["reverse"])
-                        + "   You have chosen to search by Author Name.\n"
+                print(
+                    "\n"
+                    + colored(
+                        "Please enter the Name and Surname of an author (EXAMPLE: Rebecca Gould).\n",
+                        "blue",
                     )
+                    * (is_windows)
+                    + colored(
+                        "Please enter the Name and Surname of an author (EXAMPLE: Rebecca Gould)\n",
+                        attrs=["bold"],
+                    )
+                    * (not is_windows)
+                )
 
-                    print(
-                        "\n"
-                        + colored(
-                            "Please enter the Name and Surname of an Author (EXAMPLE: Rebecca Gould).\n",
-                            "blue",
+                author_search = True
+
+                while author_search == True:
+
+                    Author_Name = input(
+                        colored(
+                            "\n-- Type Author Name and Surname\n   : ",
                         )
+                    ).strip()
+
+                    Author_Name_urlenc = urllib.parse.quote(Author_Name)
+
+                    Author_List_json = requests.get(
+                        f"https://api-service-mrz6aygprq-oa.a.run.app/api/authors?authorName={Author_Name_urlenc}"
                     )
 
-                    author_search = True
+                    try:
 
-                    while author_search == True:
+                        Author_List_json = Author_List_json.json()
 
-                        Author_Name = input(
-                            colored(
-                                "\n-- Type Author Name and Surname\n   : ",
+                    except:
+
+                        print(
+                            "\n\n"
+                            + colored(" ! ", "yellow", attrs=["reverse"]) * (is_windows)
+                            + emoji.emojize(":loudspeaker:") * (not is_windows)
+                            + colored(
+                                "   The requested author could not be found.\n",
+                                "yellow",
                             )
                         )
 
-                        Author_Name_urlenc = urllib.parse.quote(Author_Name)
+                        author_list_not_found_typo = True
 
-                        Author_List_json = requests.get(
-                            f"https://api-service-mrz6aygprq-oa.a.run.app/api/authors?authorName={Author_Name_urlenc}"
+                        while author_list_not_found_typo == True:
+
+                            author_not_found = input(
+                                colored(
+                                    "\n-- Type [1] to retry Author Search\n-- Type [2] to search by a different criteria\n   : ",
+                                )
+                            ).strip()
+
+                            if author_not_found == "1":
+                                break
+                            elif author_not_found == "2":
+                                author_search = False
+                                break
+                            else:
+                                print(
+                                    "\n\n"
+                                    + colored(" ! ", "yellow", attrs=["reverse"])
+                                    * (is_windows)
+                                    + emoji.emojize(":loudspeaker:") * (not is_windows)
+                                    + colored(
+                                        "   It appears that you made a typo, please re-enter your selection.\n",
+                                        "yellow",
+                                    )
+                                )
+
+                        continue
+
+                    print(
+                        "\n\n"
+                        + colored(
+                            "Please select an author from the list below:\n",
+                            attrs=["bold"],
+                        )
+                        * (is_windows)
+                        + colored(
+                            "Please select an author from the list below:\n",
+                            "blue",
+                        )
+                        * (not is_windows)
+                    )
+
+                    time.sleep(1)
+
+                    author_list_number = 0
+
+                    for Author_Name in Author_List_json:
+
+                        author_list_number += 1
+
+                        print(
+                            "["
+                            + str(author_list_number)
+                            + "] "
+                            + Author_Name["authorName"]
                         )
 
-                        try:
+                    Author_Number_typo = True
 
-                            Author_List_json = Author_List_json.json()
+                    while Author_Number_typo == True:
 
-                        except:
+                        Author_Number = input(
+                            colored(
+                                "\n\n-- Type the number of the author\n   : ",
+                            )
+                        ).strip()
+
+                        if Author_Number not in [str(x) for x in list(range(1, 11))]:
 
                             print(
                                 "\n\n"
                                 + colored(" ! ", "yellow", attrs=["reverse"])
+                                * (is_windows)
+                                + emoji.emojize(":loudspeaker:") * (not is_windows)
                                 + colored(
-                                    "   The requested Author could not be found.\n",
+                                    "   It appears that you made a typo, please re-enter your selection.\n",
+                                    "yellow",
+                                )
+                            )
+
+                        else:
+                            Author_Number_typo = False
+
+                    Author_Selected_urlenc = urllib.parse.quote(
+                        Author_List_json[int(Author_Number) - 1]["authorName"]
+                    )
+
+                    Article_ID_list = requests.get(
+                        f"https://api-service-mrz6aygprq-oa.a.run.app/api/articles?authorName={Author_Selected_urlenc}&scraped=0"
+                    )
+
+                    if Article_ID_list.status_code == 200:
+
+                        Article_ID_list = Article_ID_list.json()
+
+                        if len(Article_ID_list) > 0:
+
+                            print(
+                                "\n"
+                                + colored(" ! ", "green", attrs=["reverse"])
+                                * (is_windows)
+                                + emoji.emojize(":check_mark_button:")
+                                * (not is_windows)
+                                + colored(
+                                    "  List of articles from selected author found.\n",
+                                    "green",
+                                )
+                            )
+
+                            time.sleep(1)
+
+                            author_search = False
+
+                            search_criteria_typo = False
+
+                        else:
+
+                            # Add option to download articles by this author
+                            print(
+                                "\n\n"
+                                + colored(" ! ", "yellow", attrs=["reverse"])
+                                * (is_windows)
+                                + emoji.emojize(":loudspeaker:") * (not is_windows)
+                                + colored(
+                                    "   It appears that all articles by this author are already available.\n",
                                     "yellow",
                                 )
                             )
@@ -638,160 +748,7 @@ def get_article_ids():
                                     colored(
                                         "\n-- Type [1] to retry Author Search\n-- Type [2] to search by a different criteria\n   : ",
                                     )
-                                )
-
-                                if author_not_found == "1":
-                                    break
-                                elif author_not_found == "2":
-                                    author_search = False
-                                    break
-                                else:
-                                    print(
-                                        "\n\n"
-                                        + colored(" ! ", "yellow", attrs=["reverse"])
-                                        + colored(
-                                            "   It appears that you made a typo, please re-enter your selection.\n",
-                                            "yellow",
-                                        )
-                                    )
-
-                            continue
-
-                        print(
-                            "\n\n"
-                            + colored(
-                                "Please select an Author from the list below:\n",
-                                "blue",
-                            )
-                        )
-
-                        time.sleep(1)
-
-                        author_list_number = 0
-
-                        for Author_Name in Author_List_json:
-
-                            author_list_number += 1
-
-                            print(
-                                "["
-                                + str(author_list_number)
-                                + "] "
-                                + Author_Name["authorName"]
-                            )
-
-                        Author_Number_typo = True
-
-                        while Author_Number_typo == True:
-
-                            Author_Number = input(
-                                colored(
-                                    "\n\n-- Type the Number of the Author\n   : ",
-                                )
-                            )
-
-                            if int(Author_Number) not in list(range(1, 11)):
-
-                                print(
-                                    "\n\n"
-                                    + colored(" ! ", "yellow", attrs=["reverse"])
-                                    + colored(
-                                        "   It appears that you made a typo, please re-enter your selection.\n",
-                                        "yellow",
-                                    )
-                                )
-
-                            else:
-                                Author_Number_typo = False
-
-                        Author_Selected_urlenc = urllib.parse.quote(
-                            Author_List_json[int(Author_Number) - 1]["authorName"]
-                        )
-
-                        Article_ID_list = requests.get(
-                            f"https://api-service-mrz6aygprq-oa.a.run.app/api/articles?authorName={Author_Selected_urlenc}&scraped=0"
-                        )
-
-                        if Article_ID_list.status_code == 200:
-
-                            Article_ID_list = Article_ID_list.json()
-
-                            if len(Article_ID_list) > 0:
-
-                                print(
-                                    "\n"
-                                    + colored(" ! ", "green", attrs=["reverse"])
-                                    + colored(
-                                        "  List of articles from selected Author found\n",
-                                        "green",
-                                    )
-                                )
-
-                                time.sleep(1)
-
-                                author_search = False
-
-                                search_criteria_typo = False
-
-                            else:
-
-                                # Add option to download articles by this author
-                                print(
-                                    "\n\n"
-                                    + colored(" ! ", "yellow", attrs=["reverse"])
-                                    + colored(
-                                        "   It appears that all articles by this author are already available.\n",
-                                        "yellow",
-                                    )
-                                )
-
-                                author_list_not_found_typo = True
-
-                                while author_list_not_found_typo == True:
-
-                                    author_not_found = input(
-                                        colored(
-                                            "\n-- Type [1] to retry Author Search\n-- Type [2] to search by a different criteria\n   : ",
-                                        )
-                                    )
-
-                                    if author_not_found == "1":
-                                        break
-                                    elif author_not_found == "2":
-                                        author_search = False
-                                        search_criteria_typo = True
-                                        break
-                                    else:
-                                        print(
-                                            "\n\n"
-                                            + colored(
-                                                " ! ", "yellow", attrs=["reverse"]
-                                            )
-                                            + colored(
-                                                "   It appears that you made a typo, please re-enter your selection.\n",
-                                                "yellow",
-                                            )
-                                        )
-                        elif Article_ID_list.status_code == 400:
-
-                            print(
-                                "\n\n"
-                                + colored(" ! ", "red", attrs=["reverse"])
-                                + colored(
-                                    "   An unexpected error occured.\n",
-                                    "red",
-                                )
-                            )
-
-                            author_list_not_found_typo = True
-
-                            while author_list_not_found_typo == True:
-
-                                author_not_found = input(
-                                    colored(
-                                        "\n-- Type [1] to retry Author Search\n-- Type [2] to search by a different criteria\n   : ",
-                                    )
-                                )
+                                ).strip()
 
                                 if author_not_found == "1":
                                     break
@@ -803,55 +760,235 @@ def get_article_ids():
                                     print(
                                         "\n\n"
                                         + colored(" ! ", "yellow", attrs=["reverse"])
+                                        * (is_windows)
+                                        + emoji.emojize(":loudspeaker:")
+                                        * (not is_windows)
                                         + colored(
                                             "   It appears that you made a typo, please re-enter your selection.\n",
                                             "yellow",
                                         )
                                     )
+                    elif Article_ID_list.status_code == 400:
 
-                elif search_criteria == "2":
-
-                    print(
-                        "\n"
-                        + colored(" i ", attrs=["reverse"])
-                        + "   You have chosen to search by Journal Name.\n"
-                    )
-
-                    print(
-                        "\n"
-                        + colored(
-                            "Please enter the Name of a Journal (EXAMPLE: Journal of Financial Education).\n",
-                            "blue",
-                        )
-                    )
-
-                    journal_search = True
-
-                    while journal_search == True:
-
-                        Journal_Name = input(
-                            colored(
-                                "\n-- Type Journal Name\n   : ",
+                        print(
+                            "\n\n"
+                            + colored(" ! ", "red", attrs=["reverse"]) * (is_windows)
+                            + emoji.emojize(":red_exclamation_mark:") * (not is_windows)
+                            + colored(
+                                "   An unexpected error occured.\n",
+                                "red",
                             )
                         )
 
-                        Journal_Name_urlenc = urllib.parse.quote(Journal_Name)
+                        author_list_not_found_typo = True
 
-                        Journal_List_json = requests.get(
-                            f"https://api-service-mrz6aygprq-oa.a.run.app/api/journals?journalName={Journal_Name_urlenc}"
+                        while author_list_not_found_typo == True:
+
+                            author_not_found = input(
+                                colored(
+                                    "\n-- Type [1] to retry Author Search\n-- Type [2] to search by a different criteria\n   : ",
+                                )
+                            ).strip()
+
+                            if author_not_found == "1":
+                                break
+                            elif author_not_found == "2":
+                                author_search = False
+                                search_criteria_typo = True
+                                break
+                            else:
+                                print(
+                                    "\n\n"
+                                    + colored(" ! ", "yellow", attrs=["reverse"])
+                                    * (is_windows)
+                                    + emoji.emojize(":loudspeaker:") * (not is_windows)
+                                    + colored(
+                                        "   It appears that you made a typo, please re-enter your selection.\n",
+                                        "yellow",
+                                    )
+                                )
+
+            elif search_criteria == "2":
+
+                print(
+                    "\n"
+                    + colored(" i ", attrs=["reverse"]) * (is_windows)
+                    + emoji.emojize(":information:") * (not is_windows)
+                    + "   You have chosen to search by Journal Name.\n"
+                )
+
+                print(
+                    "\n"
+                    + colored(
+                        "Please enter the Name of a journal (EXAMPLE: Journal of Financial Education).\n",
+                        "blue",
+                    )
+                    * (is_windows)
+                    + colored(
+                        "Please enter the Name of a journal (EXAMPLE: Journal of Financial Education).\n",
+                        attrs=["bold"],
+                    )
+                    * (not is_windows)
+                )
+
+                journal_search = True
+
+                while journal_search == True:
+
+                    Journal_Name = input(
+                        colored(
+                            "\n-- Type Journal Name\n   : ",
+                        )
+                    ).strip()
+
+                    Journal_Name_urlenc = urllib.parse.quote(Journal_Name)
+
+                    Journal_List_json = requests.get(
+                        f"https://api-service-mrz6aygprq-oa.a.run.app/api/journals?journalName={Journal_Name_urlenc}"
+                    )
+
+                    try:
+
+                        Journal_List_json = Journal_List_json.json()
+
+                    except:
+
+                        print(
+                            "\n\n"
+                            + colored(" ! ", "yellow", attrs=["reverse"]) * (is_windows)
+                            + emoji.emojize(":loudspeaker:") * (not is_windows)
+                            + colored(
+                                "   The requested journal could not be found.\n",
+                                "yellow",
+                            )
                         )
 
-                        try:
+                        journal_list_not_found_typo = True
 
-                            Journal_List_json = Journal_List_json.json()
+                        while journal_list_not_found_typo == True:
 
-                        except:
+                            journal_not_found = input(
+                                colored(
+                                    "\n-- Type [1] to retry Journal Search\n-- Type [2] to search by a different criteria\n   : ",
+                                )
+                            ).strip()
+
+                            if journal_not_found == "1":
+                                break
+                            elif journal_not_found == "2":
+                                journal_search = False
+                                break
+                            else:
+                                print(
+                                    "\n\n"
+                                    + colored(" ! ", "yellow", attrs=["reverse"])
+                                    * (is_windows)
+                                    + emoji.emojize(":loudspeaker:") * (not is_windows)
+                                    + colored(
+                                        "   It appears that you made a typo, please re-enter your selection.\n",
+                                        "yellow",
+                                    )
+                                )
+
+                        continue
+
+                    print(
+                        "\n\n"
+                        + colored(
+                            "Please select a journal from the list below:\n",
+                            "blue",
+                        )
+                        * (is_windows)
+                        + colored(
+                            "Please select a journal from the list below:\n",
+                            attrs=["bold"],
+                        )
+                        * (not is_windows)
+                    )
+
+                    time.sleep(1)
+
+                    journal_list_number = 0
+
+                    for Journal_Name in Journal_List_json:
+
+                        journal_list_number += 1
+
+                        print(
+                            "["
+                            + str(journal_list_number)
+                            + "] "
+                            + Journal_Name["journalName"]
+                        )
+
+                    Journal_Number_typo = True
+
+                    while Journal_Number_typo == True:
+
+                        Journal_Number = input(
+                            colored(
+                                "\n\n-- Type the Number of the Journal\n   : ",
+                            )
+                        ).strip()
+
+                        if Journal_Number not in [str(x) for x in list(range(1, 11))]:
 
                             print(
                                 "\n\n"
                                 + colored(" ! ", "yellow", attrs=["reverse"])
+                                * (is_windows)
+                                + emoji.emojize(":loudspeaker:") * (not is_windows)
                                 + colored(
-                                    "   The requested Journal could not be found.\n",
+                                    "   It appears that you made a typo, please re-enter your selection.\n",
+                                    "yellow",
+                                )
+                            )
+
+                        else:
+                            Journal_Number_typo = False
+
+                    Journal_Selected_urlenc = urllib.parse.quote(
+                        Journal_List_json[int(Journal_Number) - 1]["journalName"]
+                    )
+
+                    Article_ID_list = requests.get(
+                        f"https://api-service-mrz6aygprq-oa.a.run.app/api/articles?journalName={Journal_Selected_urlenc}&scraped=0"
+                    )
+
+                    if Article_ID_list.status_code == 200:
+
+                        Article_ID_list = Article_ID_list.json()
+
+                        if len(Article_ID_list) > 0:
+
+                            print(
+                                "\n"
+                                + colored(" ! ", "green", attrs=["reverse"])
+                                * (is_windows)
+                                + emoji.emojize(":check_mark_button:")
+                                * (not is_windows)
+                                + colored(
+                                    "  List of articles from selected journal found.\n",
+                                    "green",
+                                )
+                            )
+
+                            time.sleep(1)
+
+                            journal_search = False
+
+                            search_criteria_typo = False
+
+                        else:
+
+                            # Add option to download articles by this author
+                            print(
+                                "\n\n"
+                                + colored(" ! ", "yellow", attrs=["reverse"])
+                                * (is_windows)
+                                + emoji.emojize(":loudspeaker:") * (not is_windows)
+                                + colored(
+                                    "   It appears that all articles from this journal are already available.\n",
                                     "yellow",
                                 )
                             )
@@ -864,160 +1001,7 @@ def get_article_ids():
                                     colored(
                                         "\n-- Type [1] to retry Journal Search\n-- Type [2] to search by a different criteria\n   : ",
                                     )
-                                )
-
-                                if journal_not_found == "1":
-                                    break
-                                elif journal_not_found == "2":
-                                    journal_search = False
-                                    break
-                                else:
-                                    print(
-                                        "\n\n"
-                                        + colored(" ! ", "yellow", attrs=["reverse"])
-                                        + colored(
-                                            "   It appears that you made a typo, please re-enter your selection.\n",
-                                            "yellow",
-                                        )
-                                    )
-
-                            continue
-
-                        print(
-                            "\n\n"
-                            + colored(
-                                "Please select a Journal from the list below:\n",
-                                "blue",
-                            )
-                        )
-
-                        time.sleep(1)
-
-                        journal_list_number = 0
-
-                        for Journal_Name in Journal_List_json:
-
-                            journal_list_number += 1
-
-                            print(
-                                "["
-                                + str(journal_list_number)
-                                + "] "
-                                + Journal_Name["journalName"]
-                            )
-
-                        Journal_Number_typo = True
-
-                        while Journal_Number_typo == True:
-
-                            Journal_Number = input(
-                                colored(
-                                    "\n\n-- Type the Number of the Journal\n   : ",
-                                )
-                            )
-
-                            if int(Journal_Number) not in list(range(1, 11)):
-
-                                print(
-                                    "\n\n"
-                                    + colored(" ! ", "yellow", attrs=["reverse"])
-                                    + colored(
-                                        "   It appears that you made a typo, please re-enter your selection.\n",
-                                        "yellow",
-                                    )
-                                )
-
-                            else:
-                                Journal_Number_typo = False
-
-                        Journal_Selected_urlenc = urllib.parse.quote(
-                            Journal_List_json[int(Journal_Number) - 1]["journalName"]
-                        )
-
-                        Article_ID_list = requests.get(
-                            f"https://api-service-mrz6aygprq-oa.a.run.app/api/articles?journalName={Journal_Selected_urlenc}&scraped=0"
-                        )
-
-                        if Article_ID_list.status_code == 200:
-
-                            Article_ID_list = Article_ID_list.json()
-
-                            if len(Article_ID_list) > 0:
-
-                                print(
-                                    "\n"
-                                    + colored(" ! ", "green", attrs=["reverse"])
-                                    + colored(
-                                        "  List of articles from selected Journal found\n",
-                                        "green",
-                                    )
-                                )
-
-                                time.sleep(1)
-
-                                journal_search = False
-
-                                search_criteria_typo = False
-
-                            else:
-
-                                # Add option to download articles by this author
-                                print(
-                                    "\n\n"
-                                    + colored(" ! ", "yellow", attrs=["reverse"])
-                                    + colored(
-                                        "   It appears that all articles from this journal are already available.\n",
-                                        "yellow",
-                                    )
-                                )
-
-                                journal_list_not_found_typo = True
-
-                                while journal_list_not_found_typo == True:
-
-                                    journal_not_found = input(
-                                        colored(
-                                            "\n-- Type [1] to retry Journal Search\n-- Type [2] to search by a different criteria\n   : ",
-                                        )
-                                    )
-
-                                    if journal_not_found == "1":
-                                        break
-                                    elif journal_not_found == "2":
-                                        journal_search = False
-                                        search_criteria_typo = True
-                                        break
-                                    else:
-                                        print(
-                                            "\n\n"
-                                            + colored(
-                                                " ! ", "yellow", attrs=["reverse"]
-                                            )
-                                            + colored(
-                                                "   It appears that you made a typo, please re-enter your selection.\n",
-                                                "yellow",
-                                            )
-                                        )
-                        elif Article_ID_list.status_code == 200:
-
-                            print(
-                                "\n\n"
-                                + colored(" ! ", "red", attrs=["reverse"])
-                                + colored(
-                                    "   An unexpected error occured.\n",
-                                    "red",
-                                )
-                            )
-
-                            journal_list_not_found_typo = True
-
-                            while journal_list_not_found_typo == True:
-
-                                journal_not_found = input(
-                                    colored(
-                                        "\n-- Type [1] to retry Journal Search\n-- Type [2] to search by a different criteria\n   : ",
-                                    )
-                                )
+                                ).strip()
 
                                 if journal_not_found == "1":
                                     break
@@ -1029,559 +1013,93 @@ def get_article_ids():
                                     print(
                                         "\n\n"
                                         + colored(" ! ", "yellow", attrs=["reverse"])
-                                        + colored(
-                                            "   It appears that you made a typo, please re-enter your selection.\n",
-                                            "yellow",
-                                        )
-                                    )
-
-                else:
-
-                    print(
-                        "\n\n"
-                        + colored(" ! ", "yellow", attrs=["reverse"])
-                        + colored(
-                            "   It appears that you made a typo, please re-enter your selection.\n",
-                            "yellow",
-                        )
-                    )
-
-            # Print End Message
-            print(
-                "\n\n"
-                + colored(" i ", "blue", attrs=["reverse"])
-                + "   PDF files located and Login process complete, the browser will run in the background."
-            )
-
-            time.sleep(1)
-
-            print(
-                "\n"
-                + colored(" i ", "blue", attrs=["reverse"])
-                + "   You can minimize this window and continue with other tasks on your computer while your files download."
-            )
-
-            time.sleep(1)
-
-            print(
-                "\n"
-                + colored(" i ", "blue", attrs=["reverse"])
-                + "   Do not exit/close this window as this will abort the download process.\n"
-            )
-
-            time.sleep(1)
-
-        else:
-
-            print(
-                "\n\n"
-                + colored(
-                    "JSTOR PDF download specification:\n",
-                    attrs=["bold", "underline"],
-                )
-            )
-
-            print(
-                "\n"
-                + emoji.emojize(":information:")
-                + "   Please select your search criteria"
-            )
-
-            search_criteria_typo = True
-
-            while search_criteria_typo == True:
-
-                search_criteria = input(
-                    colored(
-                        "\n-- Type [1] to search by Author Name\n-- Type [2] to search by Journal Name\n   : ",
-                    )
-                )
-
-                if search_criteria == "1":
-
-                    print(
-                        "\n"
-                        + emoji.emojize(":information:")
-                        + "   You have chosen to search by Author Name.\n"
-                    )
-
-                    print(
-                        "\n"
-                        + colored(
-                            "Please enter the Name and Surname of an Author (EXAMPLE: Rebecca Gould)\n",
-                            attrs=["bold"],
-                        )
-                    )
-
-                    author_search = True
-
-                    while author_search == True:
-
-                        Author_Name = input(
-                            colored(
-                                "\n-- Type Author Name and Surname\n   : ",
-                            )
-                        )
-
-                        Author_Name_urlenc = urllib.parse.quote(Author_Name)
-
-                        Author_List_json = requests.get(
-                            f"https://api-service-mrz6aygprq-oa.a.run.app/api/authors?authorName={Author_Name_urlenc}"
-                        )
-
-                        try:
-
-                            Author_List_json = Author_List_json.json()
-
-                        except:
-
-                            print(
-                                "\n\n"
-                                + emoji.emojize(":loudspeaker:")
-                                + colored(
-                                    "   The requested Author could not be found.\n",
-                                    "yellow",
-                                )
-                            )
-
-                            author_list_not_found_typo = True
-
-                            while author_list_not_found_typo == True:
-
-                                author_not_found = input(
-                                    colored(
-                                        "\n-- Type [1] to retry Author Search\n-- Type [2] to search by a different criteria\n   : ",
-                                    )
-                                )
-
-                                if author_not_found == "1":
-                                    break
-                                elif author_not_found == "2":
-                                    author_search = False
-                                    break
-                                else:
-                                    print(
-                                        "\n\n"
+                                        * (is_windows)
                                         + emoji.emojize(":loudspeaker:")
+                                        * (not is_windows)
                                         + colored(
                                             "   It appears that you made a typo, please re-enter your selection.\n",
                                             "yellow",
                                         )
                                     )
-
-                            continue
+                    elif Article_ID_list.status_code == 200:
 
                         print(
                             "\n\n"
+                            + colored(" ! ", "red", attrs=["reverse"]) * (is_windows)
+                            + emoji.emojize(":red_exclamation_mark:") * (not is_windows)
                             + colored(
-                                "Please select a Author from the list below:\n",
-                                attrs=["bold"],
+                                "   An unexpected error occured.\n",
+                                "red",
                             )
                         )
 
-                        time.sleep(1)
+                        journal_list_not_found_typo = True
 
-                        author_list_number = 0
+                        while journal_list_not_found_typo == True:
 
-                        for Author_Name in Author_List_json:
-
-                            author_list_number += 1
-
-                            print(
-                                "["
-                                + str(author_list_number)
-                                + "] "
-                                + Author_Name["authorName"]
-                            )
-
-                        Author_Number_typo = True
-
-                        while Author_Number_typo == True:
-
-                            Author_Number = input(
+                            journal_not_found = input(
                                 colored(
-                                    "\n\n-- Type the Number of the Author\n   : ",
+                                    "\n-- Type [1] to retry Journal Search\n-- Type [2] to search by a different criteria\n   : ",
                                 )
-                            )
+                            ).strip()
 
-                            if int(Author_Number) not in list(range(1, 11)):
-
-                                print(
-                                    "\n\n"
-                                    + emoji.emojize(":loudspeaker:")
-                                    + colored(
-                                        "   It appears that you made a typo, please re-enter your selection.\n",
-                                        "yellow",
-                                    )
-                                )
-
-                            else:
-                                Author_Number_typo = False
-
-                        Author_Selected_urlenc = urllib.parse.quote(
-                            Author_List_json[int(Author_Number) - 1]["authorName"]
-                        )
-
-                        Article_ID_list = requests.get(
-                            f"https://api-service-mrz6aygprq-oa.a.run.app/api/articles?authorName={Author_Selected_urlenc}&scraped=0"
-                        )
-
-                        if Article_ID_list.status_code == 200:
-
-                            Article_ID_list = Article_ID_list.json()
-
-                            if len(Article_ID_list) > 0:
-
-                                print(
-                                    "\n"
-                                    + emoji.emojize(":check_mark_button:")
-                                    + colored(
-                                        "  List of articles from selected Author found\n",
-                                        "green",
-                                    )
-                                )
-
-                                print(Article_ID_list)
-
-                                time.sleep(1)
-
-                                author_search = False
-
-                                search_criteria_typo = False
-
-                            else:
-
-                                # Add option to download articles by this author
-                                print(
-                                    "\n\n"
-                                    + emoji.emojize(":loudspeaker:")
-                                    + colored(
-                                        "   It appears that all articles by this author are already available.\n",
-                                        "yellow",
-                                    )
-                                )
-
-                                author_list_not_found_typo = True
-
-                                while author_list_not_found_typo == True:
-
-                                    author_not_found = input(
-                                        colored(
-                                            "\n-- Type [1] to retry Author Search\n-- Type [2] to search by a different criteria\n   : ",
-                                        )
-                                    )
-
-                                    if author_not_found == "1":
-                                        break
-                                    elif author_not_found == "2":
-                                        author_search = False
-                                        search_criteria_typo = True
-                                        break
-                                    else:
-                                        print(
-                                            "\n\n"
-                                            + emoji.emojize(":loudspeaker:")
-                                            + colored(
-                                                "   It appears that you made a typo, please re-enter your selection.\n",
-                                                "yellow",
-                                            )
-                                        )
-                        elif Article_ID_list.status_code == 400:
-
-                            print(
-                                "\n\n"
-                                + emoji.emojize(":red_exclamation_mark:")
-                                + colored(
-                                    "   An unexpected error occured.\n",
-                                    "red",
-                                )
-                            )
-
-                            author_list_not_found_typo = True
-
-                            while author_list_not_found_typo == True:
-
-                                author_not_found = input(
-                                    colored(
-                                        "\n-- Type [1] to retry Author Search\n-- Type [2] to search by a different criteria\n   : ",
-                                    )
-                                )
-
-                                if author_not_found == "1":
-                                    break
-                                elif author_not_found == "2":
-                                    author_search = False
-                                    search_criteria_typo = True
-                                    break
-                                else:
-                                    print(
-                                        "\n\n"
-                                        + emoji.emojize(":loudspeaker:")
-                                        + colored(
-                                            "   It appears that you made a typo, please re-enter your selection.\n",
-                                            "yellow",
-                                        )
-                                    )
-
-                elif search_criteria == "2":
-
-                    print(
-                        "\n"
-                        + emoji.emojize(":information:")
-                        + "   You have chosen to search by Journal Name.\n"
-                    )
-
-                    print(
-                        "\n"
-                        + colored(
-                            "Please enter the Name of a Journal (EXAMPLE: Journal of Financial Education).\n",
-                            attrs=["bold"],
-                        )
-                    )
-
-                    journal_search = True
-
-                    while journal_search == True:
-
-                        Journal_Name = input(
-                            colored(
-                                "\n-- Type Journal Name\n   : ",
-                            )
-                        )
-
-                        Journal_Name_urlenc = urllib.parse.quote(Journal_Name)
-
-                        Journal_List_json = requests.get(
-                            f"https://api-service-mrz6aygprq-oa.a.run.app/api/journals?journalName={Journal_Name_urlenc}"
-                        )
-
-                        try:
-
-                            Journal_List_json = Journal_List_json.json()
-
-                        except:
-
-                            print(
-                                "\n\n"
-                                + emoji.emojize(":loudspeaker:")
-                                + colored(
-                                    "   The requested Journal could not be found.\n",
-                                    "yellow",
-                                )
-                            )
-
-                            journal_list_not_found_typo = True
-
-                            while journal_list_not_found_typo == True:
-
-                                journal_not_found = input(
-                                    colored(
-                                        "\n-- Type [1] to retry Journal Search\n-- Type [2] to search by a different criteria\n   : ",
-                                    )
-                                )
-
-                                if journal_not_found == "1":
-                                    break
-                                elif journal_not_found == "2":
-                                    journal_search = False
-                                    break
-                                else:
-                                    print(
-                                        "\n\n"
-                                        + emoji.emojize(":loudspeaker:")
-                                        + colored(
-                                            "   It appears that you made a typo, please re-enter your selection.\n",
-                                            "yellow",
-                                        )
-                                    )
-
-                            continue
-
-                        print(
-                            "\n\n"
-                            + colored(
-                                "Please select a Journal from the list below:\n",
-                                attrs=["bold"],
-                            )
-                        )
-
-                        time.sleep(1)
-
-                        journal_list_number = 0
-
-                        for Journal_Name in Journal_List_json:
-
-                            journal_list_number += 1
-
-                            print(
-                                "["
-                                + str(journal_list_number)
-                                + "] "
-                                + Journal_Name["journalName"]
-                            )
-
-                        Journal_Number_typo = True
-
-                        while Journal_Number_typo == True:
-
-                            Journal_Number = input(
-                                colored(
-                                    "\n\n-- Type the Number of the Journal\n   : ",
-                                )
-                            )
-
-                            if int(Journal_Number) not in list(range(1, 11)):
-
-                                print(
-                                    "\n\n"
-                                    + emoji.emojize(":loudspeaker:")
-                                    + colored(
-                                        "   It appears that you made a typo, please re-enter your selection.\n",
-                                        "yellow",
-                                    )
-                                )
-
-                            else:
-                                Journal_Number_typo = False
-
-                        Journal_Selected_urlenc = urllib.parse.quote(
-                            Journal_List_json[int(Journal_Number) - 1]["journalName"]
-                        )
-
-                        Article_ID_list = requests.get(
-                            f"https://api-service-mrz6aygprq-oa.a.run.app/api/articles?journalName={Journal_Selected_urlenc}&scraped=0"
-                        )
-
-                        if Article_ID_list.status_code == 200:
-
-                            Article_ID_list = Article_ID_list.json()
-
-                            if len(Article_ID_list) > 0:
-
-                                print(
-                                    "\n"
-                                    + emoji.emojize(":check_mark_button:")
-                                    + colored(
-                                        "  List of articles from selected Journal found\n",
-                                        "green",
-                                    )
-                                )
-
-                                time.sleep(1)
-
+                            if journal_not_found == "1":
+                                break
+                            elif journal_not_found == "2":
                                 journal_search = False
-
-                                search_criteria_typo = False
-
+                                search_criteria_typo = True
+                                break
                             else:
-
-                                # Add option to download articles by this author
                                 print(
                                     "\n\n"
-                                    + emoji.emojize(":loudspeaker:")
+                                    + colored(" ! ", "yellow", attrs=["reverse"])
+                                    * (is_windows)
+                                    + emoji.emojize(":loudspeaker:") * (not is_windows)
                                     + colored(
-                                        "   It appears that all articles from this journal are already available.\n",
+                                        "   It appears that you made a typo, please re-enter your selection.\n",
                                         "yellow",
                                     )
                                 )
 
-                                journal_list_not_found_typo = True
+            else:
 
-                                while journal_list_not_found_typo == True:
-
-                                    journal_not_found = input(
-                                        colored(
-                                            "\n-- Type [1] to retry Journal Search\n-- Type [2] to search by a different criteria\n   : ",
-                                        )
-                                    )
-
-                                    if journal_not_found == "1":
-                                        break
-                                    elif journal_not_found == "2":
-                                        journal_search = False
-                                        search_criteria_typo = True
-                                        break
-                                    else:
-                                        print(
-                                            "\n\n"
-                                            + emoji.emojize(":loudspeaker:")
-                                            + colored(
-                                                "   It appears that you made a typo, please re-enter your selection.\n",
-                                                "yellow",
-                                            )
-                                        )
-                        elif Article_ID_list.status_code == 200:
-
-                            print(
-                                "\n\n"
-                                + emoji.emojize("c")
-                                + colored(
-                                    "   An unexpected error occured.\n",
-                                    "red",
-                                )
-                            )
-
-                            journal_list_not_found_typo = True
-
-                            while journal_list_not_found_typo == True:
-
-                                journal_not_found = input(
-                                    colored(
-                                        "\n-- Type [1] to retry Journal Search\n-- Type [2] to search by a different criteria\n   : ",
-                                    )
-                                )
-
-                                if journal_not_found == "1":
-                                    break
-                                elif journal_not_found == "2":
-                                    journal_search = False
-                                    search_criteria_typo = True
-                                    break
-                                else:
-                                    print(
-                                        "\n\n"
-                                        + emoji.emojize(":loudspeaker:")
-                                        + colored(
-                                            "   It appears that you made a typo, please re-enter your selection.\n",
-                                            "yellow",
-                                        )
-                                    )
-
-                else:
-
-                    print(
-                        "\n\n"
-                        + emoji.emojize(":loudspeaker:")
-                        + colored(
-                            "   It appears that you made a typo, please re-enter your selection.\n",
-                            "yellow",
-                        )
+                print(
+                    "\n\n"
+                    + colored(" ! ", "yellow", attrs=["reverse"]) * (is_windows)
+                    + emoji.emojize(":loudspeaker:") * (not is_windows)
+                    + colored(
+                        "   It appears that you made a typo, please re-enter your selection.\n",
+                        "yellow",
                     )
+                )
 
-            # Print End Message
-            print(
-                "\n\n"
-                + emoji.emojize(":information:")
-                + "   PDF files located and Login process complete, the browser will run in the background."
-            )
+        # Print End Message
+        print(
+            "\n\n"
+            + colored(" i ", "blue", attrs=["reverse"]) * (is_windows)
+            + emoji.emojize(":information:") * (not is_windows)
+            + "   PDF files located and login process complete, the browser will run in the background."
+        )
 
-            time.sleep(1)
+        time.sleep(1)
 
-            print(
-                "\n"
-                + emoji.emojize(":information:")
-                + "   You can minimize this window and continue with other tasks on your computer while your files download."
-            )
+        print(
+            "\n"
+            + colored(" i ", "blue", attrs=["reverse"]) * (is_windows)
+            + emoji.emojize(":information:") * (not is_windows)
+            + "   You can minimize this window and continue with other tasks on your computer while your files download."
+        )
 
-            time.sleep(1)
+        time.sleep(1)
 
-            print(
-                "\n"
-                + emoji.emojize(":information:")
-                + "   Do not exit/close this window as this will abort the download process.\n"
-            )
+        print(
+            "\n"
+            + colored(" i ", "blue", attrs=["reverse"]) * (is_windows)
+            + emoji.emojize(":information:") * (not is_windows)
+            + "   Do not exit/close this window as this will abort the download process.\n"
+        )
 
-            time.sleep(1)
+        time.sleep(1)
 
     else:
 

@@ -320,248 +320,148 @@ def proceed():
     return proceed_input
 
 
-def login_requirements(system):
+def login_requirements(is_windows):
 
-    if system == "Windows":
+    print("\n\n\n" + colored("Please note:", attrs=["reverse"])) * (is_windows)
+    print(colored("\n\n\nPlease note:", attrs=["bold", "underline"])) * (not is_windows)
 
-        print("\n\n\n" + colored("Please note:", attrs=["reverse"]))
+    print(
+        "\n\n"
+        + colored(" i ", "blue", attrs=["reverse"]) * (is_windows)
+        + emoji.emojize(":information:") * (not is_windows)
+        + "   Valid JSTOR login credentials are a requirement to use this tool."
+    )
 
-        print(
-            "\n\n"
-            + colored(" i ", "blue", attrs=["reverse"])
-            + "   Valid JSTOR login credentials are a requirement to use this tool."
-        )
+    print(
+        "\n"
+        + colored(" i ", "blue", attrs=["reverse"]) * (is_windows)
+        + emoji.emojize(":information:") * (not is_windows)
+        + "   You will need Google Chrome installed on your device."
+    )
 
-        print(
-            "\n"
-            + colored(" i ", "blue", attrs=["reverse"])
-            + "   You will need Google Chrome installed on your device."
-        )
+    print(
+        "\n"
+        + colored(" i ", "blue", attrs=["reverse"]) * (is_windows)
+        + emoji.emojize(":information:") * (not is_windows)
+        + "   You will need ffmpeg installed on your device."
+    )
 
-        print(
-            "\n"
-            + colored(" i ", "blue", attrs=["reverse"])
-            + "   You will need ffmpeg installed on your device."
-        )
+    print("\n\nBefore you start, " + colored("ensure that you:", attrs=["reverse"])) * (
+        is_windows
+    )
+    +colored("ensure that you:", attrs=["bold", "underline"]) * (not is_windows)
 
-        print("\n\nBefore you start, " + colored("ensure that you:", attrs=["reverse"]))
+    print(
+        "\na) Have Google Chrome installed. To install, visit https://support.google.com/chrome/answer/95346?hl=en&ref_topic=7439538. \nb) Have ffmpeg installed. For installation instructions, visit https://www.wikihow.com/Install-FFmpeg-on-Windows. \nc) Have a stable internet connection.\nd) Keep your device on charge and set to 'never sleep' while on battery and on charge."
+    )
 
-        print(
-            "\na) Have Google Chrome installed. To install, visit https://support.google.com/chrome/answer/95346?hl=en&ref_topic=7439538. \nb) Have ffmpeg installed. For installation instructions, visit https://www.wikihow.com/Install-FFmpeg-on-Windows. \nc) Have a stable internet connection.\nd) Keep your device on charge and set to 'never sleep' while on battery and on charge."
-        )
+    print(
+        "\n\nWhile the program runs " + colored("please do not:", attrs=["reverse"])
+    ) * (is_windows)
+    +colored("please do not:", attrs=["bold", "underline"]) * (not is_windows)
 
-        print(
-            "\n\nWhile the program runs " + colored("please do not:", attrs=["reverse"])
-        )
+    print(
+        "\na) Close the Google Chrome window that will be opened in the next steps.\nb) Interfere with the Google Chrome window unless prompted to do so."
+    )
 
-        print(
-            "\na) Close the Google Chrome window that will be opened in the next steps.\nb) Interfere with the Google Chrome window unless prompted to do so."
-        )
-
-        input(
-            colored("\n\n-- Press ")
-            + colored("ENTER/RETURN", attrs=["reverse"])
-            + colored(" to continue: ")
-        )
-
-    else:
-        print(colored("\n\n\nPlease note:", attrs=["bold", "underline"]))
-
-        print(
-            "\n\n"
-            + emoji.emojize(":information:")
-            + "   Valid JSTOR login credentials are a requirement to use this tool."
-        )
-
-        print(
-            "\n"
-            + emoji.emojize(":information:")
-            + "   You will need Google Chrome installed on your device."
-        )
-
-        print(
-            "\n"
-            + emoji.emojize(":information:")
-            + "   You will need ffmpeg installed on your device."
-        )
-
-        print(
-            "\n\nBefore you start, "
-            + colored("ensure that you:", attrs=["bold", "underline"])
-        )
-
-        print(
-            "\na) Have Google Chrome installed. To install, visit https://support.google.com/chrome/answer/95346?hl=en&ref_topic=7439538. \nb) Have ffmpeg installed. For installation instructions, visit https://bbc.github.io/bbcat-orchestration-docs/installation-mac-manual/. \nc) Have a stable internet connection.\nd) Keep your device on charge and set to 'never sleep' while on battery and on charge."
-        )
-
-        print(
-            "\n\nWhile the program runs, "
-            + colored("please do not:", attrs=["bold", "underline"])
-        )
-
-        print(
-            "\na) Close the Google Chrome window that will be opened in the next steps.\nb) Interfere with the Google Chrome window unless prompted to do so."
-        )
-
-        input(
-            colored("\n\n-- Press ")
-            + colored("ENTER/RETURN", attrs=["bold"])
-            + colored(" to continue: ")
-        )
+    input(
+        colored("\n\n-- Press ")
+        + colored("ENTER/RETURN", attrs=["reverse"]) * (is_windows)
+        + colored("ENTER/RETURN", attrs=["bold"]) * (not is_windows)
+        + colored(" to continue: ")
+    )
 
 
-def login_instructions(system):
+def login_instructions(is_windows):
 
     time.sleep(1)
 
-    if system == "Windows":
+    print(
+        "\n\n\n"
+        + colored(" i ", "blue", attrs=["reverse"]) * (is_windows)
+        + emoji.emojize(":information:") * (not is_windows)
+        + "   To continue, a JSTOR user login is required, either via institution VPN/wifi or manually via the JSTOR website."
+    )
 
-        print(
-            "\n\n\n"
-            + colored(" i ", "blue", attrs=["reverse"])
-            + "   To continue, a JSTOR user login is required, either via institution VPN/wifi or manually via the JSTOR website."
-        )
+    time.sleep(1)
 
-        time.sleep(1)
+    print(
+        "\n"
+        + colored(" i ", "blue", attrs=["reverse"]) * (is_windows)
+        + emoji.emojize(":information:") * (not is_windows)
+        + "   No login information will be recorded in the process."
+    )
 
-        print(
-            "\n"
-            + colored(" i ", "blue", attrs=["reverse"])
-            + "   No login information will be recorded in the process."
-        )
+    time.sleep(1)
 
-        time.sleep(1)
+    print("\n\n" + colored("User credential security information", attrs=["reverse"]))
 
-        print(
-            "\n\n" + colored("User credential security information", attrs=["reverse"])
-        )
+    print(
+        "\n\nIf you choose to login via the JSTOR website, you will be prompted to enter your login details via your university portal on JSTOR."
+    )
 
-        print(
-            "\n\nIf you choose to login via the JSTOR website, you will be prompted to enter your login details via your university portal on JSTOR."
-        )
+    print(
+        "\nIf you choose to login via VPN or wifi, your credentials will already be authenticated and you won't need to provide any login details."
+    )
 
-        print(
-            "\nIf you choose to login via VPN or wifi, your credentials will already be authenticated and you won't need to provide any login details."
-        )
+    time.sleep(2)
 
-        time.sleep(2)
+    print("\n\n\n" + colored("JSTOR Login Instructions:", attrs=["reverse"]) + "\n") * (
+        is_windows
+    )
+    print(
+        "\n\n\n"
+        + colored("JSTOR Login Instructions:", attrs=["bold", "underline"])
+        + "\n"
+    ) * (not is_windows)
 
-        print("\n\n\n" + colored("JSTOR Login Instructions:", attrs=["reverse"]) + "\n")
-
-        print(
-            "\n"
-            + colored(" i ", "blue", attrs=["reverse"])
-            + "   Please follow the prompts below to login"
-        )
-
-    else:
-
-        print(
-            "\n\n\n"
-            + emoji.emojize(":information:")
-            + "   To continue, a JSTOR user login is required, either via institution VPN/wifi or manually via the JSTOR website."
-        )
-
-        time.sleep(1)
-
-        print(
-            "\n"
-            + emoji.emojize(":information:")
-            + "   No login information will be recorded in the process."
-        )
-
-        time.sleep(1)
-
-        print(
-            "\n\n" + colored("User credential security information", attrs=["reverse"])
-        )
-
-        print(
-            "\n\nIf you choose to login via the JSTOR website, you will be prompted to enter your login details via your university portal on JSTOR."
-        )
-
-        print(
-            "\nIf you choose to login via VPN or wifi, your credentials will already be authenticated and you won't need to provide any login details."
-        )
-
-        time.sleep(2)
-
-        print(
-            "\n\n\n"
-            + colored("JSTOR Login Instructions:", attrs=["bold", "underline"])
-            + "\n"
-        )
-
-        print(
-            "\n"
-            + emoji.emojize(":information:")
-            + "   Please follow the prompts below to login"
-        )
+    print(
+        "\n"
+        + colored(" i ", "blue", attrs=["reverse"]) * (is_windows)
+        + emoji.emojize(":information:") * (not is_windows)
+        + "   Please follow the prompts below to login"
+    )
 
 
-def main_menu(system):
+def main_menu(is_windows):
 
-    if system == "Windows":
+    print(
+        "\n"
+        + colored(" i ", "blue", attrs=["reverse"]) * (is_windows)
+        + emoji.emojize(":information:") * (not is_windows)
+        + "   To Choose a login method, enter [1]" * (is_windows)
+        + "   To Choose a login method, enter " * (not is_windows)
+        + colored("[1]", attrs=["bold"]) * (not is_windows)
+    )
 
-        print(
-            "\n"
-            + colored(" i ", "blue", attrs=["reverse"])
-            + "   To Choose a login method, enter [1]"
-        )
+    print(
+        "\n"
+        + colored(" i ", "blue", attrs=["reverse"]) * (is_windows)
+        + emoji.emojize(":information:") * (not is_windows)
+        + "   To exit the program, enter [2]" * (is_windows)
+        + "   To exit the program, enter " * (not is_windows)
+        + colored("[2]", attrs=["bold"]) * (not is_windows)
+    )
 
-        print(
-            "\n"
-            + colored(" i ", "blue", attrs=["reverse"])
-            + "   To exit the program, enter [2]"
-        )
-
-    else:
-
-        print(
-            "\n"
-            + emoji.emojize(":information:")
-            + "   To Choose a login method, enter "
-            + colored("[1]", attrs=["bold"])
-        )
-
-        print(
-            "\n"
-            + emoji.emojize(":information:")
-            + "   To exit the program, enter "
-            + colored("[2]", attrs=["bold"])
-        )
-
-    select = input(colored("\n-- Please enter your selection: "))
+    select = input(colored("\n-- Please enter your selection: ")).strip()
 
     return select
 
 
-def typo(system):
+def typo(is_windows):
 
-    if system == "Windows":
-
-        print(
-            "\n\n"
-            + colored(" ? ", "yellow", attrs=["reverse"])
-            + colored(
-                "   It appears that you made a typo, you are being directed to the main selection menu.\n",
-                "yellow",
-            )
+    print(
+        "\n\n"
+        + colored(" ? ", "yellow", attrs=["reverse"]) * (is_windows)
+        + emoji.emojize(":loudspeaker:") * (not is_windows)
+        + colored(
+            "   It appears that you made a typo, you are being directed to the main selection menu.\n",
+            "yellow",
         )
-
-    else:
-
-        print(
-            "\n\n"
-            + emoji.emojize(":loudspeaker:")
-            + colored(
-                "   It appears that you made a typo, you are being directed to the main selection menu.\n",
-                "yellow",
-            )
-        )
+    )
 
     time.sleep(1)
 
-    main = main_menu(system)
+    main = main_menu(is_windows)
 
     return main

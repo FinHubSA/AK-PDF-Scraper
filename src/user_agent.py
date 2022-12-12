@@ -10,7 +10,7 @@ from selenium.webdriver.common.by import By
 from termcolor import colored
 
 
-def user_agent(system):
+def user_agent(is_windows):
 
     try:
 
@@ -36,33 +36,22 @@ def user_agent(system):
 
     except:
 
-        user_agent = user_agent_fixed(system)
+        user_agent = user_agent_fixed(is_windows)
 
-    if system == "Windows":
-
-        print(
-            "\n\n"
-            + colored(" ! ", "green", attrs=["reverse"])
-            + colored(
-                "   User Agent found",
-                "green",
-            )
+    print(
+        "\n\n"
+        + colored(" ! ", "green", attrs=["reverse"]) * (is_windows)
+        + emoji.emojize(":check_mark_button:") * (not is_windows)
+        + colored(
+            "   User Agent found",
+            "green",
         )
-    else:
-
-        print(
-            "\n\n"
-            + emoji.emojize(":check_mark_button:")
-            + colored(
-                "   User Agent found",
-                "green",
-            )
-        )
+    )
 
     return user_agent
 
 
-def user_agent_fixed(system):
+def user_agent_fixed(is_windows):
 
     user_agent_win = [
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36",
@@ -106,28 +95,12 @@ def user_agent_fixed(system):
         "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.0.0 Safari/537.36",
     ]
 
-    user_agent_linux = [
-        "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.54 Safari/537.36",
-        "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.67 Safari/537.36",
-        "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.41 Safari/537.36",
-        "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36",
-        "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.115 Safari/537.36",
-        "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36",
-        "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.61 Safari/537.36",
-        "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.64 Safari/537.36",
-        "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.0.0 Safari/537.36",
-    ]
-
-    if system == "Darwin":
+    if is_windows:
 
         user_agent = random.choice(user_agent_mac)
 
-    elif system == "Windows":
+    elif not is_windows:
 
         user_agent = random.choice(user_agent_win)
-
-    else:
-
-        user_agent = random.choice(user_agent_linux)
 
     return user_agent
