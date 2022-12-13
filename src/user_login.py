@@ -1,4 +1,3 @@
-from operator import truediv
 import time
 import os
 import emoji
@@ -8,22 +7,21 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.common.by import By
 
+from helpers import system
 
-def login(driver, login_method, system):
+
+def login(driver, login_method):
 
     if login_method == "1":
-        return vpn_login(driver, system)
+        return vpn_login(driver)
 
     if login_method == "2":
-        return manual_login(driver, system)
+        return manual_login(driver)
 
 
-def vpn_login(driver, system):
+def vpn_login(driver):
 
-    is_windows = False
-
-    if system == "Windows":
-        is_windows = True
+    is_windows = system()
 
     print(
         "\n"
@@ -129,23 +127,21 @@ def vpn_login(driver, system):
 
             return False
     else:
+
         return False
 
     return True
 
 
-def manual_login(driver, system):
+def manual_login(driver):
 
-    is_windows = False
-
-    if system == "Windows":
-        is_windows = True
+    is_windows = system()
 
     print(
         "\n"
         + colored(" i ", "blue", attrs=["reverse"]) * (is_windows)
         + emoji.emojize(":information:") * (not is_windows)
-        + "   You will be prompted to manually login via the JSTOR website."
+        + "  You will be prompted to manually login via the JSTOR website."
     )
 
     time.sleep(1)
@@ -166,7 +162,7 @@ def manual_login(driver, system):
             "\n"
             + (colored(" i ", "blue", attrs=["reverse"])) * (is_windows)
             + (emoji.emojize(":information:")) * (not is_windows)
-            + "   While the browser opens, read through the login steps:"
+            + "  While the browser opens, read through the login steps:"
         )
 
         time.sleep(1)
@@ -227,7 +223,7 @@ def manual_login(driver, system):
             "\n"
             + colored(" i ", "blue", attrs=["reverse"]) * (is_windows)
             + emoji.emojize(":information:") * (not is_windows)
-            + "   Once you have completed the steps, continue:"
+            + "  Once you have completed the steps, continue:"
         )
 
         cont = proceed()
@@ -276,7 +272,7 @@ def manual_login(driver, system):
                     "\n"
                     + colored(" ! ", "red", attrs=["reverse"]) * (is_windows)
                     + emoji.emojize(":red_exclamation_mark:") * (not is_windows)
-                    + colored(" Login was unsuccessful\n", "red")
+                    + colored("  Login was unsuccessful\n", "red")
                 )
 
                 return False
@@ -320,10 +316,12 @@ def proceed():
     return proceed_input
 
 
-def login_requirements(is_windows):
+def login_requirements():
 
-    print("\n\n\n" + colored("Please note:", attrs=["reverse"])) * (is_windows)
-    print(colored("\n\n\nPlease note:", attrs=["bold", "underline"])) * (not is_windows)
+    is_windows = system()
+
+    print("\n\n\n" + colored("Please note:", attrs=["reverse"]) * (is_windows))
+    print(colored("\n\n\nPlease note:", attrs=["bold", "underline"]) * (not is_windows))
 
     print(
         "\n\n"
@@ -346,19 +344,21 @@ def login_requirements(is_windows):
         + "   You will need ffmpeg installed on your device."
     )
 
-    print("\n\nBefore you start, " + colored("ensure that you:", attrs=["reverse"])) * (
-        is_windows
+    print(
+        "\n\nBefore you start, "
+        + colored("ensure that you:", attrs=["reverse"]) * (is_windows)
+        + colored("ensure that you:", attrs=["bold", "underline"]) * (not is_windows)
     )
-    +colored("ensure that you:", attrs=["bold", "underline"]) * (not is_windows)
 
     print(
         "\na) Have Google Chrome installed. To install, visit https://support.google.com/chrome/answer/95346?hl=en&ref_topic=7439538. \nb) Have ffmpeg installed. For installation instructions, visit https://www.wikihow.com/Install-FFmpeg-on-Windows. \nc) Have a stable internet connection.\nd) Keep your device on charge and set to 'never sleep' while on battery and on charge."
     )
 
     print(
-        "\n\nWhile the program runs " + colored("please do not:", attrs=["reverse"])
-    ) * (is_windows)
-    +colored("please do not:", attrs=["bold", "underline"]) * (not is_windows)
+        "\n\nWhile the program runs "
+        + colored("please do not:", attrs=["reverse"]) * (is_windows)
+        + colored("please do not:", attrs=["bold", "underline"]) * (not is_windows)
+    )
 
     print(
         "\na) Close the Google Chrome window that will be opened in the next steps.\nb) Interfere with the Google Chrome window unless prompted to do so."
@@ -372,7 +372,9 @@ def login_requirements(is_windows):
     )
 
 
-def login_instructions(is_windows):
+def login_instructions():
+
+    is_windows = system()
 
     time.sleep(1)
 
@@ -406,14 +408,13 @@ def login_instructions(is_windows):
 
     time.sleep(2)
 
-    print("\n\n\n" + colored("JSTOR Login Instructions:", attrs=["reverse"]) + "\n") * (
-        is_windows
-    )
     print(
         "\n\n\n"
+        + colored("JSTOR Login Instructions:", attrs=["reverse"]) * (is_windows)
         + colored("JSTOR Login Instructions:", attrs=["bold", "underline"])
+        * (not is_windows)
         + "\n"
-    ) * (not is_windows)
+    )
 
     print(
         "\n"
@@ -423,7 +424,9 @@ def login_instructions(is_windows):
     )
 
 
-def main_menu(is_windows):
+def main_menu():
+
+    is_windows = system()
 
     print(
         "\n"
@@ -446,22 +449,3 @@ def main_menu(is_windows):
     select = input(colored("\n-- Please enter your selection: ")).strip()
 
     return select
-
-
-def typo(is_windows):
-
-    print(
-        "\n\n"
-        + colored(" ? ", "yellow", attrs=["reverse"]) * (is_windows)
-        + emoji.emojize(":loudspeaker:") * (not is_windows)
-        + colored(
-            "   It appears that you made a typo, you are being directed to the main selection menu.\n",
-            "yellow",
-        )
-    )
-
-    time.sleep(1)
-
-    main = main_menu(is_windows)
-
-    return main

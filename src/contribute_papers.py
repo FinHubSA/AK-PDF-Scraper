@@ -3,7 +3,6 @@ import time
 import os.path
 from datetime import datetime
 import logging
-import platform
 import emoji
 import os
 import requests
@@ -24,11 +23,14 @@ from recaptcha_solver import recaptcha_solver
 from user_agent import user_agent
 from temp_storage import (
     get_temp_storage_path,
+    get_storage_path,
+    misc_path,
     rename_file,
     delete_files,
     delete_temp_storage,
 )
 
+from helpers import system
 from donations import donation_explainer
 from internet_speed import download_speed, delay, internet_speed_retry
 from user_login import *
@@ -36,9 +38,8 @@ from user_login import *
 warnings.filterwarnings("ignore")
 logging.getLogger().setLevel(logging.CRITICAL)
 
-system = (
-    jstor_url
-) = (
+
+jstor_url = (
     now
 ) = (
     USER_AGENT
@@ -54,25 +55,20 @@ restart_count = article_index = t_c_try_accept = mbps = index = 0
 
 restart = t_c_accepted = False
 
-system = platform.system()
-
-is_windows = False
-
-if system == "Windows":
-    is_windows = True
-
 
 def contribute_papers():
 
-    global driver, mbps, driver, system, index, restart_count, article_index, storage_directory, USER_AGENT, algorandAddress
+    is_windows = system()
+
+    global driver, mbps, driver, index, restart_count, article_index, storage_directory, USER_AGENT, algorandAddress
 
     setup()
 
-    login_requirements(system)
+    login_requirements()
 
-    algorandAddress = donation_explainer(misc_directory)
+    algorandAddress = donation_explainer()
 
-    login_instructions(system)
+    login_instructions()
 
     # login
     logged_in = False
@@ -93,7 +89,7 @@ def contribute_papers():
 
             print_error(e)
 
-            internet_speed_retry(is_windows)
+            internet_speed_retry()
 
             wait = delay(mbps)
 
@@ -103,6 +99,8 @@ def contribute_papers():
 
 
 def print_error(e):
+
+    is_windows = system()
 
     # Error occured, try to check internet and try again.
     print(
@@ -125,31 +123,26 @@ def print_error(e):
 
 def setup():
 
-    global system, now, USER_AGENT, wait, driver, storage_directory, src_directory, misc_directory, mbps
+    global now, USER_AGENT, wait, driver, storage_directory, src_directory, misc_directory, mbps
 
     storage_directory = get_temp_storage_path()
 
-    src_directory = os.path.dirname(__file__)
+    src_directory = get_storage_path()
 
-    misc_directory = os.path.normpath(src_directory + os.sep + os.pardir)
-
-    system = platform.system()
-
-    if system == "Windows":
-        os.system("color")
+    misc_directory = misc_path()
 
     # set the file source directory
     os.chdir(src_directory)
 
     # calculate the internet speed and driver sleep time
-    mbps = internet_speed_retry(is_windows)
+    mbps = internet_speed_retry()
 
     wait = delay(mbps)
 
     # define the User Agent
     print("\n\ndetermining User Agent...")
 
-    USER_AGENT = user_agent(is_windows)
+    USER_AGENT = user_agent()
     # USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.61 Safari/537.36"
 
     # define loop to facilitate restart when an error occurs
@@ -219,6 +212,8 @@ def latest_downloaded_pdf(storage_directory, src_directory):
 def download_articles():
 
     global restart, t_c_accepted, t_c_try_accept, article_index, Article_ID_list, now, wait, src_directory, storage_directory, restart_count
+
+    is_windows = system()
 
     # loop through user requested article ID's
     # if error occurs, restart the web session and start at last indexed ID - TEST
@@ -504,6 +499,8 @@ def download_articles():
 
 
 def get_article_ids():
+
+    is_windows = system()
 
     global Article_ID_list, jstor_url
 

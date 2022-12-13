@@ -9,8 +9,12 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from termcolor import colored
 
+from helpers import system
 
-def user_agent(is_windows):
+
+def user_agent():
+
+    is_windows = system()
 
     try:
 
@@ -36,7 +40,7 @@ def user_agent(is_windows):
 
     except:
 
-        user_agent = user_agent_fixed(is_windows)
+        user_agent = user_agent_fixed()
 
     print(
         "\n\n"
@@ -51,7 +55,9 @@ def user_agent(is_windows):
     return user_agent
 
 
-def user_agent_fixed(is_windows):
+def user_agent_fixed():
+
+    is_windows = system()
 
     user_agent_win = [
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36",

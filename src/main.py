@@ -6,10 +6,10 @@ import warnings
 
 from termcolor import colored
 
+from helpers import system
 from download_papers import download_papers
 from contribute_papers import contribute_papers
 from user_login import *
-from helpers import system
 
 warnings.filterwarnings("ignore")
 logging.getLogger().setLevel(logging.CRITICAL)
@@ -21,7 +21,7 @@ def welcome():
 
     print(
         colored(
-            "\n\nAaron's Kit is a tool that enables the effortless liberation of academic research.\n\nBy using this tool, you are playing an active role in the open access movement! \n\nThank you for your contribution.\n"
+            "\n\nAaron's Kit is a tool that enables the effortless liberation of academic research.\n\nBy using this tool, you are playing an active role in the Open Access movement! \n\nThank you for your contribution.\n"
         )
     )
 

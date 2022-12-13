@@ -21,6 +21,23 @@ def system():
     return is_windows
 
 
+def typo():
+
+    is_windows = system()
+
+    print(
+        "\n\n"
+        + colored(" ? ", "yellow", attrs=["reverse"]) * (is_windows)
+        + emoji.emojize(":loudspeaker:") * (not is_windows)
+        + colored(
+            "  It appears that you made a typo, please re-enter your selection.\n",
+            "yellow",
+        )
+    )
+
+    time.sleep(1)
+
+
 def select_author():
 
     is_windows = system()

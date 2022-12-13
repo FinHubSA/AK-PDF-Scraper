@@ -3,6 +3,7 @@ import time
 import emoji
 
 from termcolor import colored
+from helpers import system
 
 # returns the user download speed
 def download_speed():
@@ -54,7 +55,10 @@ def delay(mbps):
     return wait
 
 
-def internet_speed_retry(is_windows):
+def internet_speed_retry():
+
+    is_windows = system()
+
     internet_retry = True
 
     while internet_retry == True:

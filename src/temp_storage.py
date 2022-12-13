@@ -9,6 +9,22 @@ def get_temp_storage_path():
     return path
 
 
+def get_storage_path():
+
+    src_directory = os.path.dirname(__file__)
+
+    return src_directory
+
+
+def misc_path():
+
+    src_directory = get_storage_path()
+
+    misc_directory = os.path.normpath(src_directory + os.sep + os.pardir)
+
+    return misc_directory
+
+
 def rename_file(old_name, new_name):
 
     os.rename(old_name, new_name)

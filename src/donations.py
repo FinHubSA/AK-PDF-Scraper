@@ -1,39 +1,35 @@
 from termcolor import colored
 import emoji
-import platform
 import json
 from algosdk import account, encoding, mnemonic
 import time
 import os.path
 
-system = platform.system()
-# system = "Windows"
-
-is_windows = False
-
-if system == "Windows":
-    is_windows = True
+from helpers import system, typo
+from temp_storage import misc_path
 
 
-def donation_explainer(misc_directory):
+def donation_explainer():
 
     print("\n\nGreat! You are on your way to make a contribution!")
     print(
         "\nThe Open Access community really appreciates your work, and would like to thank you by donating ALGO to your Algorand account.\n"
     )
-    print(colored("\nHow this works:", attrs=["bold", "underline"]))
+    print(colored("\nHow this works:", attrs=["reverse"]))
     print(
         "\n• Aaron's Kit users donate ALGO. \n• After a set payout time period, the ALGO is aggregated and distributed to all Aaron's Kit contributors, like you. \n• The amount of ALGO you receive is weighted according to the number of papers you have scraped in the payout time period.\n• To receive ALGO, all you need is an Algorand account.\n"
     )
 
-    user_address = donation_options(misc_directory)
+    user_address = donation_options()
 
     return user_address
 
 
-def donation_options(misc_directory):
+def donation_options():
 
-    global is_windows
+    is_windows = system()
+
+    misc_directory = misc_path()
 
     print(
         "\n"
@@ -45,31 +41,32 @@ def donation_options(misc_directory):
     donation_action = input(
         colored(
             "\n-- Type [1] if you want to receive donations and have an existing Algorand address"
-            + "\n-- Type [2] if you want to receive donations and want to create a new Algorand account"
+            + "\n-- Type [2] if you want to receive donations and want to create a new Algorand address"
             + "\n-- Type [3] if you do not want to receive donations"
             + "\n   : ",
         )
     )
 
     if donation_action.strip() == "1":
-        user_address = existing_account(misc_directory)
+        user_address = existing_account()
     elif donation_action.strip() == "2":
-        user_address = create_account(misc_directory)
+        user_address = create_account()
     elif donation_action.strip() == "3":
         user_address = ""
     else:
-        print(
-            "\n"
-            + (colored(" ! ", "yellow", attrs=["reverse"])) * (is_windows)
-            + emoji.emojize(":loudspeaker:") * (not is_windows)
-            + colored("   Typo, try again.\n", "yellow")
-        )
-        return donation_options(misc_directory)
+
+        typo()
+
+        return donation_options()
 
     return user_address
 
 
-def existing_account(misc_directory):
+def existing_account():
+
+    is_windows = system()
+
+    misc_directory = misc_path()
 
     with open(os.path.join(misc_directory, "address.json"), "r") as f:
 
@@ -114,7 +111,7 @@ def existing_account(misc_directory):
                     + (colored(" ! ", "green", attrs=["reverse"])) * (is_windows)
                     + emoji.emojize(":check_mark_button:") * (not is_windows)
                     + colored(
-                        "   This address is valid! We will keep it on record for future contributions.",
+                        "  This address is valid! We will keep it on record for future contributions.",
                         "green",
                     )
                 )
@@ -124,7 +121,7 @@ def existing_account(misc_directory):
                     + (colored(" ! ", "green", attrs=["reverse"])) * (is_windows)
                     + emoji.emojize(":check_mark_button:") * (not is_windows)
                     + colored(
-                        "   You are all set up! You will receive ALGO into this address at the end of the donation period.",
+                        "  You are all set up! You will receive ALGO into this address at the end of the donation period.",
                         "green",
                     )
                 )
@@ -194,7 +191,7 @@ def existing_account(misc_directory):
                             * (is_windows)
                             + emoji.emojize(":check_mark_button:") * (not is_windows)
                             + colored(
-                                "   You are all set up! You will receive ALGO into this address at the end of the donation period.",
+                                "  You are all set up! You will receive ALGO into this address at the end of the donation period.",
                                 "green",
                             )
                         )
@@ -203,15 +200,7 @@ def existing_account(misc_directory):
 
                     else:
 
-                        print(
-                            "\n\n"
-                            + colored(" ! ", "yellow", attrs=["reverse"]) * (is_windows)
-                            + emoji.emojize(":loudspeaker:") * (not is_windows)
-                            + colored(
-                                "   It appears that you made a typo, please re-enter your selection.\n",
-                                "yellow",
-                            )
-                        )
+                        typo()
 
         user_address_dict["address"] = user_address
 
@@ -229,7 +218,7 @@ def existing_account(misc_directory):
             + (colored(" ! ", "green", attrs=["reverse"])) * (is_windows)
             + emoji.emojize(":check_mark_button:") * (not is_windows)
             + colored(
-                "   You are all set up! You will receive ALGO into this address at the end of the donation period.",
+                "  You are all set up! You will receive ALGO into this address at the end of the donation period.",
                 "green",
             )
         )
@@ -247,6 +236,10 @@ def existing_account(misc_directory):
 
 
 def create_account(misc_directory):
+
+    is_windows = system()
+
+    misc_directory = misc_path()
 
     time.sleep(2)
 
@@ -284,7 +277,7 @@ def create_account(misc_directory):
         + (colored(" ! ", "green", attrs=["reverse"])) * (is_windows)
         + emoji.emojize(":check_mark_button:") * (not is_windows)
         + colored(
-            "   You are all set up! You will receive ALGO into this address at the end of the donation period.",
+            "  You are all set up! You will receive ALGO into this address at the end of the donation period.",
             "green",
         )
     )
@@ -304,6 +297,4 @@ def create_account(misc_directory):
     return user_address
 
 
-# misc_directory = "/Users/danaebouwer/Documents/Work/Aarons-kit/PDF_Scraper"
-# algorandAddress = donation_explainer(misc_directory)
-# print(algorandAddress)
+donation_explainer()
