@@ -2,7 +2,6 @@ import requests
 import time
 import os
 import emoji
-import platform
 
 from multiprocessing import cpu_count
 from multiprocessing.pool import ThreadPool
@@ -10,26 +9,20 @@ from pathlib import Path
 from urllib.parse import urlparse
 from termcolor import colored
 from helpers import *
-import platform
-import emoji
-
-system = platform.system()
-
-is_windows = False
-
-if system == "Windows":
-    is_windows = True
 
 
 def download_papers():
 
     while True:
+
+        is_windows = system()
+
         download_criteria = get_download_criteria()
 
-        system = platform.system()
+        # system = platform.system()
 
-        if system == "Windows":
-            os.system("color")
+        # if system == "Windows":
+        #     os.system("color")
 
         if download_criteria == "1":
             download_by_journal()
@@ -37,6 +30,19 @@ def download_papers():
             download_by_author()
         elif download_criteria == "3":
             os._exit(0)
+        else:
+
+            print(
+                "\n\n"
+                + (colored(" ! ", "yellow", attrs=["reverse"])) * (is_windows)
+                + (emoji.emojize(":loudspeaker:")) * (not is_windows)
+                + colored(
+                    "  It appears that you made a typo, please re-enter your selection.\n",
+                    "yellow",
+                )
+            )
+
+        return download_papers()
 
 
 def get_download_criteria():
@@ -60,7 +66,8 @@ def get_download_criteria():
 
 
 def download_by_author():
-    global is_windows
+
+    is_windows = system()
 
     author = select_author()
 
@@ -71,7 +78,7 @@ def download_by_author():
             + (colored(" ! ", "red", attrs=["reverse"])) * (is_windows)
             + (emoji.emojize(":red_exclamation_mark:")) * (not is_windows)
             + colored(
-                "   The requested Author could not be found.\n",
+                "  The requested author could not be found.\n",
                 "red",
             )
         )
@@ -84,14 +91,15 @@ def download_by_author():
         "\n"
         + (colored(" i ", "blue", attrs=["reverse"])) * (is_windows)
         + (emoji.emojize(":information:")) * (not is_windows)
-        + (f"   Downloading all articles by {author_name}.\n")
+        + (f"   Downloading all articles by {author_name}...")
     )
 
     get_articles(author_name=author_name)
 
 
 def download_by_journal():
-    global is_windows
+
+    is_windows = system()
 
     journal = select_journal()
 
@@ -102,7 +110,7 @@ def download_by_journal():
             + colored(" ! ", "red", attrs=["reverse"]) * (is_windows)
             + emoji.emojize(":red_exclamation_mark:") * (not is_windows)
             + colored(
-                "   The requested journal could not be found.\n",
+                "  The requested journal could not be found.\n",
                 "red",
             )
         )
@@ -133,7 +141,7 @@ def download_by_journal():
             + (colored(" ! ", "yellow", attrs=["reverse"])) * (is_windows)
             + (emoji.emojize(":loudspeaker:")) * (not is_windows)
             + colored(
-                "   It appears that you made a typo, please re-enter your selection.\n",
+                "   It appears that you made a typo, please re-enter your selection.",
                 "yellow",
             )
         )
@@ -147,7 +155,7 @@ def download_by_journal():
             "\n"
             + (colored(" i ", "blue", attrs=["reverse"])) * (is_windows)
             + (emoji.emojize(":information:")) * (not is_windows)
-            + (f"   Downloading all articles from {journal_name}.\n")
+            + (f"   Downloading all articles from {journal_name}...")
         )
 
         get_articles(journal_id=journal_id)
@@ -177,7 +185,8 @@ def download_by_journal():
 
 
 def get_articles(journal_id=None, issue_id=None, author_name=None):
-    global is_windows
+
+    is_windows = system()
 
     try:
 
@@ -229,7 +238,7 @@ def get_articles(journal_id=None, issue_id=None, author_name=None):
             "\n"
             + (colored(" i ", "blue", attrs=["reverse"])) * (is_windows)
             + (emoji.emojize(":information:")) * (not is_windows)
-            + (f"   Downloading {articles_size} articles...\n")
+            + (f"   Downloading {articles_size} articles...")
         )
 
         bulk_download(articles)
@@ -241,7 +250,7 @@ def get_articles(journal_id=None, issue_id=None, author_name=None):
             + (colored(" i ", "yellow", attrs=["reverse"])) * (is_windows)
             + (emoji.emojize(":loudspeaker:")) * (not is_windows)
             + colored(
-                " Unfortunately we currently have no articles for this search criteria.\n",
+                "   Unfortunately we currently have no articles for this search criteria.\n",
                 "yellow",
             )
         )
@@ -250,7 +259,8 @@ def get_articles(journal_id=None, issue_id=None, author_name=None):
 
 
 def bulk_download(articles):
-    global is_windows
+
+    is_windows = system()
 
     path = os.path.join(str(Path.home() / "Downloads"), "AaronsKit_PDF_Downloads")
 
@@ -271,7 +281,7 @@ def bulk_download(articles):
         + (colored(" ! ", "green", attrs=["reverse"])) * (is_windows)
         + (emoji.emojize(":check_mark_button:")) * (not is_windows)
         + (
-            f"   Successfully downloaded {results_size} articles! Navigate to AaronsKit_PDF_Downloads in your downloads folder to view your files.\n"
+            f"  Successfully downloaded {results_size} articles! Navigate to AaronsKit_PDF_Downloads in your downloads folder to view your files.\n"
         )
     )
 

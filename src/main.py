@@ -9,6 +9,7 @@ from termcolor import colored
 from download_papers import download_papers
 from contribute_papers import contribute_papers
 from user_login import *
+from helpers import system
 
 warnings.filterwarnings("ignore")
 logging.getLogger().setLevel(logging.CRITICAL)
@@ -26,6 +27,8 @@ def welcome():
 
 
 def select_action():
+
+    is_windows = system()
 
     print("\n" + emoji.emojize(":information:") + "   Please make a selection below")
 
@@ -45,6 +48,17 @@ def select_action():
     elif action == "3":
         os._exit(0)
     else:
+
+        print(
+            "\n\n"
+            + (colored(" ! ", "yellow", attrs=["reverse"])) * (is_windows)
+            + (emoji.emojize(":loudspeaker:")) * (not is_windows)
+            + colored(
+                "  It appears that you made a typo, please re-enter your selection.\n",
+                "yellow",
+            )
+        )
+
         return select_action()
 
 

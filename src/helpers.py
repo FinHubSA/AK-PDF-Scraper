@@ -1,21 +1,29 @@
 import requests
 import urllib.parse
 import time
+import os
 import platform
 import emoji
 
 from termcolor import colored
 
-system = platform.system()
 
-is_windows = False
+def system():
 
-if system == "Windows":
-    is_windows = True
+    system = platform.system()
+
+    is_windows = False
+
+    if system == "Windows":
+        os.system("color")
+        is_windows = True
+
+    return is_windows
 
 
 def select_author():
-    global is_windows
+
+    is_windows = system()
 
     print(
         "\n"
@@ -27,12 +35,12 @@ def select_author():
     print(
         "\n"
         + colored(
-            "Please enter the Name and Surname of an Author (EXAMPLE: Rebecca Gould).\n",
+            "Please enter the Name and Surname of an Author (EXAMPLE: Rebecca Gould).",
             "blue",
         )
         * (is_windows)
         + colored(
-            "Please enter the Name and Surname of an Author (EXAMPLE: Rebecca Gould)\n",
+            "Please enter the Name and Surname of an Author (EXAMPLE: Rebecca Gould).",
             attrs=["bold"],
         )
         * (not is_windows)
@@ -63,7 +71,7 @@ def select_author():
                 + colored(" ! ", "yellow", attrs=["reverse"]) * (is_windows)
                 + emoji.emojize(":loudspeaker:") * (not is_windows)
                 + colored(
-                    "   Something went wrong, you might have an unstable internet connection",
+                    "  Something went wrong, you might have an unstable internet connection",
                     "yellow",
                 )
             )
@@ -130,7 +138,7 @@ def select_author():
                     + (colored(" ! ", "yellow", attrs=["reverse"])) * (is_windows)
                     + (emoji.emojize(":loudspeaker:")) * (not is_windows)
                     + colored(
-                        "   It appears that you made a typo, please re-enter your selection.\n",
+                        "  It appears that you made a typo, please re-enter your selection.",
                         "yellow",
                     )
                 )
@@ -142,7 +150,8 @@ def select_author():
 
 
 def select_journal():
-    global is_windows
+
+    is_windows = system()
 
     print(
         "\n"
@@ -171,7 +180,7 @@ def select_journal():
 
     Journal_Name = input(
         colored(
-            "\n-- Type Journal Name\n   : ",
+            "-- Type Journal Name\n   : ",
         )
     )
 
@@ -190,7 +199,7 @@ def select_journal():
             + colored(" ! ", "yellow", attrs=["reverse"]) * (is_windows)
             + emoji.emojize(":loudspeaker:") * (not is_windows)
             + colored(
-                "   Something went wrong, you might have an unstable internet connection",
+                "  Something went wrong, you might have an unstable internet connection",
                 "yellow",
             )
         )
@@ -250,14 +259,16 @@ def select_journal():
             )
         )
 
-        if Journal_Number.strip() not in [str(x) for x in list(range(1, 11))]:
+        if Journal_Number.strip() not in [
+            str(x) for x in list(range(1, journal_list_number + 1))
+        ]:
 
             print(
                 "\n\n"
                 + (colored(" ! ", "yellow", attrs=["reverse"])) * (is_windows)
                 + (emoji.emojize(":loudspeaker:")) * (not is_windows)
                 + colored(
-                    "   It appears that you made a typo, please re-enter your selection.\n",
+                    "  It appears that you made a typo, please re-enter your selection.",
                     "yellow",
                 )
             )
@@ -270,9 +281,10 @@ def select_journal():
 
 
 def select_issue(journal_name, journal_id):
-    global is_windows
 
-    print("Searching for issues in " + journal_name + "...")
+    is_windows = system()
+
+    print("\n\nSearching for issues in " + journal_name + "...")
 
     try:
 
@@ -287,7 +299,7 @@ def select_issue(journal_name, journal_id):
             + colored(" ! ", "yellow", attrs=["reverse"]) * (is_windows)
             + emoji.emojize(":loudspeaker:") * (not is_windows)
             + colored(
-                "   Something went wrong, you might have an unstable internet connection",
+                "  Something went wrong, you might have an unstable internet connection",
                 "yellow",
             )
         )
@@ -359,8 +371,8 @@ def select_issue(journal_name, journal_id):
             )
         )
 
-        if int(issue_number).strip() not in [
-            str(x) for x in list(range(1, issue_list_number))
+        if issue_number.strip() not in [
+            str(x) for x in list(range(1, issue_list_number + 1))
         ]:
 
             print(
@@ -368,12 +380,13 @@ def select_issue(journal_name, journal_id):
                 + (colored(" ! ", "yellow", attrs=["reverse"])) * (is_windows)
                 + (emoji.emojize(":loudspeaker:")) * (not is_windows)
                 + colored(
-                    "   It appears that you made a typo, please re-enter your selection.\n",
+                    "  It appears that you made a typo, please re-enter your selection.",
                     "yellow",
                 )
             )
 
         else:
+
             issue_number_typo = False
 
     return issue_list_json[int(issue_number) - 1]
