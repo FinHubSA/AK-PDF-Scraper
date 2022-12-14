@@ -17,7 +17,7 @@ def donation_explainer():
     )
     print(colored("\nHow this works:", attrs=["reverse"]))
     print(
-        "\n• Aaron's Kit users donate ALGO. \n• After a set payout time period, the ALGO is aggregated and distributed to all Aaron's Kit contributors, like you. \n• The amount of ALGO you receive is weighted according to the number of papers you have scraped in the payout time period.\n• To receive ALGO, all you need is an Algorand account.\n"
+        "\n• Aaron's Kit users donate ALGO. \n• After a set payout time period, the ALGO is aggregated and distributed to all Aaron's Kit contributors, like you. \n• The amount of ALGO you receive is weighted according to the total number of papers you have scraped.\n• To receive ALGO, all you need is an Algorand account.\n"
     )
 
     user_address = donation_options()
@@ -295,6 +295,3 @@ def create_account(misc_directory):
     f.close()
 
     return user_address
-
-
-donation_explainer()

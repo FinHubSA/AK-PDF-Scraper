@@ -280,9 +280,10 @@ def bulk_download(articles):
         "\n"
         + (colored(" ! ", "green", attrs=["reverse"])) * (is_windows)
         + (emoji.emojize(":check_mark_button:")) * (not is_windows)
-        + (
-            f"  Successfully downloaded {results_size} articles! Navigate to AaronsKit_PDF_Downloads in your downloads folder to view your files.\n"
-        )
+        + f"  Successfully downloaded {results_size} articles! Navigate to "
+        + colored("AaronsKit_PDF_Downloads", attrs=["reverse"]) * (is_windows)
+        + colored("AaronsKit_PDF_Downloads", attrs=["bold"]) * (not is_windows)
+        + " in your downloads folder to view your files.\n"
     )
 
 
