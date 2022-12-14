@@ -30,7 +30,7 @@ from temp_storage import (
     delete_temp_storage,
 )
 
-from helpers import system
+from helpers import system, typo, print_error
 from donations import donation_explainer
 from internet_speed import download_speed, delay, internet_speed_retry
 from user_login import *
@@ -58,8 +58,6 @@ restart = t_c_accepted = False
 
 def contribute_papers():
 
-    is_windows = system()
-
     global driver, mbps, driver, index, restart_count, article_index, storage_directory, USER_AGENT, algorandAddress
 
     setup()
@@ -77,17 +75,19 @@ def contribute_papers():
         driver = create_driver_session(
             options(login_method, USER_AGENT, storage_directory)
         )
-        logged_in = login(driver, login_method, system)
+        logged_in = login(driver, login_method)
 
     while True:
         try:
             get_article_ids()
+
             download_articles()
-        except Exception as e:
+
+        except:
 
             # traceback.print_exc()
 
-            print_error(e)
+            print_error()
 
             internet_speed_retry()
 
@@ -96,29 +96,6 @@ def contribute_papers():
             restart_count += 1
 
             time.sleep(wait * 10)
-
-
-def print_error(e):
-
-    is_windows = system()
-
-    # Error occured, try to check internet and try again.
-    print(
-        "\n"
-        + colored(" ! ", "yellow", attrs=["reverse"]) * (is_windows)
-        + emoji.emojize(":loudspeaker:") * (not is_windows)
-        + colored(
-            "   Something went wrong, you might have an unstable internet connection",
-            "yellow",
-        )
-    )
-
-    input(
-        colored("\n\n-- Please check your connection and then press ")
-        + colored("ENTER/RETURN", attrs=["reverse"]) * (is_windows)
-        + colored("ENTER/RETURN", attrs=["bold"]) * (not is_windows)
-        + colored(" to continue: ")
-    )
 
 
 def setup():
@@ -141,6 +118,9 @@ def setup():
 
     # define the User Agent
     print("\n\ndetermining User Agent...")
+    print(
+        "\nYou may notice that a browser window opened, don't worry, we're just checking your User Agent online!"
+    )
 
     USER_AGENT = user_agent()
     # USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.61 Safari/537.36"
@@ -623,16 +603,7 @@ def get_article_ids():
                                 author_search = False
                                 break
                             else:
-                                print(
-                                    "\n\n"
-                                    + colored(" ! ", "yellow", attrs=["reverse"])
-                                    * (is_windows)
-                                    + emoji.emojize(":loudspeaker:") * (not is_windows)
-                                    + colored(
-                                        "   It appears that you made a typo, please re-enter your selection.\n",
-                                        "yellow",
-                                    )
-                                )
+                                typo()
 
                         continue
 
@@ -677,16 +648,7 @@ def get_article_ids():
 
                         if Author_Number not in [str(x) for x in list(range(1, 11))]:
 
-                            print(
-                                "\n\n"
-                                + colored(" ! ", "yellow", attrs=["reverse"])
-                                * (is_windows)
-                                + emoji.emojize(":loudspeaker:") * (not is_windows)
-                                + colored(
-                                    "   It appears that you made a typo, please re-enter your selection.\n",
-                                    "yellow",
-                                )
-                            )
+                            typo()
 
                         else:
                             Author_Number_typo = False
@@ -754,17 +716,8 @@ def get_article_ids():
                                     search_criteria_typo = True
                                     break
                                 else:
-                                    print(
-                                        "\n\n"
-                                        + colored(" ! ", "yellow", attrs=["reverse"])
-                                        * (is_windows)
-                                        + emoji.emojize(":loudspeaker:")
-                                        * (not is_windows)
-                                        + colored(
-                                            "   It appears that you made a typo, please re-enter your selection.\n",
-                                            "yellow",
-                                        )
-                                    )
+                                    typo()
+
                     elif Article_ID_list.status_code == 400:
 
                         print(
@@ -794,16 +747,7 @@ def get_article_ids():
                                 search_criteria_typo = True
                                 break
                             else:
-                                print(
-                                    "\n\n"
-                                    + colored(" ! ", "yellow", attrs=["reverse"])
-                                    * (is_windows)
-                                    + emoji.emojize(":loudspeaker:") * (not is_windows)
-                                    + colored(
-                                        "   It appears that you made a typo, please re-enter your selection.\n",
-                                        "yellow",
-                                    )
-                                )
+                                typo()
 
             elif search_criteria == "2":
 
@@ -876,16 +820,7 @@ def get_article_ids():
                                 journal_search = False
                                 break
                             else:
-                                print(
-                                    "\n\n"
-                                    + colored(" ! ", "yellow", attrs=["reverse"])
-                                    * (is_windows)
-                                    + emoji.emojize(":loudspeaker:") * (not is_windows)
-                                    + colored(
-                                        "   It appears that you made a typo, please re-enter your selection.\n",
-                                        "yellow",
-                                    )
-                                )
+                                typo()
 
                         continue
 
@@ -930,16 +865,7 @@ def get_article_ids():
 
                         if Journal_Number not in [str(x) for x in list(range(1, 11))]:
 
-                            print(
-                                "\n\n"
-                                + colored(" ! ", "yellow", attrs=["reverse"])
-                                * (is_windows)
-                                + emoji.emojize(":loudspeaker:") * (not is_windows)
-                                + colored(
-                                    "   It appears that you made a typo, please re-enter your selection.\n",
-                                    "yellow",
-                                )
-                            )
+                            typo()
 
                         else:
                             Journal_Number_typo = False
@@ -1007,17 +933,8 @@ def get_article_ids():
                                     search_criteria_typo = True
                                     break
                                 else:
-                                    print(
-                                        "\n\n"
-                                        + colored(" ! ", "yellow", attrs=["reverse"])
-                                        * (is_windows)
-                                        + emoji.emojize(":loudspeaker:")
-                                        * (not is_windows)
-                                        + colored(
-                                            "   It appears that you made a typo, please re-enter your selection.\n",
-                                            "yellow",
-                                        )
-                                    )
+                                    typo()
+
                     elif Article_ID_list.status_code == 200:
 
                         print(
@@ -1047,28 +964,11 @@ def get_article_ids():
                                 search_criteria_typo = True
                                 break
                             else:
-                                print(
-                                    "\n\n"
-                                    + colored(" ! ", "yellow", attrs=["reverse"])
-                                    * (is_windows)
-                                    + emoji.emojize(":loudspeaker:") * (not is_windows)
-                                    + colored(
-                                        "   It appears that you made a typo, please re-enter your selection.\n",
-                                        "yellow",
-                                    )
-                                )
+                                typo()
 
             else:
 
-                print(
-                    "\n\n"
-                    + colored(" ! ", "yellow", attrs=["reverse"]) * (is_windows)
-                    + emoji.emojize(":loudspeaker:") * (not is_windows)
-                    + colored(
-                        "   It appears that you made a typo, please re-enter your selection.\n",
-                        "yellow",
-                    )
-                )
+                typo()
 
         # Print End Message
         print(

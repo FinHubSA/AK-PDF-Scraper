@@ -3,7 +3,7 @@ import time
 import emoji
 
 from termcolor import colored
-from helpers import system
+from helpers import system, typo
 
 # returns the user download speed
 def download_speed():
@@ -76,7 +76,7 @@ def internet_speed_retry():
                 + colored(" ! ", "yellow", attrs=["reverse"]) * (is_windows)
                 + emoji.emojize(":loudspeaker:") * (not is_windows)
                 + colored(
-                    "   It seems that your internet speed is unstable at the moment.",
+                    "  It seems that your internet speed is unstable at the moment.",
                     "yellow",
                 )
             )
@@ -111,15 +111,7 @@ def internet_speed_retry():
                     internet_typo = False
                     internet_retry = False
                 else:
-                    print(
-                        "\n\n"
-                        + colored(" ? ", "yellow", attrs=["reverse"]) * (is_windows)
-                        + emoji.emojize(":loudspeaker:") * (not is_windows)
-                        + colored(
-                            "   It appears that you made a typo, please re-enter your selection.\n",
-                            "yellow",
-                        )
-                    )
+                    typo()
 
         elif mbps <= 5:
 
@@ -127,7 +119,7 @@ def internet_speed_retry():
                 "\n\n"
                 + colored(" ! ", "yellow", attrs=["reverse"]) * (is_windows)
                 + emoji.emojize(":loudspeaker:") * (not is_windows)
-                + colored("   Your internet speed is less than 5 mbps.", "yellow")
+                + colored("  Your internet speed is less than 5 mbps.", "yellow")
             )
 
             print(
@@ -160,15 +152,7 @@ def internet_speed_retry():
                     internet_typo = False
                     internet_retry = False
                 else:
-                    print(
-                        "\n\n"
-                        + colored(" ? ", "yellow", attrs=["reverse"]) * (is_windows)
-                        + emoji.emojize(":loudspeaker:") * (not is_windows)
-                        + colored(
-                            "   It appears that you made a typo, please re-enter your selection.\n",
-                            "yellow",
-                        )
-                    )
+                    typo()
 
         else:
 
@@ -177,7 +161,7 @@ def internet_speed_retry():
                 + colored(" ! ", "green", attrs=["reverse"]) * (is_windows)
                 + emoji.emojize(":check_mark_button:") * (not is_windows)
                 + colored(
-                    "   Your internet speed is: " + str(round(mbps, 2)) + " mbps",
+                    "  Your internet speed is: " + str(round(mbps, 2)) + " mbps",
                     "green",
                 )
             )

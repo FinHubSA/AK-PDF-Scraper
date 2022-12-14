@@ -94,7 +94,9 @@ def download_by_author():
         + (f"   Downloading all articles by {author_name}...")
     )
 
-    get_articles(author_name=author_name)
+    author_name_urlenc = urllib.parse.quote(author_name)
+
+    get_articles(author_name=author_name_urlenc)
 
 
 def download_by_journal():

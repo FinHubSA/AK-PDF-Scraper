@@ -38,7 +38,7 @@ The Aaron's Kit executable functions as a tool to (1) bulk download papers for p
 
 3. Ensure that you have Google Chrome installed, if not, download [Google Chrome](https://www.google.com/chrome/?brand=YTUH&gclid=CjwKCAjwzY2bBhB6EiwAPpUpZnxWu_8yGeeRo7u1r8v2NrWiTdkbg82BdHF4uVeBXtjhWq570Fyw_xoCpJsQAvD_BwE&gclsrc=aw.ds).
 
-4. Ensure that you have ffmpeg installed, if not, download and install [ffmpeg](https://ffmpeg.org/download.html). For instructions on how to install ffmpeg on your operating system, visit: [ffmpeg for Windows](https://windowsloop.com/install-ffmpeg-windows-10/) | [ffmpeg for Mac OS](https://bbc.github.io/bbcat-orchestration-docs/installation-mac-manual/).
+4. Ensure that you have ffmpeg and ffmprove installed, if not, download and install [ffmpeg](https://ffmpeg.org/download.html). For instructions on how to install ffmpeg and ffprobe on your operating system, visit: [ffmpeg for Windows](https://windowsloop.com/install-ffmpeg-windows-10/) | [ffmpeg for Mac OS](https://bbc.github.io/bbcat-orchestration-docs/installation-mac-manual/).
 
 5. Download the executable.
 

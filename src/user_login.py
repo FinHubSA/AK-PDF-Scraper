@@ -141,7 +141,7 @@ def manual_login(driver):
         "\n"
         + colored(" i ", "blue", attrs=["reverse"]) * (is_windows)
         + emoji.emojize(":information:") * (not is_windows)
-        + "  You will be prompted to manually login via the JSTOR website."
+        + "   You will be prompted to manually login via the JSTOR website."
     )
 
     time.sleep(1)
@@ -150,11 +150,11 @@ def manual_login(driver):
 
     if cont == "1":
 
-        print("\nyou are now being routed to JSTOR home page...")
+        print("\nYou are now being routed to JSTOR home page...")
 
         time.sleep(2)
 
-        print("\nsit tight and wait for Google Chrome to open on your screen...\n")
+        print("\nSit tight and wait for Google Chrome to open on your screen...\n")
 
         time.sleep(2)
 
@@ -162,7 +162,7 @@ def manual_login(driver):
             "\n"
             + (colored(" i ", "blue", attrs=["reverse"])) * (is_windows)
             + (emoji.emojize(":information:")) * (not is_windows)
-            + "  While the browser opens, read through the login steps:"
+            + "   While the browser opens, read through the login steps:"
         )
 
         time.sleep(1)
@@ -177,6 +177,13 @@ def manual_login(driver):
                 "blue",
                 attrs=["reverse"],
             )
+            * (is_windows)
+            + colored(
+                "Log in through your library.",
+                "blue",
+                attrs=["bold"],
+            )
+            * (not is_windows)
             + colored(
                 "\nStep 2/4: Search for your institution by using the search box.\nStep 3/4: Log in using your institution's login credentials.\nStep 4/4: Accept the cookies.",
                 "blue",
@@ -186,7 +193,7 @@ def manual_login(driver):
         time.sleep(1)
 
         print(
-            "\ngive it a second, we are checking if the page has loaded successfully..."
+            "\nGive it a second, we are checking if the page has loaded successfully..."
         )
 
         driver.get("https://www.jstor.org/")
@@ -203,14 +210,14 @@ def manual_login(driver):
                 "\n"
                 + colored(" ! ", "red", attrs=["reverse"]) * (is_windows)
                 + emoji.emojize(":red_exclamation_mark:") * (not is_windows)
-                + colored(" Unable to load JSTOR page.\n", "red")
+                + colored("  Unable to load JSTOR page.\n", "red")
             )
 
             print(
                 "\n"
                 + colored(" i ", "blue", attrs=["reverse"]) * (is_windows)
                 + emoji.emojize(":information:") * (not is_windows)
-                + "  Check your internet connection and try again.\n"
+                + "   Check your internet connection and try again.\n"
             )
 
             driver.close()
@@ -223,7 +230,7 @@ def manual_login(driver):
             "\n"
             + colored(" i ", "blue", attrs=["reverse"]) * (is_windows)
             + emoji.emojize(":information:") * (not is_windows)
-            + "  Once you have completed the steps, continue:"
+            + "   Once you have completed the steps, continue:"
         )
 
         cont = proceed()
@@ -243,7 +250,7 @@ def manual_login(driver):
                     "\n"
                     + colored(" ! ", "red", attrs=["reverse"]) * (is_windows)
                     + emoji.emojize(":red_exclamation_mark:") * (not is_windows)
-                    + colored(" Unable to load JSTOR page.\n", "red")
+                    + colored("  Unable to load JSTOR page.\n", "red")
                 )
 
             print("\nchecking for successful login...\n")
@@ -320,8 +327,8 @@ def login_requirements():
 
     is_windows = system()
 
-    print("\n\n\n" + colored("Please note:", attrs=["reverse"]) * (is_windows))
-    print(colored("\n\n\nPlease note:", attrs=["bold", "underline"]) * (not is_windows))
+    print(colored("\n\nPlease note:", attrs=["reverse"]) * (is_windows))
+    print(colored("\n\nPlease note:", attrs=["bold", "underline"]) * (not is_windows))
 
     print(
         "\n\n"
@@ -341,7 +348,7 @@ def login_requirements():
         "\n"
         + colored(" i ", "blue", attrs=["reverse"]) * (is_windows)
         + emoji.emojize(":information:") * (not is_windows)
-        + "   You will need ffmpeg installed on your device."
+        + "   You will need ffmpeg and ffprobe installed on your device."
     )
 
     print(
@@ -351,7 +358,13 @@ def login_requirements():
     )
 
     print(
-        "\na) Have Google Chrome installed. To install, visit https://support.google.com/chrome/answer/95346?hl=en&ref_topic=7439538. \nb) Have ffmpeg installed. For installation instructions, visit https://www.wikihow.com/Install-FFmpeg-on-Windows. \nc) Have a stable internet connection.\nd) Keep your device on charge and set to 'never sleep' while on battery and on charge."
+        "\na) Have Google Chrome installed. To install, visit https://support.google.com/chrome/answer/95346?hl=en&ref_topic=7439538. \nb) Have ffmpeg and ffprobe installed. For installation instructions, visit https://www.wikihow.com/Install-FFmpeg-on-Windows. \nc) Have a stable internet connection.\nd) Keep your device on charge and set to 'never sleep' while on battery and on charge."
+        * (is_windows)
+    )
+
+    print(
+        "\na) Have Google Chrome installed. To install, visit https://support.google.com/chrome/answer/95346?hl=en&ref_topic=7439538. \nb) Have ffmpeg and ffprobe installed. For installation instructions, visit https://bbc.github.io/bbcat-orchestration-docs/installation-mac-manual/. \nc) Have a stable internet connection.\nd) Keep your device on charge and set to 'never sleep' while on battery and on charge."
+        * (not is_windows)
     )
 
     print(

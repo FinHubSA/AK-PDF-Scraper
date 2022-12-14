@@ -47,7 +47,7 @@ def user_agent():
         + colored(" ! ", "green", attrs=["reverse"]) * (is_windows)
         + emoji.emojize(":check_mark_button:") * (not is_windows)
         + colored(
-            "   User Agent found",
+            "  User Agent found",
             "green",
         )
     )
