@@ -3,7 +3,8 @@ import time
 import emoji
 
 from termcolor import colored
-from helpers import system, typo
+
+from src.helpers import system, typo
 
 # returns the user download speed
 def download_speed():

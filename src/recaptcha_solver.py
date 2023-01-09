@@ -16,6 +16,10 @@ from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 
+from pydub import AudioSegment
+
+AudioSegment.converter = '/Users/danaebouwer/audio-orchestrator-ffmpeg/bin'
+
 
 def frame(driver):
 

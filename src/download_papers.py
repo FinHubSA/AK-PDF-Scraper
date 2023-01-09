@@ -8,7 +8,8 @@ from multiprocessing.pool import ThreadPool
 from pathlib import Path
 from urllib.parse import urlparse
 from termcolor import colored
-from helpers import *
+
+from src.helpers import *
 
 
 def download_papers():

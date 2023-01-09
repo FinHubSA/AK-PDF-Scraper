@@ -5,8 +5,8 @@ from algosdk import account, encoding, mnemonic
 import time
 import os.path
 
-from helpers import system, typo
-from temp_storage import misc_path
+from src.helpers import system, typo
+from src.temp_storage import misc_path
 
 
 def donation_explainer():

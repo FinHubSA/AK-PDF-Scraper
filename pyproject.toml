@@ -5,7 +5,7 @@ description = ""
 authors = ["DanaeBouwer <danae.bouwer@gmail.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = ">=3.10,<3.12"
 selenium = "^4.2.0"
 pandas = "^1.4.2"
 webdriver-manager = "3.8.4"
@@ -22,6 +22,7 @@ libgen-uploader = "^0.2.0"
 progressbar = "^2.5"
 packaging = "^21.3"
 py-algorand-sdk = "^1.20.1"
+auto-py-to-exe = "^2.26.1"
 
 [tool.poetry.dev-dependencies]
 black = "^22.3.0"

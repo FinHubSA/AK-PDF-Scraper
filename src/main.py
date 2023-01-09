@@ -1,3 +1,4 @@
+
 import os.path
 import logging
 import emoji
@@ -6,10 +7,10 @@ import warnings
 
 from termcolor import colored
 
-from helpers import system
-from download_papers import download_papers
-from contribute_papers import contribute_papers
-from user_login import *
+from src.helpers import system
+from src.download_papers import download_papers
+from src.contribute_papers import contribute_papers
+from src.user_login import *
 
 warnings.filterwarnings("ignore")
 logging.getLogger().setLevel(logging.CRITICAL)

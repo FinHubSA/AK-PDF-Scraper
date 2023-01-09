@@ -19,9 +19,9 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.common.by import By
 
-from recaptcha_solver import recaptcha_solver
-from user_agent import user_agent
-from temp_storage import (
+from src.recaptcha_solver import recaptcha_solver
+from src.user_agent import user_agent
+from src.temp_storage import (
     get_temp_storage_path,
     get_storage_path,
     misc_path,
@@ -30,10 +30,10 @@ from temp_storage import (
     delete_temp_storage,
 )
 
-from helpers import system, typo, print_error
-from donations import donation_explainer
-from internet_speed import download_speed, delay, internet_speed_retry
-from user_login import *
+from src.helpers import system, typo, print_error
+from src.donations import donation_explainer
+from src.internet_speed import download_speed, delay, internet_speed_retry
+from src.user_login import *
 
 warnings.filterwarnings("ignore")
 logging.getLogger().setLevel(logging.CRITICAL)
@@ -109,7 +109,8 @@ def setup():
     misc_directory = misc_path()
 
     # set the file source directory
-    os.chdir(src_directory)
+    # os.chdir(src_directory)
+    # os.chdir(os.path.dirname(__file__))
 
     # calculate the internet speed and driver sleep time
     mbps = internet_speed_retry()
