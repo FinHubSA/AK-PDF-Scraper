@@ -9,10 +9,11 @@ from termcolor import colored
 from src.helpers import system
 from src.download_papers import download_papers
 from src.contribute_papers import contribute_papers
-from src.user_login import *
 
-logging.getLogger().setLevel(logging.CRITICAL)
-warnings.filterwarnings("ignore", category=RuntimeWarning)
+# logging.getLogger().setLevel(logging.CRITICAL)
+# warnings.filterwarnings("ignore", category=RuntimeWarning)
+
+os.chdir(os.path.dirname(__file__))
 
 
 def welcome():
@@ -24,6 +25,8 @@ def welcome():
             "\n\nAaron's Kit is a tool that enables the effortless liberation of academic research.\n\nBy using this tool, you are playing an active role in the Open Access movement! \n\nThank you for your contribution.\n"
         )
     )
+
+    select_action()
 
 
 def select_action():
@@ -41,11 +44,11 @@ def select_action():
         )
     )
 
-    if action == "1":
+    if action.strip == "1":
         download_papers()
-    elif action == "2":
+    elif action.strip == "2":
         contribute_papers()
-    elif action == "3":
+    elif action.strip == "3":
         os._exit(0)
     else:
 
@@ -62,6 +65,4 @@ def select_action():
         return select_action()
 
 
-# welcome()
-
-# select_action()
+welcome()
