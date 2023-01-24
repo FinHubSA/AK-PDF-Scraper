@@ -1,4 +1,3 @@
-
 import os.path
 import logging
 import emoji
@@ -12,8 +11,8 @@ from src.download_papers import download_papers
 from src.contribute_papers import contribute_papers
 from src.user_login import *
 
-warnings.filterwarnings("ignore")
 logging.getLogger().setLevel(logging.CRITICAL)
+warnings.filterwarnings("ignore", category=RuntimeWarning)
 
 
 def welcome():
@@ -63,6 +62,6 @@ def select_action():
         return select_action()
 
 
-welcome()
+# welcome()
 
-select_action()
+# select_action()

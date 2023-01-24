@@ -20,11 +20,6 @@ def download_papers():
 
         download_criteria = get_download_criteria()
 
-        # system = platform.system()
-
-        # if system == "Windows":
-        #     os.system("color")
-
         if download_criteria == "1":
             download_by_journal()
         elif download_criteria == "2":
