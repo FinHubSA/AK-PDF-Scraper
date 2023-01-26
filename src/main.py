@@ -3,17 +3,16 @@ import logging
 import emoji
 import os
 import warnings
+import multiprocessing
 
 from termcolor import colored
 
-from src.helpers import system
+from src.helpers import system, typo
 from src.download_papers import download_papers
 from src.contribute_papers import contribute_papers
 
-# logging.getLogger().setLevel(logging.CRITICAL)
-# warnings.filterwarnings("ignore", category=RuntimeWarning)
-
-os.chdir(os.path.dirname(__file__))
+logging.getLogger().setLevel(logging.CRITICAL)
+warnings.filterwarnings("ignore", category=RuntimeWarning)
 
 
 def welcome():
@@ -33,36 +32,34 @@ def select_action():
 
     is_windows = system()
 
-    print("\n" + emoji.emojize(":information:") + "   Please make a selection below")
-
-    action = input(
-        colored(
-            "\n-- Type [1] to download papers"
-            + "\n-- Type [2] to contribute papers"
-            + "\n-- Type [3] to exit"
-            + "\n   : ",
-        )
-    )
-
-    if action.strip == "1":
-        download_papers()
-    elif action.strip == "2":
-        contribute_papers()
-    elif action.strip == "3":
-        os._exit(0)
-    else:
+    while True:
 
         print(
-            "\n\n"
-            + (colored(" ! ", "yellow", attrs=["reverse"])) * (is_windows)
-            + (emoji.emojize(":loudspeaker:")) * (not is_windows)
-            + colored(
-                "  It appears that you made a typo, please re-enter your selection.\n",
-                "yellow",
-            )
+            "\n" + emoji.emojize(":information:") + "   Please make a selection below"
         )
 
-        return select_action()
+        action = input(
+            colored(
+                "\n-- Type [1] to download papers"
+                + "\n-- Type [2] to contribute papers"
+                + "\n-- Type [3] to exit"
+                + "\n   : ",
+            )
+        ).strip()
+
+        if action == "1":
+            download_papers()
+        elif action == "2":
+            contribute_papers()
+        elif action == "3":
+            os._exit(0)
+        else:
+            typo()
 
 
-welcome()
+if __name__ == "__main__":
+
+    # Add freeze support to make sure that the executable does not bug out when the program uses multiprocessing
+    multiprocessing.freeze_support()
+
+    welcome()
