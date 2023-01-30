@@ -255,7 +255,7 @@ def select_issue(journal_name, journal_id):
 
         print_error()
 
-        return select_issue(journal_id)
+        return select_issue(journal_name, journal_id)
 
     try:
 
