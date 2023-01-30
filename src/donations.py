@@ -46,6 +46,7 @@ def donation_options():
             "\n-- Type [1] if you want to receive donations and have an existing Algorand address"
             + "\n-- Type [2] if you want to receive donations and want to create a new Algorand address"
             + "\n-- Type [3] if you do not want to receive donations"
+            + "\n-- Type [4] to return to main menu"
             + "\n   : ",
         )
     )
@@ -55,6 +56,8 @@ def donation_options():
     elif donation_action.strip() == "2":
         user_address = create_account()
     elif donation_action.strip() == "3":
+        user_address = None
+    elif donation_action.strip() == "4":
         user_address = ""
     else:
 
@@ -149,6 +152,7 @@ def existing_account():
                         colored(
                             "\n-- Type [1] to retry"
                             + "\n-- Type [2] to create a new account"
+                            + "\n-- Type [3] to go back to donations menu"
                             + "\n   : ",
                         )
                     )
@@ -160,6 +164,12 @@ def existing_account():
                     elif retry_address.strip() == "2":
 
                         user_address = create_account()
+
+                        retry_address_typo = False
+
+                    elif retry_address.strip() == "3":
+
+                        donation_options()
 
                         retry_address_typo = False
 
