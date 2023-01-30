@@ -2,6 +2,7 @@ import requests
 import time
 import os
 import emoji
+import urllib.parse
 
 from multiprocessing import cpu_count
 from multiprocessing.pool import ThreadPool
@@ -9,14 +10,13 @@ from pathlib import Path
 from urllib.parse import urlparse
 from termcolor import colored
 
-from src.helpers import *
+from src.helpers import system, typo, print_error
+from src.download_criteria import select_journal, select_author, select_issue
 
 
 def download_papers():
 
     while True:
-
-        is_windows = system()
 
         download_criteria = get_download_criteria()
 
@@ -25,20 +25,9 @@ def download_papers():
         elif download_criteria == "2":
             download_by_author()
         elif download_criteria == "3":
-            os._exit(0)
+            break
         else:
-
-            print(
-                "\n\n"
-                + (colored(" ! ", "yellow", attrs=["reverse"])) * (is_windows)
-                + (emoji.emojize(":loudspeaker:")) * (not is_windows)
-                + colored(
-                    "  It appears that you made a typo, please re-enter your selection.\n",
-                    "yellow",
-                )
-            )
-
-        return download_papers()
+            typo()
 
 
 def get_download_criteria():
@@ -53,10 +42,10 @@ def get_download_criteria():
         colored(
             "\n-- Type [1] to download by journal"
             + "\n-- Type [2] to download by author"
-            + "\n-- Type [3] to exit"
+            + "\n-- Type [3] to return to main menu"
             + "\n   : ",
         )
-    )
+    ).strip()
 
     return download_criteria
 
@@ -134,15 +123,7 @@ def download_by_journal():
         if download_by_issue == "1" or download_by_issue == "2":
             break
 
-        print(
-            "\n\n"
-            + (colored(" ! ", "yellow", attrs=["reverse"])) * (is_windows)
-            + (emoji.emojize(":loudspeaker:")) * (not is_windows)
-            + colored(
-                "   It appears that you made a typo, please re-enter your selection.",
-                "yellow",
-            )
-        )
+        typo()
 
     journal_name = journal["journalName"]
     journal_id = journal["journalID"]
@@ -158,7 +139,7 @@ def download_by_journal():
 
         get_articles(journal_id=journal_id)
 
-    else:
+    elif download_by_issue == "2":
 
         issue = select_issue(journal_name, journal_id)
 
@@ -177,9 +158,11 @@ def download_by_journal():
 
             get_articles(journal_id=journal_id)
 
-        issue_id = issue["issueID"]
+        else:
 
-        get_articles(issue_id=issue_id)
+            issue_id = issue["issueID"]
+
+            get_articles(issue_id=issue_id)
 
 
 def get_articles(journal_id=None, issue_id=None, author_name=None):
@@ -203,22 +186,7 @@ def get_articles(journal_id=None, issue_id=None, author_name=None):
 
     except:
 
-        print(
-            "\n\n"
-            + colored(" ! ", "yellow", attrs=["reverse"]) * (is_windows)
-            + emoji.emojize(":loudspeaker:") * (not is_windows)
-            + colored(
-                "   Something went wrong, you might have an unstable internet connection",
-                "yellow",
-            )
-        )
-
-        input(
-            colored("\n\n-- Please check your connection and then press ")
-            + colored("ENTER/RETURN", attrs=["reverse"]) * (is_windows)
-            + colored("ENTER/RETURN", attrs=["bold"]) * (not is_windows)
-            + colored(" to continue: ")
-        )
+        print_error()
 
         if journal_id:
             return get_articles(journal_id=journal_id)
@@ -253,8 +221,6 @@ def get_articles(journal_id=None, issue_id=None, author_name=None):
             )
         )
 
-        return download_papers()
-
 
 def bulk_download(articles):
 
@@ -274,19 +240,32 @@ def bulk_download(articles):
     for result in results:
         results_size += 1
 
+    # results_size = 0
+    # for article in articles:
+    #     download_url(article)
+    #     results_size += 1
+
     print(
         "\n"
         + (colored(" ! ", "green", attrs=["reverse"])) * (is_windows)
         + (emoji.emojize(":check_mark_button:")) * (not is_windows)
-        + f"  Successfully downloaded {results_size} articles! Navigate to "
-        + colored("AaronsKit_PDF_Downloads", attrs=["reverse"]) * (is_windows)
-        + colored("AaronsKit_PDF_Downloads", attrs=["bold"]) * (not is_windows)
-        + " in your downloads folder to view your files.\n"
+        + colored(
+            f"  Successfully downloaded {results_size} articles! Navigate to ", "green"
+        )
+        + colored("AaronsKit_PDF_Downloads", "green", attrs=["reverse"]) * (is_windows)
+        + colored("AaronsKit_PDF_Downloads", "green", attrs=["bold"]) * (not is_windows)
+        + colored(" in your downloads folder to view your files.\n", "green")
+    )
+
+    input(
+        colored("\n\n-- Press ")
+        + colored("ENTER/RETURN", attrs=["reverse"]) * (is_windows)
+        + colored("ENTER/RETURN", attrs=["bold"]) * (not is_windows)
+        + colored(" to go back to the downloads menu:")
     )
 
 
 def download_url(article):
-    # print("article ", article["title"])
 
     path = os.path.join(str(Path.home() / "Downloads"), "AaronsKit_PDF_Downloads")
 

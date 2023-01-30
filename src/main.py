@@ -7,7 +7,7 @@ import multiprocessing
 
 from termcolor import colored
 
-from src.helpers import system, typo
+from src.helpers import typo
 from src.download_papers import download_papers
 from src.contribute_papers import contribute_papers
 
@@ -25,12 +25,10 @@ def welcome():
         )
     )
 
-    select_action()
+    main_menu()
 
 
-def select_action():
-
-    is_windows = system()
+def main_menu():
 
     while True:
 
