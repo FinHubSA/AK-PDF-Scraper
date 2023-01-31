@@ -16,9 +16,7 @@ from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 
-from pydub import AudioSegment
-
-AudioSegment.converter = '/Users/danaebouwer/audio-orchestrator-ffmpeg/bin'
+from src.helpers import system
 
 
 def frame(driver):
@@ -84,7 +82,8 @@ def recaptcha_solver(driver, url, url_pending, wait, misc_directory, jstor_url):
     is_recaptcha_control_active = True
 
     print("trying to find reCAPTCHA")
-    time.sleep(wait)
+    # time.sleep(wait)
+    time.sleep(2)
 
     recaptcha_control_frame, recaptcha_challenge_frame = frame(driver)
 
@@ -152,7 +151,8 @@ def recaptcha_solver(driver, url, url_pending, wait, misc_directory, jstor_url):
                         driver.switch_to.default_content()
                         driver.switch_to.frame(recaptcha_challenge_frame)
 
-                        time.sleep(random.randrange(10, 15, 1))
+                        # time.sleep(random.randrange(10, 15, 1))
+                        time.sleep(2)
                         driver.find_element(By.ID, "recaptcha-audio-button").click()
                         print("Switched to audio control frame")
                         switched_to_audio = True
@@ -169,7 +169,8 @@ def recaptcha_solver(driver, url, url_pending, wait, misc_directory, jstor_url):
                     driver.switch_to.frame(recaptcha_challenge_frame)
 
                     # get the mp3 audio file
-                    time.sleep(wait)
+                    # time.sleep(wait)
+                    time.sleep(5)
                     src = driver.find_element(By.ID, "audio-source").get_attribute(
                         "src"
                     )
@@ -203,7 +204,7 @@ def recaptcha_solver(driver, url, url_pending, wait, misc_directory, jstor_url):
                     s.cookies = requests.utils.cookiejar_from_dict(cookie)
 
                     local_filename = "sample.mp3"
-                    r = s.get(src)
+                    r = s.get(src, verify=False)
                     with open(os.path.join(misc_directory, local_filename), "wb") as f:
                         for chunk in r.iter_content(chunk_size=1024):
                             if chunk:  # filter out keep-alive new chunks
@@ -226,21 +227,18 @@ def recaptcha_solver(driver, url, url_pending, wait, misc_directory, jstor_url):
 
                     print(colored("!" + "   Failed to convert file to .wav", "red"))
 
-                    if platform.system() == "Windows":
-                        print(
-                            "\nFor installation instructions visit: https://windowsloop.com/install-ffmpeg-windows-10/"
-                        )
-                    elif platform.system() == "Darwin":
-                        print(
-                            "\nFor installation instructions visit: https://bbc.github.io/bbcat-orchestration-docs/installation-mac-manual/"
-                        )
-                    else:
-                        print(
-                            "\nFor installation instructions visit: https://linuxize.com/post/how-to-install-ffmpeg-on-debian-9/"
-                        )
+                    is_windows = system()
+
+                    print(
+                        "\nYou need ffmpeg and ffprobe. For installation instructions visit: https://bbc.github.io/bbcat-orchestration-docs/installation-mac-manual/"
+                        * (not is_windows)
+                        + "\nYou need ffmpeg and ffprobe. For installation instructions visit: https://windowsloop.com/install-ffmpeg-windows-10/"
+                        * (not is_windows)
+                    )
 
                     driver.get(jstor_url)
 
+                    # fix this section
                     input(
                         colored("\n-- Once installed, press ")
                         + colored("ENTER/RETURN")
@@ -252,7 +250,8 @@ def recaptcha_solver(driver, url, url_pending, wait, misc_directory, jstor_url):
                     break
 
                 # translate audio to text with google voice recognition
-                time.sleep(random.randrange(10, 15, 1))
+                # time.sleep(random.randrange(10, 15, 1))
+                time.sleep(2)
                 r = sr.Recognizer()
                 with sample_audio as source:
                     audio = r.record(source)
@@ -271,7 +270,8 @@ def recaptcha_solver(driver, url, url_pending, wait, misc_directory, jstor_url):
 
                     # key in results and submit
 
-                    time.sleep(random.randrange(10, 15, 1))
+                    # time.sleep(random.randrange(10, 15, 1))
+                    time.sleep(4)
 
                     try:
                         driver.find_element(By.ID, "audio-response").send_keys(

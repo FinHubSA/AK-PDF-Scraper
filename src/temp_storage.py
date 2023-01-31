@@ -1,4 +1,5 @@
 import os
+import shutil
 from pathlib import Path
 
 
@@ -37,4 +38,4 @@ def delete_files(new_name):
 
 def delete_temp_storage(directory):
 
-    os.rmdir(directory)
+    shutil.rmtree(directory, ignore_errors=True)

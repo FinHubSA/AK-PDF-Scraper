@@ -7,7 +7,38 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.common.by import By
 
-from src.helpers import system
+from src.helpers import system, typo
+
+is_windows = system()
+
+
+def get_login_method():
+
+    print(
+        "\n"
+        + colored(" i ", "blue", attrs=["reverse"]) * (is_windows)
+        + emoji.emojize(":information:") * (not is_windows)
+        + "   Please follow the prompts below to login."
+    )
+
+    login_method = input(
+        colored(
+            "\n-- Type [1] to login via institution VPN or wifi"
+            + "\n-- Type [2] to manually login via the JSTOR website"
+            + "\n-- Type [3] to return to main menu"
+            + "\n   : ",
+        )
+    ).strip()
+
+    if login_method == "1" or login_method == "2":
+        return login_method
+
+    elif login_method == "3":
+        return login_method
+    else:
+        typo()
+
+        get_login_method()
 
 
 def login(driver, login_method):
@@ -20,8 +51,6 @@ def login(driver, login_method):
 
 
 def vpn_login(driver):
-
-    is_windows = system()
 
     print(
         "\n"
@@ -54,13 +83,15 @@ def vpn_login(driver):
 
     if cont == "1":
 
-        print("\nyou are now being routed to JSTOR home page...")
+        # print("\nyou are now being routed to JSTOR home page...")
 
-        time.sleep(2)
+        # time.sleep(2)
 
-        print(
-            "\ngive it a second, we are checking if the page has loaded successfully..."
-        )
+        # print(
+        #     "\ngive it a second, we are checking if the page has loaded successfully..."
+        # )
+
+        print("\nGive it a second, we are checking for successful login.\n")
 
         driver.get("https://www.jstor.org/")
 
@@ -93,8 +124,6 @@ def vpn_login(driver):
             driver.close()
 
             return False
-
-        print("\nchecking for successful login...\n")
 
         time.sleep(2)
 
@@ -135,8 +164,6 @@ def vpn_login(driver):
 
 def manual_login(driver):
 
-    is_windows = system()
-
     print(
         "\n"
         + colored(" i ", "blue", attrs=["reverse"]) * (is_windows)
@@ -150,11 +177,11 @@ def manual_login(driver):
 
     if cont == "1":
 
-        print("\nYou are now being routed to JSTOR home page...")
+        print("\nYou are now being routed to JSTOR home page.")
 
         time.sleep(2)
 
-        print("\nSit tight and wait for Google Chrome to open on your screen...\n")
+        print("\nSit tight and wait for Google Chrome to open on your screen.\n")
 
         time.sleep(2)
 
@@ -193,7 +220,7 @@ def manual_login(driver):
         time.sleep(1)
 
         print(
-            "\nGive it a second, we are checking if the page has loaded successfully..."
+            "\nGive it a second, we are checking if the page has loaded successfully."
         )
 
         driver.get("https://www.jstor.org/")
@@ -291,33 +318,17 @@ def manual_login(driver):
     return True
 
 
-def get_login_method():
-
-    login_method = input(
-        colored(
-            "\n-- Type [1] to login via institution VPN or wifi"
-            + "\n-- Type [2] to manually login via the JSTOR website"
-            + "\n-- Type [3] to exit"
-            + "\n   : ",
-        )
-    )
-
-    if login_method == "1" or login_method == "2":
-        return login_method
-
-    if login_method == "3":
-        os._exit(0)
-
-    return get_login_method()
-
-
 def proceed():
 
     proceed_input = input(
-        colored("\n-- Type [1] to continue\n-- Type [2] to restart\n   : ")
+        colored(
+            "\n-- Type [1] to continue\n-- Type [2] to return to contributions menu\n   : "
+        )
     )
 
     if proceed_input != "1" and proceed_input != "2":
+        typo()
+
         return proceed()
 
     return proceed_input
@@ -358,12 +369,12 @@ def login_requirements():
     )
 
     print(
-        "\na) Have Google Chrome installed. To install, visit https://support.google.com/chrome/answer/95346?hl=en&ref_topic=7439538. \nb) Have ffmpeg and ffprobe installed. For installation instructions, visit https://www.wikihow.com/Install-FFmpeg-on-Windows. \nc) Have a stable internet connection.\nd) Keep your device on charge and set to 'never sleep' while on battery and on charge."
+        "\n• Have Google Chrome installed. To install, visit https://support.google.com/chrome/answer/95346?hl=en&ref_topic=7439538. \n• Have ffmpeg and ffprobe installed. For installation instructions, visit https://www.wikihow.com/Install-FFmpeg-on-Windows. \n• Have a stable internet connection.\n• Keep your device on charge and set to 'never sleep' while on battery and on charge."
         * (is_windows)
     )
 
     print(
-        "\na) Have Google Chrome installed. To install, visit https://support.google.com/chrome/answer/95346?hl=en&ref_topic=7439538. \nb) Have ffmpeg and ffprobe installed. For installation instructions, visit https://bbc.github.io/bbcat-orchestration-docs/installation-mac-manual/. \nc) Have a stable internet connection.\nd) Keep your device on charge and set to 'never sleep' while on battery and on charge."
+        "\n• Have Google Chrome installed. To install, visit https://support.google.com/chrome/answer/95346?hl=en&ref_topic=7439538. \n• Have ffmpeg and ffprobe installed. For installation instructions, visit https://bbc.github.io/bbcat-orchestration-docs/installation-mac-manual/. \n• Have a stable internet connection.\n• Keep your device on charge and set to 'never sleep' while on battery and on charge."
         * (not is_windows)
     )
 
@@ -374,7 +385,7 @@ def login_requirements():
     )
 
     print(
-        "\na) Close the Google Chrome window that will be opened in the next steps.\nb) Interfere with the Google Chrome window unless prompted to do so."
+        "\n• Close the Google Chrome window that will be opened in the next steps.\n• Interfere with the Google Chrome window unless prompted to do so."
     )
 
     input(
@@ -386,8 +397,6 @@ def login_requirements():
 
 
 def login_instructions():
-
-    is_windows = system()
 
     time.sleep(1)
 
@@ -428,37 +437,3 @@ def login_instructions():
         * (not is_windows)
         + "\n"
     )
-
-    print(
-        "\n"
-        + colored(" i ", "blue", attrs=["reverse"]) * (is_windows)
-        + emoji.emojize(":information:") * (not is_windows)
-        + "   Please follow the prompts below to login"
-    )
-
-
-def main_menu():
-
-    is_windows = system()
-
-    print(
-        "\n"
-        + colored(" i ", "blue", attrs=["reverse"]) * (is_windows)
-        + emoji.emojize(":information:") * (not is_windows)
-        + "   To Choose a login method, enter [1]" * (is_windows)
-        + "   To Choose a login method, enter " * (not is_windows)
-        + colored("[1]", attrs=["bold"]) * (not is_windows)
-    )
-
-    print(
-        "\n"
-        + colored(" i ", "blue", attrs=["reverse"]) * (is_windows)
-        + emoji.emojize(":information:") * (not is_windows)
-        + "   To exit the program, enter [2]" * (is_windows)
-        + "   To exit the program, enter " * (not is_windows)
-        + colored("[2]", attrs=["bold"]) * (not is_windows)
-    )
-
-    select = input(colored("\n-- Please enter your selection: ")).strip()
-
-    return select

@@ -2,6 +2,7 @@ import time
 import random
 import logging
 import emoji
+import os
 
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
@@ -22,7 +23,9 @@ def user_agent():
 
         chrome_options.add_argument("--window-size=1920,1080")
 
-        logging.getLogger("WDM").setLevel(logging.NOTSET)
+        # try to suppress the chromedriver download message
+        # os.environ["WDM_log"] = "false"
+        # logging.getLogger("WDM").setLevel(logging.NOTSET)
 
         driver = webdriver.Chrome(
             service=Service(ChromeDriverManager().install()), options=chrome_options
