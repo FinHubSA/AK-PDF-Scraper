@@ -8,14 +8,17 @@ import os.path
 from src.helpers import system, typo
 from src.temp_storage import misc_path
 
+is_windows = system()
+
 
 def donation_explainer():
 
-    is_windows = system()
-
     print("\n\nGreat! You are on your way to make a contribution!")
+
+    print("\n\n" + colored("Receive donations", attrs=["reverse"]))
+
     print(
-        "\nThe Open Access community really appreciates your work, and would like to thank you by donating ALGO to your Algorand account.\n"
+        "\n\nThe Open Access community really appreciates your work, and would like to thank you by donating ALGO to your Algorand account.\n"
     )
     print(
         colored("\nHow this works:", attrs=["reverse"]) * (is_windows)
@@ -31,8 +34,6 @@ def donation_explainer():
 
 
 def donation_options():
-
-    is_windows = system()
 
     print(
         "\n"
@@ -56,6 +57,17 @@ def donation_options():
     elif donation_action.strip() == "2":
         user_address = create_account()
     elif donation_action.strip() == "3":
+
+        print(
+            "\n\n"
+            + (colored(" ! ", "green", attrs=["reverse"])) * (is_windows)
+            + emoji.emojize(":check_mark_button:") * (not is_windows)
+            + colored(
+                "  You will contribute papers without receiving any ALGO donations. If you change your mind, you can create or add an account later.",
+                "green",
+            )
+        )
+
         user_address = None
     elif donation_action.strip() == "4":
         user_address = ""
