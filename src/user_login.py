@@ -35,10 +35,11 @@ def get_login_method():
 
     elif login_method == "3":
         return login_method
+
     else:
         typo()
 
-        get_login_method()
+        return get_login_method()
 
 
 def login(driver, login_method):
@@ -109,9 +110,9 @@ def vpn_login(driver):
         except:
             print(
                 "\n"
-                + colored(" ! ", "red", attrs=["reverse"])
-                + colored(" Unable to load JSTOR page.\n", "red") * (is_windows)
+                + colored(" ! ", "red", attrs=["reverse"]) * (is_windows)
                 + emoji.emojize(":red_exclamation_mark:") * (not is_windows)
+                + colored("  Unable to load JSTOR page.\n", "red")
             )
 
             print(
@@ -280,7 +281,7 @@ def manual_login(driver):
                     + colored("  Unable to load JSTOR page.\n", "red")
                 )
 
-            print("\nchecking for successful login...\n")
+            print("\nChecking for successful login.\n")
 
             time.sleep(1)
 
@@ -437,3 +438,14 @@ def login_instructions():
         * (not is_windows)
         + "\n"
     )
+
+
+def end_program():
+
+    exit_program = input(
+        colored(
+            "\n-- Type [1] to exit\n-- Type [2] to make another contribution\n   : "
+        )
+    ).strip()
+
+    return exit_program

@@ -38,6 +38,7 @@ from src.user_login import (
     get_login_method,
     login_requirements,
     login_instructions,
+    end_program,
 )
 
 warnings.filterwarnings("ignore")
@@ -56,14 +57,14 @@ jstor_url = (
     storage_directory
 ) = Article_ID_list = src_directory = misc_directory = algorandAddress = None
 
-restart_count = article_index = t_c_try_accept = mbps = index = 0
+restart_count = article_index = mbps = index = 0
 
-restart = t_c_accepted = False
+is_windows = system()
 
 
 def contribute_papers():
 
-    global driver, mbps, driver, index, restart_count, article_index, storage_directory, USER_AGENT, algorandAddress
+    global driver, mbps, driver, index, restart_count, article_index, storage_directory, USER_AGENT, algorandAddress, exit_program
 
     setup()
 
@@ -92,7 +93,10 @@ def contribute_papers():
             logged_in = login(driver, login_method)
 
     while True:
+
         try:
+            exit_program = None
+
             get_article_ids()
 
             download_articles()
@@ -101,15 +105,21 @@ def contribute_papers():
 
             print(e)
 
-            print_error()
-
             internet_speed_retry()
-
-            wait = delay(mbps)
 
             restart_count += 1
 
-            time.sleep(wait * 10)
+        while True:
+            if exit_program == None:
+                break
+            elif exit_program == "1":
+                driver.close()
+                os._exit(0)
+            elif exit_program == "2":
+                restart_count = 0
+                break
+            else:
+                typo()
 
 
 def setup():
@@ -121,6 +131,8 @@ def setup():
     src_directory = get_storage_path()
 
     misc_directory = misc_path()
+
+    print(misc_directory)
 
     # set the file source directory
     # os.chdir(src_directory)
@@ -141,18 +153,39 @@ def setup():
     # USER_AGENT = user_agent()
     USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.61 Safari/537.36"
 
-    # define loop to facilitate restart when an error occurs
     now = datetime.now().timestamp()
 
 
 def create_driver_session(chrome_options):
 
-    driver = webdriver.Chrome(
-        service=Service(ChromeDriverManager().install()),
-        options=chrome_options,
-    )
+    driver_session_retry = 0
 
-    driver.minimize_window()
+    while driver_session_retry <= 4:
+
+        driver_session_retry += 1
+
+        try:
+
+            driver = webdriver.Chrome(
+                service=Service(ChromeDriverManager().install()),
+                options=chrome_options,
+            )
+
+            driver.minimize_window()
+
+            break
+
+        except Exception as e:
+
+            print(e)
+
+            print("\n[ERR] Chromedriver exception occurred, retrying.")
+
+    if driver_session_retry > 4:
+
+        # do more here
+        print("\n[ERR] could not resolve issue, exiting.")
+        os._exit(0)
 
     return driver
 
@@ -207,8 +240,6 @@ def latest_downloaded_pdf(storage_directory, src_directory):
 
 def get_article_ids():
 
-    is_windows = system()
-
     global Article_ID_list, jstor_url
 
     if restart_count == 0:
@@ -230,7 +261,6 @@ def get_article_ids():
         jstor_url = driver.current_url
 
         # User select which papers they would like to download (API Call)
-
         print(
             "\n\n"
             + colored("JSTOR PDF download specification:\n", attrs=["reverse"])
@@ -293,6 +323,12 @@ def get_article_ids():
                     ).strip()
 
                     Author_Name_urlenc = urllib.parse.quote(Author_Name)
+
+                    print(
+                        "\nGive it a second, we are searching for the requested author."
+                    )
+
+                    time.sleep(1)
 
                     Author_List_json = requests.get(
                         f"https://api-service-mrz6aygprq-oa.a.run.app/api/authors?authorName={Author_Name_urlenc}"
@@ -513,6 +549,12 @@ def get_article_ids():
 
                     Journal_Name_urlenc = urllib.parse.quote(Journal_Name)
 
+                    print(
+                        "\nGive it a second, we are searching for the requested journal."
+                    )
+
+                    time.sleep(1)
+
                     Journal_List_json = requests.get(
                         f"https://api-service-mrz6aygprq-oa.a.run.app/api/journals?journalName={Journal_Name_urlenc}"
                     )
@@ -727,7 +769,7 @@ def get_article_ids():
 
         time.sleep(1)
 
-    else:
+    elif 0 < restart_count <= 5:
 
         restart_driver_session(
             jstor_url,
@@ -736,19 +778,35 @@ def get_article_ids():
             driver.session_id,
         )
 
-        time.sleep(wait)
+        time.sleep(wait * 10)
 
         Article_ID_list = Article_ID_list[article_index:]
+
+    else:
+        print(
+            "\n"
+            + colored(" ! ", "red", attrs=["reverse"]) * (is_windows)
+            + emoji.emojize(":red_exclamation_mark:") * (not is_windows)
+            + colored(
+                "  Unforturnately, due to reasons outside of our control, we cannot upload the requested papers. Please try again later.\n",
+                "red",
+            )
+        )
+
+        driver.close()
+        os._exit(0)
 
 
 def download_articles():
 
-    global restart, t_c_accepted, t_c_try_accept, article_index, Article_ID_list, now, wait, src_directory, storage_directory, restart_count
+    global restart, t_c_accepted, t_c_try_accept, article_index, Article_ID_list, now, wait, src_directory, storage_directory, restart_count, exit_program
 
-    is_windows = system()
+    restart = t_c_accepted = False
+
+    t_c_try_accept = 0
 
     # loop through user requested article ID's
-    # if error occurs, restart the web session and start at last indexed ID - TEST
+    # if error occurs, restart the web session and start at last indexed ID
     for index, article_json in enumerate(Article_ID_list):
 
         article = article_json["articleJstorID"]
@@ -774,6 +832,7 @@ def download_articles():
             storage_directory, article.split("/")[-1] + ".pdf.crdownload"
         )
 
+        # construct a random name for the pdf file
         random_string = string.ascii_lowercase + string.digits
 
         doi = os.path.join(
@@ -786,7 +845,7 @@ def download_articles():
             + ".pdf",
         )
 
-        # check if pdf file already exists in user directory - TEST
+        # check if pdf file already exists in user directory
         # delete if download pending or file exist to circumvent malicious actors
         if os.path.exists(url):
 
@@ -845,7 +904,7 @@ def download_articles():
                 if not (os.path.exists(url) or os.path.exists(url_pending)):
 
                     success, start_time = recaptcha_solver(
-                        driver, url, url_pending, wait, src_directory, jstor_url
+                        driver, url, url_pending, wait, misc_directory, jstor_url
                     )
 
                     if success:
@@ -888,7 +947,7 @@ def download_articles():
             if not success:
 
                 print(
-                    "[ERR] reCAPTCHA could not be solved or pdf could not be downloaded, restarting driver session"
+                    "[ERR] reCAPTCHA could not be solved or pdf could not found, restarting driver session"
                 )
 
                 restart = True
@@ -931,7 +990,7 @@ def download_articles():
 
             print("[ERR] Could not download pdf file, restarting driver session")
 
-            restart_count = +1
+            restart_count += 1
 
             restart = True
 
@@ -954,7 +1013,6 @@ def download_articles():
             )
 
         # upload pdf file to Google Drive
-        # print("*** add", algorandAddress)
         files = {"file": open(doi, "rb")}
         data = {"articleJstorID": article, "algorandAddress": algorandAddress}
 
@@ -994,6 +1052,10 @@ def download_articles():
 
             elif response.status_code == 500:
 
+                # Need to figure out what to do here.
+                # What happens if it's a server error that needs fixing and all the other uploads don't work?
+                # ping server, if server is down stop program
+
                 retry_upload_count += 1
 
                 print(
@@ -1006,7 +1068,11 @@ def download_articles():
         delete_files(doi)
 
         if article_json == Article_ID_list[-1]:
-            delete_temp_storage(storage_directory)
+            # delete the entire Aaron's Kit folder
+            try:
+                delete_temp_storage(storage_directory)
+            except Exception as e:
+                print(e)
 
             print(
                 "\n"
@@ -1018,22 +1084,15 @@ def download_articles():
                 )
             )
 
-            print(
-                "\n"
-                + colored(" ! ", "green", attrs=["reverse"]) * (is_windows)
-                + emoji.emojize(":information:") * (not is_windows)
-                + colored("   You can exit/close this window.")
-            )
-
             break
 
     # stop when all articles have downloaded, otherwise navigate to home page and restart web session
     if article_json == Article_ID_list[-1] and not restart:
-        # perhaps give user option to go back to main menu
-        driver.close()
-        os._exit(0)
+
+        # go back to main menu
+        exit_program = end_program()
+
     else:
         driver.get(jstor_url)
 
     article_index = index
-    time.sleep(wait * 10)

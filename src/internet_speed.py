@@ -64,7 +64,7 @@ def internet_speed_retry():
 
     while internet_retry == True:
 
-        print("\n\ndetermining internet speed...")
+        print("\n\nDetermining internet speed.")
 
         mbps = download_speed()
 
