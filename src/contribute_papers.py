@@ -5,7 +5,6 @@ from datetime import datetime
 import logging
 import emoji
 import os
-import requests
 import string
 import random
 import warnings
@@ -30,7 +29,12 @@ from src.temp_storage import (
     delete_temp_storage,
 )
 
-from src.helpers import system, typo, print_error
+from src.helpers import (
+    system,
+    typo,
+    server_response_post,
+    server_response_request,
+)
 from src.donations import donation_explainer
 from src.internet_speed import download_speed, delay, internet_speed_retry
 from src.user_login import (
@@ -95,7 +99,7 @@ def contribute_papers():
     while True:
 
         try:
-            exit_program = None
+            exit_program = False
 
             get_article_ids()
 
@@ -110,7 +114,7 @@ def contribute_papers():
             restart_count += 1
 
         while True:
-            if exit_program == None:
+            if exit_program == False:
                 break
             elif exit_program == "1":
                 driver.close()
@@ -160,7 +164,7 @@ def create_driver_session(chrome_options):
 
     driver_session_retry = 0
 
-    while driver_session_retry <= 4:
+    while driver_session_retry <= 2:
 
         driver_session_retry += 1
 
@@ -181,10 +185,10 @@ def create_driver_session(chrome_options):
 
             print("\n[ERR] Chromedriver exception occurred, retrying.")
 
-    if driver_session_retry > 4:
+    if driver_session_retry > 2:
 
         # do more here
-        print("\n[ERR] could not resolve issue, exiting.")
+        print("\n[ERR] Could not resolve issue, exiting.")
         os._exit(0)
 
     return driver
@@ -330,9 +334,14 @@ def get_article_ids():
 
                     time.sleep(1)
 
-                    Author_List_json = requests.get(
-                        f"https://api-service-mrz6aygprq-oa.a.run.app/api/authors?authorName={Author_Name_urlenc}"
+                    server_error, Author_List_json = server_response_request(
+                        driver,
+                        f"https://api-service-mrz6aygprq-oa.a.run.app/api/authors?authorName={Author_Name_urlenc}",
                     )
+
+                    if server_error:
+                        driver.close()
+                        os._exit(0)
 
                     try:
 
@@ -420,9 +429,14 @@ def get_article_ids():
                         Author_List_json[int(Author_Number) - 1]["authorName"]
                     )
 
-                    Article_ID_list = requests.get(
-                        f"https://api-service-mrz6aygprq-oa.a.run.app/api/articles?authorName={Author_Selected_urlenc}&scraped=0&exact=1"
+                    server_error, Article_ID_list = server_response_request(
+                        driver,
+                        f"https://api-service-mrz6aygprq-oa.a.run.app/api/articles?authorName={Author_Selected_urlenc}&scraped=0&exact=1",
                     )
+
+                    if server_error:
+                        driver.close()
+                        os._exit(0)
 
                     if Article_ID_list.status_code == 200:
 
@@ -452,7 +466,6 @@ def get_article_ids():
 
                         else:
 
-                            # Add option to download articles by this author
                             print(
                                 "\n\n"
                                 + colored(" ! ", "yellow", attrs=["reverse"])
@@ -483,7 +496,7 @@ def get_article_ids():
                                 else:
                                     typo()
 
-                    elif Article_ID_list.status_code == 400:
+                    else:
 
                         print(
                             "\n\n"
@@ -555,9 +568,14 @@ def get_article_ids():
 
                     time.sleep(1)
 
-                    Journal_List_json = requests.get(
-                        f"https://api-service-mrz6aygprq-oa.a.run.app/api/journals?journalName={Journal_Name_urlenc}"
+                    server_error, Journal_List_json = server_response_request(
+                        driver,
+                        f"https://api-service-mrz6aygprq-oa.a.run.app/api/journals?journalName={Journal_Name_urlenc}",
                     )
+
+                    if server_error:
+                        driver.close()
+                        os._exit(0)
 
                     try:
 
@@ -645,9 +663,14 @@ def get_article_ids():
                         Journal_List_json[int(Journal_Number) - 1]["journalName"]
                     )
 
-                    Article_ID_list = requests.get(
-                        f"https://api-service-mrz6aygprq-oa.a.run.app/api/articles?journalName={Journal_Selected_urlenc}&scraped=0"
+                    server_error, Article_ID_list = server_response_request(
+                        driver,
+                        f"https://api-service-mrz6aygprq-oa.a.run.app/api/articles?journalName={Journal_Selected_urlenc}&scraped=0",
                     )
+
+                    if server_error:
+                        driver.close()
+                        os._exit(0)
 
                     if Article_ID_list.status_code == 200:
 
@@ -706,7 +729,7 @@ def get_article_ids():
                                 else:
                                     typo()
 
-                    elif Article_ID_list.status_code == 200:
+                    else:
 
                         print(
                             "\n\n"
@@ -741,7 +764,6 @@ def get_article_ids():
 
                 typo()
 
-        # Print End Message
         print(
             "\n\n"
             + colored(" i ", "blue", attrs=["reverse"]) * (is_windows)
@@ -755,7 +777,7 @@ def get_article_ids():
             "\n"
             + colored(" i ", "blue", attrs=["reverse"]) * (is_windows)
             + emoji.emojize(":information:") * (not is_windows)
-            + "   You can minimize this window and continue with other tasks on your computer while your files download."
+            + "   You can minimize this window and continue with other tasks on your computer while your files upload."
         )
 
         time.sleep(1)
@@ -764,7 +786,7 @@ def get_article_ids():
             "\n"
             + colored(" i ", "blue", attrs=["reverse"]) * (is_windows)
             + emoji.emojize(":information:") * (not is_windows)
-            + "   Do not exit/close this window as this will abort the download process.\n"
+            + "   Do not exit/close this window as this will abort the upload process.\n"
         )
 
         time.sleep(1)
@@ -880,6 +902,8 @@ def download_articles():
 
                 print("no cookies")
 
+                continue
+
             # accept t&c's
             try:
 
@@ -947,7 +971,7 @@ def download_articles():
             if not success:
 
                 print(
-                    "[ERR] reCAPTCHA could not be solved or pdf could not found, restarting driver session"
+                    "[ERR] ReCAPTCHA could not be solved or pdf could not found, restarting driver session."
                 )
 
                 restart = True
@@ -1016,53 +1040,13 @@ def download_articles():
         files = {"file": open(doi, "rb")}
         data = {"articleJstorID": article, "algorandAddress": algorandAddress}
 
-        retry_upload_count = 0
-
-        while retry_upload_count < 3:
-
-            response = requests.post(
-                "https://api-service-mrz6aygprq-oa.a.run.app/api/articles/pdf",
-                files=files,
-                data=data,
-                verify=False,
-            )
-
-            if response.status_code == 200:
-
-                print(
-                    "\nSucessfully uploaded article: "
-                    + article_json["title"]
-                    + "."
-                    + "\nIt will be available at "
-                    + response.json()["bucket_url"]
-                    + " in a few moments."
-                )
-
-                break
-
-            elif response.status_code == 404:
-
-                print(
-                    "\nCould not find article: "
-                    + article_json["title"]
-                    + " in database."
-                )
-
-                break
-
-            elif response.status_code == 500:
-
-                # Need to figure out what to do here.
-                # What happens if it's a server error that needs fixing and all the other uploads don't work?
-                # ping server, if server is down stop program
-
-                retry_upload_count += 1
-
-                print(
-                    "\nCould not upload article: "
-                    + article_json["title"]
-                    + ", server error."
-                )
+        server_response_post(
+            driver,
+            "https://api-service-mrz6aygprq-oa.a.run.app/api/articles/pdf",
+            files,
+            data,
+            article_json,
+        )
 
         # delete article from local storage
         delete_files(doi)
@@ -1086,7 +1070,7 @@ def download_articles():
 
             break
 
-    # stop when all articles have downloaded, otherwise navigate to home page and restart web session
+    # stop when all articles have downloaded or when server error, otherwise navigate to home page and restart web session
     if article_json == Article_ID_list[-1] and not restart:
 
         # go back to main menu

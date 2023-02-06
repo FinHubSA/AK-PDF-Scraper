@@ -1,4 +1,3 @@
-import requests
 import time
 import os
 import emoji
@@ -10,7 +9,7 @@ from pathlib import Path
 from urllib.parse import urlparse
 from termcolor import colored
 
-from src.helpers import system, typo, print_error
+from src.helpers import system, typo, server_response_request
 from src.download_criteria import select_journal, select_author, select_issue
 
 
@@ -169,31 +168,22 @@ def get_articles(journal_id=None, issue_id=None, author_name=None):
 
     is_windows = system()
 
-    try:
+    if journal_id:
+        server_error, articles = server_response_request(
+            f"https://api-service-mrz6aygprq-oa.a.run.app/api/articles?journalID={journal_id}&scraped=1"
+        )
+    elif issue_id:
+        server_error, articles = server_response_request(
+            f"https://api-service-mrz6aygprq-oa.a.run.app/api/articles?issueID={issue_id}&scraped=1"
+        )
 
-        if journal_id:
-            articles = requests.get(
-                f"https://api-service-mrz6aygprq-oa.a.run.app/api/articles?journalID={journal_id}&scraped=1"
-            )
-        elif issue_id:
-            articles = requests.get(
-                f"https://api-service-mrz6aygprq-oa.a.run.app/api/articles?issueID={issue_id}&scraped=1"
-            )
-        elif author_name:
-            articles = requests.get(
-                f"https://api-service-mrz6aygprq-oa.a.run.app/api/articles?authorName={author_name}&scraped=1"
-            )
+    elif author_name:
+        server_error, articles = server_response_request(
+            f"https://api-service-mrz6aygprq-oa.a.run.app/api/articles?authorName={author_name}&scraped=1"
+        )
 
-    except:
-
-        print_error()
-
-        if journal_id:
-            return get_articles(journal_id=journal_id)
-        elif issue_id:
-            return get_articles(issue_id=issue_id)
-        elif author_name:
-            return get_articles(author_name=author_name)
+    if server_error:
+        os._exit(0)
 
     articles = articles.json()
 
@@ -276,11 +266,15 @@ def download_url(article):
 
     t0 = time.time()
     url, fn = bucket_url, download_url
+    server_error, r = server_response_request(url)
+
     try:
-        r = requests.get(url)
         with open(fn, "wb") as f:
             f.write(r.content)
         return (url, time.time() - t0)
     except Exception as e:
         # what should the user do when exception occurs?
         print("Exception in download_url():", e)
+
+    if server_error:
+        os._exit(0)

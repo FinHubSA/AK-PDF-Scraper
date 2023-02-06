@@ -1,11 +1,11 @@
-import requests
 import urllib.parse
 import time
 import emoji
+import os
 
 from termcolor import colored
 
-from src.helpers import system, print_error
+from src.helpers import system, print_error, server_response_request
 
 
 def select_author():
@@ -43,19 +43,14 @@ def select_author():
             )
         ).strip()
 
-        Author_Name_urlenc = urllib.parse.quote(Author_Name.strip())
+        Author_Name_urlenc = urllib.parse.quote(Author_Name)
 
-        try:
+        server_error, Author_List_json = server_response_request(
+            f"https://api-service-mrz6aygprq-oa.a.run.app/api/authors?authorName={Author_Name_urlenc}"
+        )
 
-            Author_List_json = requests.get(
-                f"https://api-service-mrz6aygprq-oa.a.run.app/api/authors?authorName={Author_Name_urlenc}"
-            )
-
-        except:
-
-            print_error()
-
-            return select_author()
+        if server_error:
+            os._exit(0)
 
         try:
 
@@ -63,7 +58,7 @@ def select_author():
 
         except:
 
-            return {}
+            return
 
         print(
             "\n\n"
@@ -160,17 +155,12 @@ def select_journal():
 
     Journal_Name_urlenc = urllib.parse.quote(Journal_Name)
 
-    try:
+    server_error, Journal_List_json = server_response_request(
+        f"https://api-service-mrz6aygprq-oa.a.run.app/api/journals?journalName={Journal_Name_urlenc}"
+    )
 
-        Journal_List_json = requests.get(
-            f"https://api-service-mrz6aygprq-oa.a.run.app/api/journals?journalName={Journal_Name_urlenc}"
-        )
-
-    except:
-
-        print_error()
-
-        return select_journal()
+    if server_error:
+        os._exit(0)
 
     try:
 
@@ -245,17 +235,12 @@ def select_issue(journal_name, journal_id):
 
     print("\n\nSearching for issues in " + journal_name + "...")
 
-    try:
+    server_error, issue_list_json = server_response_request(
+        f"https://api-service-mrz6aygprq-oa.a.run.app/api/issues?journalID={journal_id}"
+    )
 
-        issue_list_json = requests.get(
-            f"https://api-service-mrz6aygprq-oa.a.run.app/api/issues?journalID={journal_id}"
-        )
-
-    except:
-
-        print_error()
-
-        return select_issue(journal_name, journal_id)
+    if server_error:
+        os._exit(0)
 
     try:
 
