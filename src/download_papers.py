@@ -67,7 +67,7 @@ def download_by_author():
             )
         )
 
-        return
+        return {}
 
     author_name = author["authorName"]
 
@@ -229,11 +229,6 @@ def bulk_download(articles):
 
     for result in results:
         results_size += 1
-
-    # results_size = 0
-    # for article in articles:
-    #     download_url(article)
-    #     results_size += 1
 
     print(
         "\n"

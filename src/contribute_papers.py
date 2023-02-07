@@ -335,7 +335,6 @@ def get_article_ids():
                     time.sleep(1)
 
                     server_error, Author_List_json = server_response_request(
-                        driver,
                         f"https://api-service-mrz6aygprq-oa.a.run.app/api/authors?authorName={Author_Name_urlenc}",
                     )
 
@@ -430,7 +429,6 @@ def get_article_ids():
                     )
 
                     server_error, Article_ID_list = server_response_request(
-                        driver,
                         f"https://api-service-mrz6aygprq-oa.a.run.app/api/articles?authorName={Author_Selected_urlenc}&scraped=0&exact=1",
                     )
 
@@ -569,7 +567,6 @@ def get_article_ids():
                     time.sleep(1)
 
                     server_error, Journal_List_json = server_response_request(
-                        driver,
                         f"https://api-service-mrz6aygprq-oa.a.run.app/api/journals?journalName={Journal_Name_urlenc}",
                     )
 
@@ -664,7 +661,6 @@ def get_article_ids():
                     )
 
                     server_error, Article_ID_list = server_response_request(
-                        driver,
                         f"https://api-service-mrz6aygprq-oa.a.run.app/api/articles?journalName={Journal_Selected_urlenc}&scraped=0",
                     )
 
@@ -901,8 +897,6 @@ def download_articles():
             except:
 
                 print("no cookies")
-
-                continue
 
             # accept t&c's
             try:

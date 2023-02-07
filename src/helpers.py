@@ -1,6 +1,5 @@
 import requests
 import requests.exceptions
-import urllib.parse
 import time
 import os
 import platform
@@ -49,20 +48,31 @@ def print_error():
         + colored(" ! ", "yellow", attrs=["reverse"]) * (is_windows)
         + emoji.emojize(":loudspeaker:") * (not is_windows)
         + colored(
-            "   Something went wrong, you might have an unstable internet connection",
+            "  Network error. Please check your internet connection and then continue.\n",
             "yellow",
         )
     )
 
-    input(
-        colored("\n\n-- Please check your connection and then press ")
-        + colored("ENTER/RETURN", attrs=["reverse"]) * (is_windows)
-        + colored("ENTER/RETURN", attrs=["bold"]) * (not is_windows)
-        + colored(" to continue: ")
-    )
+    check_internet_typo = True
+
+    while check_internet_typo:
+
+        check_internet = input(
+            colored(
+                "\n-- Type [1] to continue" + "\n-- Type [2] to exit" + "\n   : ",
+            )
+        ).strip()
+
+        if check_internet == "1":
+            check_internet_typo = False
+            return {}
+        elif check_internet == "2":
+            os._exit(0)
+        else:
+            typo()
 
 
-def server_response_post(driver, post_request_url, files, data, article_json):
+def server_response_post(driver, url, files, data, article_json):
 
     is_windows = system()
 
@@ -70,12 +80,12 @@ def server_response_post(driver, post_request_url, files, data, article_json):
 
     retry_upload_count = 0
 
-    while retry_upload_count <= 3:
+    while retry_upload_count < 3:
 
         try:
 
             response = requests.post(
-                post_request_url,
+                url,
                 files=files,
                 data=data,
                 verify=False,
@@ -83,7 +93,7 @@ def server_response_post(driver, post_request_url, files, data, article_json):
 
             response.raise_for_status()  # Raises a HTTPError if the status is 4xx, 5xx
 
-        except (requests.exceptions.ConnectionError, requests.exceptions.Timeout):
+        except requests.exceptions.Timeout:
 
             print(
                 "\n"
@@ -97,6 +107,12 @@ def server_response_post(driver, post_request_url, files, data, article_json):
 
             driver.close()
             os._exit(0)
+
+        except requests.exceptions.ConnectionError:
+
+            retry_upload_count += 1
+
+            print_error()
 
         except requests.exceptions.HTTPError:
             if response.status_code == 500:
@@ -119,6 +135,7 @@ def server_response_post(driver, post_request_url, files, data, article_json):
 
                 break
         else:
+
             print(
                 "\nSucessfully uploaded article: "
                 + article_json["title"]
@@ -130,7 +147,7 @@ def server_response_post(driver, post_request_url, files, data, article_json):
 
             break
 
-    if retry_upload_count > 3:
+    if retry_upload_count >= 3:
 
         print(
             "\n"
@@ -156,7 +173,7 @@ def server_response_request(url):
 
     retry_upload_count = 0
 
-    while retry_upload_count <= 3:
+    while retry_upload_count < 3:
 
         try:
 
@@ -196,7 +213,7 @@ def server_response_request(url):
 
             break
 
-    if retry_upload_count > 3:
+    if retry_upload_count >= 3:
 
         print(
             "\n"

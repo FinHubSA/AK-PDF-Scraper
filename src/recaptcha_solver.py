@@ -89,7 +89,7 @@ def recaptcha_solver(driver, url, url_pending, wait, misc_directory, jstor_url):
 
     if not (recaptcha_control_frame and recaptcha_challenge_frame):
 
-        print("[ERR] Unable to find reCAPTCHA")
+        print("[ERR] Unable to find reCAPTCHA.")
         is_recaptcha_control_active = False
         success = False
 
@@ -101,7 +101,7 @@ def recaptcha_solver(driver, url, url_pending, wait, misc_directory, jstor_url):
         # Make sure that reCAPTCHA does not get stuck in a loop
         if recaptcha_log >= randint:
 
-            print("[ERR] IP address has been blocked by reCAPTCHA, restart browser")
+            print("[ERR] IP address has been blocked by reCAPTCHA, restart browser.")
 
             success = False
 
@@ -115,7 +115,7 @@ def recaptcha_solver(driver, url, url_pending, wait, misc_directory, jstor_url):
             driver.switch_to.default_content()
             driver.switch_to.frame(recaptcha_control_frame)
 
-            # click on checkbox to activate recaptcha TESTING HERE
+            # click on checkbox to activate recaptcha
             driver.find_element(By.CLASS_NAME, "recaptcha-checkbox-border").click()
             print("checkbox clicked")
 
@@ -154,7 +154,7 @@ def recaptcha_solver(driver, url, url_pending, wait, misc_directory, jstor_url):
                         # time.sleep(random.randrange(10, 15, 1))
                         time.sleep(2)
                         driver.find_element(By.ID, "recaptcha-audio-button").click()
-                        print("Switched to audio control frame")
+                        print("Switched to audio control frame.")
                         switched_to_audio = True
 
                     except:
@@ -178,7 +178,7 @@ def recaptcha_solver(driver, url, url_pending, wait, misc_directory, jstor_url):
 
                 except Exception as e:
 
-                    print("[ERR] Error when using Audio challenge frame")
+                    print("[ERR] Error when using Audio challenge frame.")
                     print(e)
                     success = False
                     is_recaptcha_control_active = False

@@ -5,7 +5,7 @@ import os
 
 from termcolor import colored
 
-from src.helpers import system, print_error, server_response_request
+from src.helpers import system, server_response_request
 
 
 def select_author():
@@ -58,7 +58,7 @@ def select_author():
 
         except:
 
-            return
+            return {}
 
         print(
             "\n\n"
@@ -233,7 +233,7 @@ def select_issue(journal_name, journal_id):
 
     is_windows = system()
 
-    print("\n\nSearching for issues in " + journal_name + "...")
+    print("\n\nSearching for issues in " + journal_name + ".")
 
     server_error, issue_list_json = server_response_request(
         f"https://api-service-mrz6aygprq-oa.a.run.app/api/issues?journalID={journal_id}"

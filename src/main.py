@@ -33,7 +33,7 @@ def main_menu():
     while True:
 
         print(
-            "\n" + emoji.emojize(":information:") + "   Please make a selection below"
+            "\n" + emoji.emojize(":information:") + "   Please make a selection below."
         )
 
         action = input(
