@@ -123,7 +123,7 @@ def existing_account():
                 + (colored(" i ", "blue", attrs=["reverse"])) * (is_windows)
                 + emoji.emojize(":information:") * (not is_windows)
                 + "   Please enter your Algorand address: "
-            )
+            ).strip()
 
             if encoding.is_valid_address(user_address):
                 print(

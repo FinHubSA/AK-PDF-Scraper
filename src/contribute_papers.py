@@ -34,6 +34,7 @@ from src.helpers import (
     typo,
     server_response_post,
     server_response_request,
+    print_error,
 )
 from src.donations import donation_explainer
 from src.internet_speed import download_speed, delay, internet_speed_retry
@@ -109,7 +110,7 @@ def contribute_papers():
 
             print(e)
 
-            internet_speed_retry()
+            print_error()
 
             restart_count += 1
 
@@ -136,15 +137,9 @@ def setup():
 
     misc_directory = misc_path()
 
-    print(misc_directory)
-
-    # set the file source directory
-    # os.chdir(src_directory)
-    # os.chdir(os.path.dirname(__file__))
-
     # calculate the internet speed and driver sleep time
-    # mbps = internet_speed_retry()
-    mbps = 90
+    mbps = internet_speed_retry()
+    # mbps = 90
 
     wait = delay(mbps)
 
@@ -154,8 +149,8 @@ def setup():
         "\nYou may notice that a browser window opened, don't worry, we're just checking your User Agent online!"
     )
 
-    # USER_AGENT = user_agent()
-    USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.61 Safari/537.36"
+    USER_AGENT = user_agent()
+    # USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.61 Safari/537.36"
 
     now = datetime.now().timestamp()
 
@@ -229,15 +224,13 @@ def restart_driver_session(jstor_url, chrome_options, executor_url, session_id):
     driver.get(jstor_url)
 
 
-def latest_downloaded_pdf(storage_directory, src_directory):
+def latest_downloaded_pdf(storage_directory):
 
     os.chdir(storage_directory)
 
     pdf_download_list = sorted(os.listdir(storage_directory), key=os.path.getmtime)
 
     latest_pdf = pdf_download_list[-1]
-
-    os.chdir(src_directory)
 
     return latest_pdf
 
@@ -661,7 +654,7 @@ def get_article_ids():
                     )
 
                     server_error, Article_ID_list = server_response_request(
-                        f"https://api-service-mrz6aygprq-oa.a.run.app/api/articles?journalName={Journal_Selected_urlenc}&scraped=0",
+                        f"https://api-service-mrz6aygprq-oa.a.run.app/api/articles?journalName={Journal_Selected_urlenc}&scraped=0&exact=1",
                     )
 
                     if server_error:
@@ -985,7 +978,7 @@ def download_articles():
 
             count += 1
 
-            latest_file = latest_downloaded_pdf(storage_directory, src_directory)
+            latest_file = latest_downloaded_pdf(storage_directory)
 
             if latest_file == article.split("/")[-1] + ".pdf":
 
@@ -1040,6 +1033,7 @@ def download_articles():
             files,
             data,
             article_json,
+            storage_directory,
         )
 
         # delete article from local storage

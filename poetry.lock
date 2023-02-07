@@ -376,6 +376,17 @@ files = [
 test = ["pytest (>=6)"]
 
 [[package]]
+name = "ffmpy"
+version = "0.3.0"
+description = "A simple Python wrapper for ffmpeg"
+category = "main"
+optional = false
+python-versions = "*"
+files = [
+    {file = "ffmpy-0.3.0.tar.gz", hash = "sha256:757591581eee25b4a50ac9ffb9b58035a2794533db47e0512f53fb2d7b6f9adc"},
+]
+
+[[package]]
 name = "future"
 version = "0.18.2"
 description = "Clean single-source support for Python 3 and 2"
@@ -1438,4 +1449,4 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10,<3.12"
-content-hash = "45b21ccce1fad611028ab270be5b7dbd9deb26224c4290b876de92d3653be3a7"
+content-hash = "484ee2efd6382495ed96c68a7c5409c39accc82b36ee1b7d3b7dc87e0298e210"

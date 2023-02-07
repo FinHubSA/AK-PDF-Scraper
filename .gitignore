@@ -8,6 +8,9 @@ Metadata.csv
 Metadata.json
 test.py
 restart.py
+cookies.pkl
+sample.mp3
+sample.wav
 
 # C extensions
 *.so

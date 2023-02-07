@@ -7,6 +7,8 @@ import emoji
 
 from termcolor import colored
 
+from src.temp_storage import delete_temp_storage
+
 
 def system():
 
@@ -72,7 +74,7 @@ def print_error():
             typo()
 
 
-def server_response_post(driver, url, files, data, article_json):
+def server_response_post(driver, url, files, data, article_json, storage_directory):
 
     is_windows = system()
 
@@ -104,6 +106,11 @@ def server_response_post(driver, url, files, data, article_json):
                     "red",
                 )
             )
+
+            try:
+                delete_temp_storage(storage_directory)
+            except Exception as e:
+                print(e)
 
             driver.close()
             os._exit(0)
@@ -158,6 +165,11 @@ def server_response_post(driver, url, files, data, article_json):
                 "red",
             )
         )
+
+        try:
+            delete_temp_storage(storage_directory)
+        except Exception as e:
+            print(e)
 
         driver.close()
         os._exit(0)

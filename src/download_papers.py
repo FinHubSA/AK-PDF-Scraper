@@ -75,7 +75,7 @@ def download_by_author():
         "\n"
         + (colored(" i ", "blue", attrs=["reverse"])) * (is_windows)
         + (emoji.emojize(":information:")) * (not is_windows)
-        + (f"   Downloading all articles by {author_name}...")
+        + (f"   Downloading all articles by {author_name}.")
     )
 
     author_name_urlenc = urllib.parse.quote(author_name)
@@ -133,7 +133,7 @@ def download_by_journal():
             "\n"
             + (colored(" i ", "blue", attrs=["reverse"])) * (is_windows)
             + (emoji.emojize(":information:")) * (not is_windows)
-            + (f"   Downloading all articles from {journal_name}...")
+            + (f"   Downloading all articles from {journal_name}.")
         )
 
         get_articles(journal_id=journal_id)
@@ -194,7 +194,7 @@ def get_articles(journal_id=None, issue_id=None, author_name=None):
             "\n"
             + (colored(" i ", "blue", attrs=["reverse"])) * (is_windows)
             + (emoji.emojize(":information:")) * (not is_windows)
-            + (f"   Downloading {articles_size} articles...")
+            + (f"   Downloading {articles_size} articles.")
         )
 
         bulk_download(articles)
