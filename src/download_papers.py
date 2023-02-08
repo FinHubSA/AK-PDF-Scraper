@@ -179,7 +179,7 @@ def get_articles(journal_id=None, issue_id=None, author_name=None):
 
     elif author_name:
         server_error, articles = server_response_request(
-            f"https://api-service-mrz6aygprq-oa.a.run.app/api/articles?authorName={author_name}&scraped=1"
+            f"https://api-service-mrz6aygprq-oa.a.run.app/api/articles?authorName={author_name}&scraped=1&exact=1"
         )
 
     if server_error:

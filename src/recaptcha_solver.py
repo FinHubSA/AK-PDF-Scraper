@@ -6,7 +6,6 @@ import os
 import re
 from datetime import datetime
 import requests
-import platform
 
 from termcolor import colored
 import pydub
