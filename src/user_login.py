@@ -84,14 +84,6 @@ def vpn_login(driver):
 
     if cont == "1":
 
-        # print("\nyou are now being routed to JSTOR home page...")
-
-        # time.sleep(2)
-
-        # print(
-        #     "\ngive it a second, we are checking if the page has loaded successfully..."
-        # )
-
         print("\nGive it a second, we are checking for successful login.\n")
 
         driver.get("https://www.jstor.org/")

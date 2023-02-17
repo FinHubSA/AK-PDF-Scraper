@@ -4,6 +4,7 @@ import time
 import os
 import platform
 import emoji
+import json
 
 from termcolor import colored
 
@@ -23,9 +24,10 @@ def system():
     return is_windows
 
 
-def typo():
+is_windows = system()
 
-    is_windows = system()
+
+def typo():
 
     print(
         "\n\n"
@@ -40,9 +42,19 @@ def typo():
     time.sleep(1)
 
 
-def print_error():
+def get_user_address_from_json(misc_directory):
 
-    is_windows = system()
+    # save the address to a dictionary from the .json file
+    with open(os.path.join(misc_directory, "address.json"), "r") as f:
+
+        user_address_dict = json.load(f)
+
+    f.close()
+
+    return user_address_dict
+
+
+def print_error():
 
     # Error occured, try to check internet and try again.
     print(
@@ -75,8 +87,6 @@ def print_error():
 
 
 def server_response_post(driver, url, files, data, article_json, storage_directory):
-
-    is_windows = system()
 
     response = None
 
@@ -176,8 +186,6 @@ def server_response_post(driver, url, files, data, article_json, storage_directo
 
 
 def server_response_request(url):
-
-    is_windows = system()
 
     server_error = False
 

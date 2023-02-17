@@ -36,7 +36,7 @@ from src.helpers import (
     server_response_request,
     print_error,
 )
-from src.donations import donation_explainer
+from src.donations import donation_explainer, receive_donation_action
 from src.internet_speed import download_speed, delay, internet_speed_retry
 from src.user_login import (
     login,
@@ -75,10 +75,12 @@ def contribute_papers():
 
     login_requirements()
 
-    algorandAddress = donation_explainer()
+    donation_explainer()
 
-    if algorandAddress == "":
-        return
+    algorandAddress = receive_donation_action()
+
+    # if algorandAddress == "":
+    #     return
 
     login_instructions()
 
