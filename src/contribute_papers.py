@@ -17,6 +17,7 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.common.by import By
+from src.errors import MainException
 
 from src.recaptcha_solver import recaptcha_solver
 from src.user_agent import user_agent
@@ -79,9 +80,6 @@ def contribute_papers():
 
     algorandAddress = receive_donation_action()
 
-    # if algorandAddress == "":
-    #     return
-
     login_instructions()
 
     # login
@@ -91,8 +89,7 @@ def contribute_papers():
 
         # return back to the main menu
         if login_method == "3":
-            return
-
+            raise MainException
         else:
             driver = create_driver_session(
                 options(login_method, USER_AGENT, storage_directory)

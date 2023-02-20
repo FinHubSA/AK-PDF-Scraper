@@ -49,12 +49,14 @@ def receive_donation_action():
             + "\n-- Type [4] to return to main menu"
             + "\n   : ",
         )
-    ).strip()
+    )
 
     try:
-        process_donation_action(donation_action)
+        user_address = process_donation_action(donation_action)
     except TypoException:
-        receive_donation_action()
+        return receive_donation_action()
+
+    return user_address
 
 
 def process_donation_action(donation_action):
@@ -66,13 +68,12 @@ def process_donation_action(donation_action):
             user_address = check_address_on_record()
 
         except TypoException:
-            process_donation_action(donation_action)
+            return process_donation_action(donation_action)
 
     elif donation_action == "2":
         time.sleep(1)
         passphrase, user_address = create_account()
         display_account_created(passphrase, user_address)
-
     elif donation_action == "3":
 
         print(
@@ -86,6 +87,7 @@ def process_donation_action(donation_action):
         )
 
         user_address = None
+
     elif donation_action == "4":
         raise MainException()
     else:
@@ -93,6 +95,42 @@ def process_donation_action(donation_action):
         raise TypoException()
 
     return user_address
+
+
+def receive_not_validated_action():
+
+    retry_account_action = get_input(
+        colored(
+            "\n-- Type [1] to retry"
+            + "\n-- Type [2] to create a new account"
+            + "\n-- Type [3] to go back to donations menu"
+            + "\n   : ",
+        )
+    )
+
+    try:
+        user_address = process_validation_action(retry_account_action)
+    except TypoException:
+        return receive_not_validated_action()
+
+    return user_address
+
+
+def process_validation_action(retry_account_action):
+
+    if retry_account_action == "1":
+        user_address = validate_existing_account()
+        return user_address
+    elif retry_account_action == "2":
+        time.sleep(1)
+        passphrase, user_address = create_account()
+        display_account_created(passphrase, user_address)
+        return user_address
+    elif retry_account_action == "3":
+        receive_donation_action()
+    else:
+        typo()
+        raise TypoException
 
 
 def validate_existing_account():
@@ -137,39 +175,9 @@ def validate_existing_account():
             + colored("  This address is invalid.\n", "yellow")
         )
 
-        receive_not_validated_action()
+        user_address = receive_not_validated_action()
 
-
-def receive_not_validated_action():
-
-    retry_account_action = get_input(
-        colored(
-            "\n-- Type [1] to retry"
-            + "\n-- Type [2] to create a new account"
-            + "\n-- Type [3] to go back to donations menu"
-            + "\n   : ",
-        )
-    )
-
-    try:
-        process_validation_action(retry_account_action)
-    except TypoException:
-        receive_not_validated_action()
-
-
-def process_validation_action(retry_account_action):
-
-    if retry_account_action == "1":
-        validate_existing_account()
-    elif retry_account_action == "2":
-        time.sleep(1)
-        passphrase, user_address = create_account()
-        display_account_created(passphrase, user_address)
-    elif retry_account_action == "3":
-        receive_donation_action()
-    else:
-        typo()
-        raise TypoException
+    return user_address
 
 
 def check_address_on_record():
@@ -193,7 +201,19 @@ def check_address_on_record():
             + colored("[y/n]: ", attrs=["bold"]) * (not is_windows)
         )
 
-        user_address = validate_correct_address(correct_address)
+        if correct_address == "y" or correct_address == "Y":
+            print(
+                "\n\n"
+                + (colored(" ! ", "green", attrs=["reverse"])) * (is_windows)
+                + emoji.emojize(":check_mark_button:") * (not is_windows)
+                + colored(
+                    "  You are all set up! You will receive ALGO into this address at the end of the donation period.",
+                    "green",
+                )
+            )
+
+        else:
+            user_address = validate_correct_address(correct_address)
 
     else:
         user_address = validate_correct_address("n")
@@ -205,16 +225,6 @@ def validate_correct_address(correct_address):
 
     if correct_address == "n" or correct_address == "N":
         user_address = validate_existing_account()
-    elif correct_address == "y" or correct_address == "Y":
-        print(
-            "\n\n"
-            + (colored(" ! ", "green", attrs=["reverse"])) * (is_windows)
-            + emoji.emojize(":check_mark_button:") * (not is_windows)
-            + colored(
-                "  You are all set up! You will receive ALGO into this address at the end of the donation period.",
-                "green",
-            )
-        )
     else:
         typo()
         raise TypoException
@@ -224,9 +234,7 @@ def validate_correct_address(correct_address):
 
 def create_account():
 
-    private_key, address = account.generate_account()
-
-    user_address = address
+    private_key, user_address = account.generate_account()
 
     passphrase = mnemonic.from_private_key(private_key)
 
@@ -276,7 +284,7 @@ def display_account_created(passphrase, user_address):
         + "\n• It is not advised to store your passphrase on a device that has internet connectivity."
     )
 
-    input(
+    get_input(
         colored("\n\n-- Press ")
         + colored("ENTER/RETURN", attrs=["reverse"]) * (is_windows)
         + colored("ENTER/RETURN", attrs=["bold"]) * (not is_windows)
