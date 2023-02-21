@@ -2,8 +2,6 @@ import unittest
 from unittest import mock
 from unittest.mock import patch
 from algosdk import encoding
-import os
-import json
 from src.errors import TypoException, MainException
 
 from src.donations import (
