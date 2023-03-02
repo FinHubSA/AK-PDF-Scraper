@@ -10,275 +10,95 @@ from urllib.parse import urlparse
 from termcolor import colored
 from src.errors import MainException, TypoException
 
-from src.helpers import system, typo, server_response_request
+from src.helpers import system, print_typo, server_response_request
+
+is_windows = system()
 
 
-def get_download_criteria_action():
+def receive_download_criteria_action():
 
     print(
         "\n"
         + emoji.emojize(":information:")
-        + "   Please indicate your download criteria"
+        + "   Please indicate your download criteria."
     )
 
-    download_criteria = input(
+    download_criteria = get_input(
         colored(
             "\n-- Type [1] to download by journal"
             + "\n-- Type [2] to download by author"
             + "\n-- Type [3] to return to main menu"
             + "\n   : ",
         )
-    ).strip()
+    )
 
     try:
         process_download_criteria_action(download_criteria)
     except TypoException:
-        get_download_criteria_action()
-
-    return download_criteria
+        receive_download_criteria_action()
 
 
 def process_download_criteria_action(download_criteria):
 
     if download_criteria == "1":
-        download_by_journal()
-    elif download_criteria == "2":
-        download_by_author()
-    elif download_criteria == "3":
-        raise MainException()
-    else:
-        typo()
-        raise TypoException()
 
+        global journal_name, journal_id
 
-def download_by_author():
+        journal = request_journal()
 
-    is_windows = system()
+        if not ("journalID" in journal):
 
-    author = select_author()
-
-    if not ("authorID" in author):
-
-        print(
-            "\n\n"
-            + (colored(" ! ", "red", attrs=["reverse"])) * (is_windows)
-            + (emoji.emojize(":red_exclamation_mark:")) * (not is_windows)
-            + colored(
-                "  The requested author could not be found.\n",
-                "red",
-            )
-        )
-
-        return {}
-
-    author_name = author["authorName"]
-
-    print(
-        "\n"
-        + (colored(" i ", "blue", attrs=["reverse"])) * (is_windows)
-        + (emoji.emojize(":information:")) * (not is_windows)
-        + (f"   Downloading all articles by {author_name}.")
-    )
-
-    author_name_urlenc = urllib.parse.quote(author_name)
-
-    get_articles(author_name=author_name_urlenc)
-
-
-def download_by_journal():
-
-    is_windows = system()
-
-    journal = select_journal()
-
-    if not ("journalID" in journal):
-
-        print(
-            "\n\n"
-            + colored(" ! ", "red", attrs=["reverse"]) * (is_windows)
-            + emoji.emojize(":red_exclamation_mark:") * (not is_windows)
-            + colored(
-                "  The requested journal could not be found.\n",
-                "red",
-            )
-        )
-
-        return
-
-    while True:
-
-        print(
-            "\n"
-            + emoji.emojize(":information:")
-            + "   Please indicate your download criteria"
-        )
-
-        download_by_issue = input(
-            colored(
-                "\n-- Type [1] to download entire journal"
-                + "\n-- Type [2] to download by journal issue"
-                + "\n   : ",
-            )
-        ).strip()
-
-        if download_by_issue == "1" or download_by_issue == "2":
-            break
-
-        typo()
-
-    journal_name = journal["journalName"]
-    journal_id = journal["journalID"]
-
-    if download_by_issue == "1":
-
-        print(
-            "\n"
-            + (colored(" i ", "blue", attrs=["reverse"])) * (is_windows)
-            + (emoji.emojize(":information:")) * (not is_windows)
-            + (f"   Downloading all articles from {journal_name}.")
-        )
-
-        get_articles(journal_id=journal_id)
-
-    elif download_by_issue == "2":
-
-        issue = select_issue(journal_name, journal_id)
-
-        if not ("issueID" in issue):
             print(
-                "\n"
-                + (colored(" ! ", "yellow", attrs=["reverse"])) * (is_windows)
-                + (emoji.emojize(":loudspeaker:")) * (not is_windows)
-                + (
-                    colored(
-                        f"   This journal does not have any issues, we will download the entire journal instead.\n",
-                        "yellow",
-                    )
+                "\n\n"
+                + colored(" ! ", "red", attrs=["reverse"]) * (is_windows)
+                + emoji.emojize(":red_exclamation_mark:") * (not is_windows)
+                + colored(
+                    "  The requested journal could not be found.\n",
+                    "red",
                 )
             )
 
-            get_articles(journal_id=journal_id)
+            receive_download_criteria_action()
 
         else:
 
-            issue_id = issue["issueID"]
+            journal_name = journal["journalName"]
+            journal_id = journal["journalID"]
 
-            get_articles(issue_id=issue_id)
+            receive_journal_download_criteria(journal_name, journal_id)
 
+    elif download_criteria == "2":
 
-def select_author():
+        author = request_author()
 
-    is_windows = system()
+        if not ("authorID" in author):
 
-    print(
-        "\n"
-        + (colored(" i ", attrs=["reverse"])) * (is_windows)
-        + (emoji.emojize(":information:")) * (not is_windows)
-        + "   You have chosen to search by Author Name.\n"
-    )
-
-    print(
-        "\n"
-        + colored(
-            "Please enter the Name and Surname of an Author (EXAMPLE: Rebecca Gould).",
-            "blue",
-        )
-        * (is_windows)
-        + colored(
-            "Please enter the Name and Surname of an Author (EXAMPLE: Rebecca Gould).",
-            attrs=["bold"],
-        )
-        * (not is_windows)
-    )
-
-    author_search = True
-
-    while author_search == True:
-
-        Author_Name = input(
-            colored(
-                "\n-- Type Author Name and Surname\n   : ",
-            )
-        ).strip()
-
-        Author_Name_urlenc = urllib.parse.quote(Author_Name)
-
-        server_error, Author_List_json = server_response_request(
-            f"https://api-service-mrz6aygprq-oa.a.run.app/api/authors?authorName={Author_Name_urlenc}"
-        )
-
-        if server_error:
-            os._exit(0)
-
-        try:
-
-            Author_List_json = Author_List_json.json()
-
-        except:
-
-            return {}
-
-        print(
-            "\n\n"
-            + (
-                colored(
-                    "Please select an Author from the list below:\n",
-                    "blue",
+            print(
+                "\n\n"
+                + (colored(" ! ", "red", attrs=["reverse"])) * (is_windows)
+                + (emoji.emojize(":red_exclamation_mark:")) * (not is_windows)
+                + colored(
+                    "  The requested author could not be found.\n",
+                    "red",
                 )
             )
-            * (is_windows)
-            + (
-                colored(
-                    "Please select an Author from the list below:\n",
-                    attrs=["bold"],
-                )
-            )
-            * (not is_windows)
-        )
 
-        time.sleep(1)
+            receive_download_criteria_action()
 
-        author_list_number = 0
+        else:
 
-        for Author_Name in Author_List_json:
+            author_name = author["authorName"]
 
-            author_list_number += 1
+            get_articles(author_name=author_name)
 
-            print("[" + str(author_list_number) + "] " + Author_Name["authorName"])
-
-        Author_Number_typo = True
-
-        while Author_Number_typo == True:
-
-            Author_Number = input(
-                colored(
-                    "\n\n-- Type the Number of the Author\n   : ",
-                )
-            ).strip()
-
-            if Author_Number not in [
-                str(x) for x in list(range(1, author_list_number + 1))
-            ]:
-
-                print(
-                    "\n\n"
-                    + (colored(" ! ", "yellow", attrs=["reverse"])) * (is_windows)
-                    + (emoji.emojize(":loudspeaker:")) * (not is_windows)
-                    + colored(
-                        "  It appears that you made a typo, please re-enter your selection.",
-                        "yellow",
-                    )
-                )
-
-            else:
-                Author_Number_typo = False
-
-        return Author_List_json[int(Author_Number) - 1]
+    elif download_criteria == "3":
+        raise MainException()
+    else:
+        print_typo()
+        raise TypoException()
 
 
-def select_journal():
-
-    is_windows = system()
+def request_journal():
 
     print(
         "\n"
@@ -305,28 +125,27 @@ def select_journal():
         * (not is_windows)
     )
 
-    Journal_Name = input(
+    Journal_Name = get_input(
         colored(
             "-- Type Journal Name\n   : ",
         )
-    ).strip()
-
-    Journal_Name_urlenc = urllib.parse.quote(Journal_Name)
+    )
 
     server_error, Journal_List_json = server_response_request(
-        f"https://api-service-mrz6aygprq-oa.a.run.app/api/journals?journalName={Journal_Name_urlenc}"
+        f"https://api-service-mrz6aygprq-oa.a.run.app/api/journals?journalName={urllib.parse.quote(Journal_Name)}"
     )
 
     if server_error:
-        os._exit(0)
+        print_server_error()
 
     try:
-
         Journal_List_json = Journal_List_json.json()
-
+        return receive_journal_selection_action(Journal_List_json)
     except:
-
         return {}
+
+
+def receive_journal_selection_action(Journal_List_json):
 
     print(
         "\n\n"
@@ -356,40 +175,196 @@ def select_journal():
 
         print("[" + str(journal_list_number) + "] " + Journal_Name["journalName"])
 
-    Journal_Number_typo = True
+    Journal_Number = get_input(
+        colored(
+            "\n\n-- Type the Number of the Journal\n   : ",
+        )
+    )
 
-    while Journal_Number_typo == True:
+    try:
+        return process_journal_selection_action(
+            Journal_Number, Journal_List_json, journal_list_number
+        )
+    except TypoException:
+        return receive_journal_selection_action(Journal_List_json)
 
-        Journal_Number = input(
+
+def process_journal_selection_action(
+    Journal_Number, Journal_List_json, journal_list_number
+):
+
+    if Journal_Number in [str(x) for x in list(range(1, journal_list_number + 1))]:
+
+        return Journal_List_json[int(Journal_Number) - 1]
+
+    else:
+        print_typo()
+        raise TypoException
+
+
+def request_author():
+
+    print(
+        "\n"
+        + (colored(" i ", attrs=["reverse"])) * (is_windows)
+        + (emoji.emojize(":information:")) * (not is_windows)
+        + "   You have chosen to search by Author Name.\n"
+    )
+
+    print(
+        "\n"
+        + colored(
+            "Please enter the Name and Surname of an Author (EXAMPLE: Rebecca Gould).",
+            "blue",
+        )
+        * (is_windows)
+        + colored(
+            "Please enter the Name and Surname of an Author (EXAMPLE: Rebecca Gould).",
+            attrs=["bold"],
+        )
+        * (not is_windows)
+    )
+
+    Author_Name = get_input(
+        colored(
+            "\n-- Type Author Name and Surname\n   : ",
+        )
+    )
+
+    Author_Name_urlenc = urllib.parse.quote(Author_Name)
+
+    server_error, Author_List_json = server_response_request(
+        f"https://api-service-mrz6aygprq-oa.a.run.app/api/authors?authorName={Author_Name_urlenc}"
+    )
+
+    if server_error:
+        print_server_error()
+
+    try:
+
+        Author_List_json = Author_List_json.json()
+        return receive_author_selection_action(Author_List_json)
+
+    except:
+
+        return {}
+
+
+def receive_author_selection_action(Author_List_json):
+
+    print(
+        "\n\n"
+        + (
             colored(
-                "\n\n-- Type the Number of the Journal\n   : ",
+                "Please select an Author from the list below:\n",
+                "blue",
             )
-        ).strip()
+        )
+        * (is_windows)
+        + (
+            colored(
+                "Please select an Author from the list below:\n",
+                attrs=["bold"],
+            )
+        )
+        * (not is_windows)
+    )
 
-        if Journal_Number not in [
-            str(x) for x in list(range(1, journal_list_number + 1))
-        ]:
+    time.sleep(1)
+
+    author_list_number = 0
+
+    for Author_Name in Author_List_json:
+
+        author_list_number += 1
+
+        print("[" + str(author_list_number) + "] " + Author_Name["authorName"])
+
+    Author_Number = get_input(
+        colored(
+            "\n\n-- Type the Number of the Author\n   : ",
+        )
+    )
+
+    try:
+        return process_author_selection_action(
+            Author_Number, Author_List_json, author_list_number
+        )
+    except TypoException:
+        return receive_author_selection_action(Author_List_json)
+
+
+def process_author_selection_action(
+    Author_Number, Author_List_json, author_list_number
+):
+
+    if Author_Number in [str(x) for x in list(range(1, author_list_number + 1))]:
+
+        return Author_List_json[int(Author_Number) - 1]
+
+    else:
+        print_typo()
+        raise TypoException
+
+
+def receive_journal_download_criteria(journal_name, journal_id):
+
+    print(
+        "\n"
+        + emoji.emojize(":information:")
+        + "   Please indicate your download criteria."
+    )
+
+    download_by_issue = get_input(
+        colored(
+            "\n-- Type [1] to download entire journal"
+            + "\n-- Type [2] to download by journal issue"
+            + "\n   : ",
+        )
+    )
+
+    try:
+        process_journal_download_criteria(download_by_issue, journal_name, journal_id)
+    except TypoException:
+        receive_journal_download_criteria(journal_name, journal_id)
+
+
+def process_journal_download_criteria(download_by_issue, journal_name, journal_id):
+
+    if download_by_issue == "1":
+
+        get_articles(journal_id=journal_id, journal_name=journal_name)
+
+    elif download_by_issue == "2":
+
+        issue = request_issue(journal_name, journal_id)
+
+        if not ("issueID" in issue):
 
             print(
-                "\n\n"
+                "\n"
                 + (colored(" ! ", "yellow", attrs=["reverse"])) * (is_windows)
                 + (emoji.emojize(":loudspeaker:")) * (not is_windows)
-                + colored(
-                    "  It appears that you made a typo, please re-enter your selection.",
-                    "yellow",
+                + (
+                    colored(
+                        f"  This journal has no issues, we will download the entire journal instead.\n",
+                        "yellow",
+                    )
                 )
             )
 
+            get_articles(journal_id=journal_id, journal_name=journal_name)
+
         else:
 
-            Journal_Number_typo = False
+            get_articles(issue_id=issue["issueID"], journal_name=journal_name)
 
-    return Journal_List_json[int(Journal_Number) - 1]
+    else:
+        print_typo()
+        raise TypoException
 
 
-def select_issue(journal_name, journal_id):
-
-    is_windows = system()
+def request_issue(journal_name, journal_id):
 
     print("\n\nSearching for issues in " + journal_name + ".")
 
@@ -398,15 +373,16 @@ def select_issue(journal_name, journal_id):
     )
 
     if server_error:
-        os._exit(0)
+        print_server_error()
 
     try:
-
         issue_list_json = issue_list_json.json()
-
+        return receive_issue_selection_action(issue_list_json)
     except:
-
         return {}
+
+
+def receive_issue_selection_action(issue_list_json):
 
     print(
         "\n\n"
@@ -425,8 +401,6 @@ def select_issue(journal_name, journal_id):
         )
         * (not is_windows)
     )
-
-    time.sleep(1)
 
     issue_list_number = 0
 
@@ -448,38 +422,32 @@ def select_issue(journal_name, journal_id):
             + str(issue["year"])
         )
 
-    issue_number_typo = True
+    issue_number = get_input(
+        colored(
+            "\n\n-- Type the Number of the Issue\n   : ",
+        )
+    )
 
-    while issue_number_typo == True:
-
-        issue_number = input(
-            colored(
-                "\n\n-- Type the Number of the Issue\n   : ",
-            )
-        ).strip()
-
-        if issue_number not in [str(x) for x in list(range(1, issue_list_number + 1))]:
-
-            print(
-                "\n\n"
-                + (colored(" ! ", "yellow", attrs=["reverse"])) * (is_windows)
-                + (emoji.emojize(":loudspeaker:")) * (not is_windows)
-                + colored(
-                    "  It appears that you made a typo, please re-enter your selection.",
-                    "yellow",
-                )
-            )
-
-        else:
-
-            issue_number_typo = False
-
-    return issue_list_json[int(issue_number) - 1]
+    try:
+        return process_issue_selection_action(
+            issue_number, issue_list_json, issue_list_number
+        )
+    except TypoException:
+        return receive_issue_selection_action(issue_list_json)
 
 
-def get_articles(journal_id=None, issue_id=None, author_name=None):
+def process_issue_selection_action(issue_number, issue_list_json, issue_list_number):
 
-    is_windows = system()
+    if issue_number in [str(x) for x in list(range(1, issue_list_number + 1))]:
+
+        return issue_list_json[int(issue_number) - 1]
+
+    else:
+        print_typo()
+        raise TypoException
+
+
+def get_articles(journal_id=None, issue_id=None, author_name=None, journal_name=None):
 
     if journal_id:
         server_error, articles = server_response_request(
@@ -496,19 +464,29 @@ def get_articles(journal_id=None, issue_id=None, author_name=None):
         )
 
     if server_error:
-        os._exit(0)
+        print_server_error()
 
     articles = articles.json()
 
     articles_size = len(articles)
 
     if articles_size > 0:
-        print(
-            "\n"
-            + (colored(" i ", "blue", attrs=["reverse"])) * (is_windows)
-            + (emoji.emojize(":information:")) * (not is_windows)
-            + (f"   Downloading {articles_size} articles.")
-        )
+
+        if issue_id or journal_id:
+            print(
+                "\n"
+                + (colored(" i ", "blue", attrs=["reverse"])) * (is_windows)
+                + (emoji.emojize(":information:")) * (not is_windows)
+                + (f"   Downloading {articles_size} articles from {journal_name}.")
+            )
+
+        elif author_name:
+            print(
+                "\n"
+                + (colored(" i ", "blue", attrs=["reverse"])) * (is_windows)
+                + (emoji.emojize(":information:")) * (not is_windows)
+                + (f"   Downloading {articles_size} articles by {author_name}.")
+            )
 
         bulk_download(articles)
 
@@ -519,15 +497,15 @@ def get_articles(journal_id=None, issue_id=None, author_name=None):
             + (colored(" i ", "yellow", attrs=["reverse"])) * (is_windows)
             + (emoji.emojize(":loudspeaker:")) * (not is_windows)
             + colored(
-                "   Unfortunately we currently have no articles for this search criteria.\n",
+                "  Unfortunately we currently have no articles for this search criteria.\n",
                 "yellow",
             )
         )
 
+        receive_continue_download_action()
+
 
 def bulk_download(articles):
-
-    is_windows = system()
 
     path = os.path.join(str(Path.home() / "Downloads"), "AaronsKit_PDF_Downloads")
 
@@ -538,29 +516,29 @@ def bulk_download(articles):
 
     results = ThreadPool(cpus - 1).imap_unordered(download_url, articles)
 
-    results_size = 0
+    if not results == None:
 
-    for result in results:
-        results_size += 1
+        results_size = 0
 
-    print(
-        "\n"
-        + (colored(" ! ", "green", attrs=["reverse"])) * (is_windows)
-        + (emoji.emojize(":check_mark_button:")) * (not is_windows)
-        + colored(
-            f"  Successfully downloaded {results_size} articles! Navigate to ", "green"
+        for result in results:
+            results_size += 1
+
+        print(
+            "\n"
+            + (colored(" ! ", "green", attrs=["reverse"])) * (is_windows)
+            + (emoji.emojize(":check_mark_button:")) * (not is_windows)
+            + colored(
+                f"  Successfully downloaded {results_size} articles! Navigate to ",
+                "green",
+            )
+            + colored("AaronsKit_PDF_Downloads", "green", attrs=["reverse"])
+            * (is_windows)
+            + colored("AaronsKit_PDF_Downloads", "green", attrs=["bold"])
+            * (not is_windows)
+            + colored(" in your downloads folder to view your files.\n", "green")
         )
-        + colored("AaronsKit_PDF_Downloads", "green", attrs=["reverse"]) * (is_windows)
-        + colored("AaronsKit_PDF_Downloads", "green", attrs=["bold"]) * (not is_windows)
-        + colored(" in your downloads folder to view your files.\n", "green")
-    )
 
-    input(
-        colored("\n\n-- Press ")
-        + colored("ENTER/RETURN", attrs=["reverse"]) * (is_windows)
-        + colored("ENTER/RETURN", attrs=["bold"]) * (not is_windows)
-        + colored(" to go back to the downloads menu:")
-    )
+    receive_continue_download_action()
 
 
 def download_url(article):
@@ -576,13 +554,66 @@ def download_url(article):
     url, fn = bucket_url, download_url
     server_error, r = server_response_request(url)
 
+    if server_error:
+        print_server_error()
+
     try:
         with open(fn, "wb") as f:
             f.write(r.content)
         return (url, time.time() - t0)
     except Exception as e:
-        # what should the user do when exception occurs?
-        print("Exception in download_url():", e)
 
-    if server_error:
+        print(
+            "\n"
+            + (colored(" i ", "red", attrs=["reverse"])) * (is_windows)
+            + (emoji.emojize(":red_exclamation_mark:")) * (not is_windows)
+            + colored(
+                f"  An error occured: {e}",
+                "red",
+            )
+        )
+
+        return
+
+
+def print_server_error():
+
+    print(
+        "\n"
+        + (colored(" i ", "red", attrs=["reverse"])) * (is_windows)
+        + (emoji.emojize(":red_exclamation_mark:")) * (not is_windows)
+        + colored(f"  A server error occured, try again later.", "red")
+    )
+
+    os._exit(0)
+
+
+def receive_continue_download_action():
+
+    download_more_option = get_input(
+        colored(
+            "\n-- Type [1] to exit\n-- Type [2] to go back to downloads menu\n-- Type [3] to go back to main menu\n   : "
+        )
+    )
+
+    try:
+        process_continue_download_action(download_more_option)
+    except TypoException:
+        receive_continue_download_action()
+
+
+def process_continue_download_action(download_more_option):
+
+    if download_more_option == "1":
         os._exit(0)
+    elif download_more_option == "2":
+        receive_download_criteria_action()
+    elif download_more_option == "3":
+        raise MainException
+    else:
+        print_typo()
+        raise TypoException
+
+
+def get_input(text):
+    return input(text).strip()
