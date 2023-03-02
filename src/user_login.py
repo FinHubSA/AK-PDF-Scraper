@@ -3,15 +3,12 @@ import emoji
 import os
 
 from termcolor import colored
-from selenium import webdriver
-from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.common.by import By
 from src.errors import MainException, TypoException
 
-from src.helpers import system, typo
+from src.helpers import system, print_typo
 
 is_windows = system()
 
@@ -369,7 +366,7 @@ def receive_proceed_action():
     )
     if proceed_input != "1" and proceed_input != "2":
 
-        typo()
+        print_typo()
 
         return receive_proceed_action()
 
@@ -380,16 +377,14 @@ def receive_end_program_action(driver):
 
     exit_program = get_input(
         colored(
-            "\n-- Type [1] to exit\n-- Type [2] to make another contribution\n--Type [3] to go back to main menu   : "
+            "\n-- Type [1] to exit\n-- Type [2] to make another contribution\n-- Type [3] to go back to main menu\n   : "
         )
     )
 
     try:
-        restart_count = process_end_program_action(driver, exit_program)
+        return process_end_program_action(driver, exit_program)
     except TypoException:
         return receive_end_program_action(driver)
-
-    return restart_count
 
 
 def process_end_program_action(driver, exit_program):
@@ -398,13 +393,12 @@ def process_end_program_action(driver, exit_program):
         driver.close()
         os._exit(0)
     elif exit_program == "2":
-        restart_count = 0
-        return restart_count
+        return 0
     elif exit_program == "3":
         driver.close()
         raise MainException
     else:
-        typo()
+        print_typo()
         raise TypoException
 
 

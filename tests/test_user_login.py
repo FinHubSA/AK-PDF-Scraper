@@ -62,8 +62,7 @@ class TestUserLogin(unittest.TestCase):
             )
 
     # test receive_end_program_action
-    @patch("src.user_login.get_input")
-    def test_receive_end_program_action(self, input):
+    def test_receive_end_program_action(self):
 
         with mock.patch(
             "src.user_login.get_input",
@@ -112,8 +111,7 @@ class TestUserLogin(unittest.TestCase):
                 )
 
     # test receive_proceed_action
-    @patch("src.user_login.get_input")
-    def test_receive_proceed_action(self, input):
+    def test_receive_proceed_action(self):
 
         with mock.patch(
             "src.user_login.get_input",
@@ -176,8 +174,7 @@ class TestUserLogin(unittest.TestCase):
         )
 
     # test manual_login
-    @patch("src.user_login.get_input")
-    def test_manual_login(self, input):
+    def test_manual_login(self):
 
         # page load unsucessfull
         self.assertEqual(
@@ -230,8 +227,7 @@ class TestUserLogin(unittest.TestCase):
             )
 
     # test vpn_login
-    @patch("src.user_login.get_input")
-    def test_vpn_login(self, input):
+    def test_vpn_login(self):
 
         # don't proceed with login
         with mock.patch("src.user_login.get_input", side_effect=[self.input_2]):
@@ -288,8 +284,7 @@ class TestUserLogin(unittest.TestCase):
                 )
 
     # test receive_login_action
-    @patch("src.user_login.get_input")
-    def test_receive_login_action(self, input):
+    def test_receive_login_action(self):
 
         with mock.patch("src.user_login.get_input", side_effect=[self.input_1]):
 
