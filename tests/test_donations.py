@@ -75,8 +75,7 @@ class TestDonations(unittest.TestCase):
 
     # test check_address_on_record
     # Address on record but not the correct one
-    @patch("src.donations.get_input")
-    def test_check_address_on_record_1(self, input):
+    def test_check_address_on_record_1(self):
 
         store_address(test_address)
 
@@ -134,8 +133,7 @@ class TestDonations(unittest.TestCase):
 
     # test validate_existing_account
     # Address is incorrect
-    @patch("src.donations.get_input")
-    def test_validate_existing_account_2(self, input):
+    def test_validate_existing_account_2(self):
 
         with mock.patch(
             "src.donations.get_input",
@@ -152,8 +150,7 @@ class TestDonations(unittest.TestCase):
             )
 
     # test process_validation_action
-    @patch("src.donations.get_input")
-    def test_process_validation_action(self, input):
+    def test_process_validation_action(self):
 
         # Input option 1 (retry)
         store_address(test_address)
@@ -204,8 +201,7 @@ class TestDonations(unittest.TestCase):
             self.assertTrue(encoding.is_valid_address(receive_not_validated_action()))
 
     # test process_donation_action
-    @patch("src.donations.get_input")
-    def test_process_donation_action(self, input):
+    def test_process_donation_action(self):
 
         # Input option 1.1 (existing address + no typo)
         store_address(test_address)
@@ -247,8 +243,7 @@ class TestDonations(unittest.TestCase):
             process_donation_action(self.input_3)
 
     # test receive_donation_action
-    @patch("src.donations.get_input")
-    def test_receive_donation_action(self, input):
+    def test_receive_donation_action(self):
 
         # Valid input
         with mock.patch(

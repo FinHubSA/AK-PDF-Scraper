@@ -7,14 +7,14 @@ from algosdk import account, encoding, mnemonic
 from termcolor import colored
 from src.errors import MainException, TypoException
 
-from src.helpers import system, typo, get_user_address_from_json
+from src.helpers import system, print_typo, get_user_address_from_json
 from src.temp_storage import misc_path
 
 is_windows = system()
 misc_directory = misc_path()
 
 
-def donation_explainer():
+def print_donation_explainer():
 
     print("\n\nGreat! You are on your way to make a contribution!")
 
@@ -91,7 +91,7 @@ def process_donation_action(donation_action):
     elif donation_action == "4":
         raise MainException()
     else:
-        typo()
+        print_typo()
         raise TypoException()
 
     return user_address
@@ -129,7 +129,7 @@ def process_validation_action(retry_account_action):
     elif retry_account_action == "3":
         receive_donation_action()
     else:
-        typo()
+        print_typo()
         raise TypoException
 
 
@@ -226,7 +226,7 @@ def validate_correct_address(correct_address):
     if correct_address == "n" or correct_address == "N":
         user_address = validate_existing_account()
     else:
-        typo()
+        print_typo()
         raise TypoException
 
     return user_address
