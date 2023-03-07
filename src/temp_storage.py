@@ -17,6 +17,17 @@ def get_storage_path():
     return src_directory
 
 
+def latest_downloaded_pdf(storage_directory):
+
+    os.chdir(storage_directory)
+
+    pdf_download_list = sorted(os.listdir(storage_directory), key=os.path.getmtime)
+
+    latest_pdf = pdf_download_list[-1]
+
+    return latest_pdf
+
+
 def misc_path():
 
     src_directory = get_storage_path()
