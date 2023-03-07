@@ -21,9 +21,9 @@ from src.download_papers import (
     receive_issue_selection_action,
     receive_journal_download_criteria,
     receive_journal_selection_action,
-    request_author,
+    request_author_download,
     request_issue,
-    request_journal,
+    request_journal_download,
 )
 
 from src.errors import MainException, TypoException
@@ -41,11 +41,6 @@ class TestDownloadPapers(unittest.TestCase):
     # test process_continue_download_option
     def test_process_continue_download_option(self):
 
-        os._exit = sys.exit
-
-        with self.assertRaises(SystemExit):
-            process_continue_download_action(self.input_1)
-
         with mock.patch(
             "src.download_papers.get_input",
             side_effect=[
@@ -53,9 +48,14 @@ class TestDownloadPapers(unittest.TestCase):
             ],
         ):
             with self.assertRaises(MainException):
-                process_continue_download_action(self.input_2)
+                process_continue_download_action(self.input_1)
 
         with self.assertRaises(MainException):
+            process_continue_download_action(self.input_2)
+
+        os._exit = sys.exit
+
+        with self.assertRaises(SystemExit):
             process_continue_download_action(self.input_3)
 
         with self.assertRaises(TypoException):
@@ -67,7 +67,7 @@ class TestDownloadPapers(unittest.TestCase):
         with mock.patch(
             "src.download_papers.get_input",
             side_effect=[
-                self.input_1,
+                self.input_3,
             ],
         ):
 
@@ -78,7 +78,7 @@ class TestDownloadPapers(unittest.TestCase):
 
         with mock.patch(
             "src.download_papers.get_input",
-            side_effect=[self.input_4, self.input_3],
+            side_effect=[self.input_4, self.input_2],
         ):
             with self.assertRaises(MainException):
                 receive_continue_download_action()
@@ -214,7 +214,7 @@ class TestDownloadPapers(unittest.TestCase):
         with mock.patch(
             "src.download_papers.get_input",
             side_effect=[
-                self.input_3,
+                self.input_2,
             ],
         ):
             with self.assertRaises(MainException):
@@ -242,7 +242,7 @@ class TestDownloadPapers(unittest.TestCase):
         with mock.patch(
             "src.download_papers.get_input",
             side_effect=[
-                self.input_3,
+                self.input_2,
             ],
         ):
 
@@ -263,7 +263,7 @@ class TestDownloadPapers(unittest.TestCase):
         with mock.patch(
             "src.download_papers.get_input",
             side_effect=[
-                self.input_3,
+                self.input_2,
             ],
         ):
 
@@ -284,7 +284,7 @@ class TestDownloadPapers(unittest.TestCase):
             with mock.patch(
                 "src.download_papers.get_input",
                 side_effect=[
-                    self.input_3,
+                    self.input_2,
                 ],
             ):
                 with self.assertRaises(MainException):
@@ -304,7 +304,7 @@ class TestDownloadPapers(unittest.TestCase):
             with mock.patch(
                 "src.download_papers.get_input",
                 side_effect=[
-                    self.input_3,
+                    self.input_2,
                 ],
             ):
                 with self.assertRaises(MainException):
@@ -747,7 +747,7 @@ class TestDownloadPapers(unittest.TestCase):
         with mock.patch(
             "src.download_papers.get_input",
             side_effect=[
-                self.input_3,
+                self.input_2,
             ],
         ):
 
@@ -767,7 +767,7 @@ class TestDownloadPapers(unittest.TestCase):
         # test download issue
         with mock.patch(
             "src.download_papers.get_input",
-            side_effect=[self.input_1, self.input_3],
+            side_effect=[self.input_1, self.input_2],
         ):
 
             with self.assertRaises(MainException):
@@ -786,7 +786,7 @@ class TestDownloadPapers(unittest.TestCase):
         # test download issue but no issue
         with mock.patch(
             "src.download_papers.get_input",
-            side_effect=[self.input_3],
+            side_effect=[self.input_2],
         ):
 
             with self.assertRaises(MainException):
@@ -811,7 +811,7 @@ class TestDownloadPapers(unittest.TestCase):
             delete_temp_storage(path)
 
         with mock.patch(
-            "src.download_papers.get_input", side_effect=[self.input_1, self.input_3]
+            "src.download_papers.get_input", side_effect=[self.input_1, self.input_2]
         ):
 
             with self.assertRaises(MainException):
@@ -830,7 +830,7 @@ class TestDownloadPapers(unittest.TestCase):
         # typo
         with mock.patch(
             "src.download_papers.get_input",
-            side_effect=[self.input_4, self.input_1, self.input_3],
+            side_effect=[self.input_4, self.input_1, self.input_2],
         ):
 
             with self.assertRaises(MainException):
@@ -921,12 +921,12 @@ class TestDownloadPapers(unittest.TestCase):
             "src.download_papers.get_input", side_effect=["Marc", self.input_1]
         ):
 
-            self.assertEqual(request_author(), test_author)
+            self.assertEqual(request_author_download(), test_author)
 
         # cannot find author
-        with mock.patch("src.download_papers.get_input", side_effect=["$"]):
+        with mock.patch("src.download_papers.get_input", side_effect=[self.input_4]):
 
-            self.assertEqual(request_author(), {})
+            self.assertEqual(request_author_download(), {})
 
     # test process_journal_selection
     def test_process_journal_selection(self):
@@ -1106,12 +1106,12 @@ class TestDownloadPapers(unittest.TestCase):
             "src.download_papers.get_input", side_effect=["19th", self.input_1]
         ):
 
-            self.assertEqual(request_journal(), test_journal)
+            self.assertEqual(request_journal_download(), test_journal)
 
         # cannot find journal
-        with mock.patch("src.download_papers.get_input", side_effect=["$"]):
+        with mock.patch("src.download_papers.get_input", side_effect=[self.input_4]):
 
-            self.assertEqual(request_journal(), {})
+            self.assertEqual(request_journal_download(), {})
 
     # test process_download_criteria_action
     # test input 1
@@ -1132,7 +1132,7 @@ class TestDownloadPapers(unittest.TestCase):
             delete_temp_storage(path)
 
         with mock.patch(
-            "src.download_papers.get_input", side_effect=[self.input_1, self.input_3]
+            "src.download_papers.get_input", side_effect=[self.input_1, self.input_2]
         ):
             with self.assertRaises(MainException):
                 process_download_criteria_action(self.input_1)
@@ -1160,7 +1160,7 @@ class TestDownloadPapers(unittest.TestCase):
         if os.path.exists(path):
             delete_temp_storage(path)
 
-        with mock.patch("src.download_papers.get_input", side_effect=[self.input_3]):
+        with mock.patch("src.download_papers.get_input", side_effect=[self.input_2]):
             with self.assertRaises(MainException):
                 process_download_criteria_action(self.input_2)
 
@@ -1198,3 +1198,7 @@ class TestDownloadPapers(unittest.TestCase):
 
             with self.assertRaises(MainException):
                 receive_download_criteria_action()
+
+
+if __name__ == "__main__":
+    unittest.main()
