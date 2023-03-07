@@ -5,8 +5,10 @@ import os
 import platform
 import emoji
 import json
+import pickle
 
 from termcolor import colored
+from src.errors import TypoException
 
 from src.temp_storage import delete_temp_storage
 
@@ -27,7 +29,7 @@ def system():
 is_windows = system()
 
 
-def typo():
+def print_typo():
 
     print(
         "\n\n"
@@ -54,9 +56,8 @@ def get_user_address_from_json(misc_directory):
     return user_address_dict
 
 
-def print_error():
+def receive_network_error_action():
 
-    # Error occured, try to check internet and try again.
     print(
         "\n"
         + colored(" ! ", "yellow", attrs=["reverse"]) * (is_windows)
@@ -67,23 +68,27 @@ def print_error():
         )
     )
 
-    check_internet_typo = True
+    check_internet = input(
+        colored(
+            "\n-- Type [1] to continue" + "\n-- Type [2] to exit" + "\n   : ",
+        )
+    ).strip()
 
-    while check_internet_typo:
+    try:
+        return process_network_error_action(check_internet)
+    except TypoException:
+        return receive_network_error_action()
 
-        check_internet = input(
-            colored(
-                "\n-- Type [1] to continue" + "\n-- Type [2] to exit" + "\n   : ",
-            )
-        ).strip()
 
-        if check_internet == "1":
-            check_internet_typo = False
-            return {}
-        elif check_internet == "2":
-            os._exit(0)
-        else:
-            typo()
+def process_network_error_action(check_internet):
+
+    if check_internet == "1":
+        return
+    elif check_internet == "2":
+        os._exit(0)
+    else:
+        print_typo()
+        raise TypoException
 
 
 def server_response_post(driver, url, files, data, article_json, storage_directory):
@@ -129,7 +134,7 @@ def server_response_post(driver, url, files, data, article_json, storage_directo
 
             retry_upload_count += 1
 
-            print_error()
+            receive_network_error_action()
 
         except requests.exceptions.HTTPError:
             if response.status_code == 500:
@@ -221,7 +226,7 @@ def server_response_request(url):
 
             retry_upload_count += 1
 
-            print_error()
+            receive_network_error_action()
 
         except requests.exceptions.HTTPError:
 
@@ -248,3 +253,18 @@ def server_response_request(url):
         server_error = True
 
     return server_error, response
+
+
+def set_cookies(driver, misc_directory):
+
+    # Save the cookies to ensure reCAPTCHA can be solved
+    # since login details are required to access the mp3 file
+    pickle.dump(
+        driver.get_cookies(),
+        open(os.path.join(misc_directory, "cookies.pkl"), "wb"),
+    )
+
+    cookies = pickle.load(open(os.path.join(misc_directory, "cookies.pkl"), "rb"))
+
+    for cookie in cookies:
+        driver.add_cookie(cookie)
