@@ -289,3 +289,7 @@ class TestUserLogin(unittest.TestCase):
         with mock.patch("src.user_login.get_input", side_effect=[self.input_1]):
 
             self.assertEqual(receive_login_action(), "1")
+
+
+if __name__ == "__main__":
+    unittest.main()
