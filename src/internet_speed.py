@@ -4,9 +4,9 @@ import emoji
 
 from termcolor import colored
 
-from src.helpers import system, typo
+from src.helpers import system, print_typo
 
-# returns the user download speed
+
 def download_speed():
 
     retry = 0
@@ -34,7 +34,6 @@ def download_speed():
     return mbps
 
 
-# returns the waiting time
 def delay(mbps):
 
     if mbps <= 10:
@@ -112,7 +111,7 @@ def internet_speed_retry():
                     internet_typo = False
                     internet_retry = False
                 else:
-                    typo()
+                    print_typo()
 
         elif mbps <= 5:
 
@@ -153,7 +152,7 @@ def internet_speed_retry():
                     internet_typo = False
                     internet_retry = False
                 else:
-                    typo()
+                    print_typo()
 
         else:
 
