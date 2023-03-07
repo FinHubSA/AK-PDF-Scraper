@@ -103,7 +103,7 @@ def receive_not_validated_action():
         colored(
             "\n-- Type [1] to retry"
             + "\n-- Type [2] to create a new account"
-            + "\n-- Type [3] to go back to donations menu"
+            + "\n-- Type [3] to return to donations menu"
             + "\n   : ",
         )
     )
