@@ -236,6 +236,7 @@ def manual_login(driver, url, html_load, html_login):
     driver.get(url)
 
     if validate_page_load(driver, html_load) == False:
+        
         return False
 
     driver.maximize_window()
@@ -252,6 +253,7 @@ def manual_login(driver, url, html_load, html_login):
     if cont == "1":
 
         if validate_page_load(driver, html_load) == False:
+
             return False
 
         print("\nChecking for successful login.\n")
@@ -377,7 +379,7 @@ def receive_end_program_action(driver):
 
     exit_program = get_input(
         colored(
-            "\n-- Type [1] to exit\n-- Type [2] to make another contribution\n-- Type [3] to go back to main menu\n   : "
+            "\n-- Type [1] to make another contribution\n-- Type [2] to go back to main menu\n-- Type [3] to exit\n   : "
         )
     )
 
@@ -390,13 +392,14 @@ def receive_end_program_action(driver):
 def process_end_program_action(driver, exit_program):
 
     if exit_program == "1":
-        driver.close()
-        os._exit(0)
-    elif exit_program == "2":
         return 0
-    elif exit_program == "3":
+    elif exit_program == "2":
         driver.close()
         raise MainException
+    elif exit_program == "3":
+        driver.close()
+        os._exit(0)
+
     else:
         print_typo()
         raise TypoException
