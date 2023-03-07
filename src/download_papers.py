@@ -44,7 +44,7 @@ def process_download_criteria_action(download_criteria):
 
         global journal_name, journal_id
 
-        journal = request_journal()
+        journal = request_journal_download()
 
         if not ("journalID" in journal):
 
@@ -69,7 +69,7 @@ def process_download_criteria_action(download_criteria):
 
     elif download_criteria == "2":
 
-        author = request_author()
+        author = request_author_download()
 
         if not ("authorID" in author):
 
@@ -98,7 +98,7 @@ def process_download_criteria_action(download_criteria):
         raise TypoException()
 
 
-def request_journal():
+def request_journal_download():
 
     print(
         "\n"
@@ -202,7 +202,7 @@ def process_journal_selection_action(
         raise TypoException
 
 
-def request_author():
+def request_author_download():
 
     print(
         "\n"
@@ -231,10 +231,8 @@ def request_author():
         )
     )
 
-    Author_Name_urlenc = urllib.parse.quote(Author_Name)
-
     server_error, Author_List_json = server_response_request(
-        f"https://api-service-mrz6aygprq-oa.a.run.app/api/authors?authorName={Author_Name_urlenc}"
+        f"https://api-service-mrz6aygprq-oa.a.run.app/api/authors?authorName={urllib.parse.quote(Author_Name)}"
     )
 
     if server_error:
@@ -592,7 +590,7 @@ def receive_continue_download_action():
 
     download_more_option = get_input(
         colored(
-            "\n-- Type [1] to exit\n-- Type [2] to go back to downloads menu\n-- Type [3] to go back to main menu\n   : "
+            "\n-- Type [1] to return to downloads menu\n-- Type [2] to return to main menu\n-- Type [3] to exit\n   : "
         )
     )
 
@@ -605,11 +603,11 @@ def receive_continue_download_action():
 def process_continue_download_action(download_more_option):
 
     if download_more_option == "1":
-        os._exit(0)
-    elif download_more_option == "2":
         receive_download_criteria_action()
-    elif download_more_option == "3":
+    elif download_more_option == "2":
         raise MainException
+    elif download_more_option == "3":
+        os._exit(0)
     else:
         print_typo()
         raise TypoException
