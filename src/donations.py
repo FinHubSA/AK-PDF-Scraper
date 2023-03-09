@@ -44,8 +44,8 @@ def receive_donation_action():
     donation_action = get_input(
         colored(
             "\n-- Type [1] to use your existing Algorand address to receive donations"
-            + "\n-- Type [2] if you want to create a new Algorand address to receive donations"
-            + "\n-- Type [3] if you do not want to receive donations"
+            + "\n-- Type [2] to create a new Algorand address to receive donations"
+            + "\n-- Type [3] to skip this section and receive no donations"
             + "\n-- Type [4] to return to main menu"
             + "\n   : ",
         )

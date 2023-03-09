@@ -17,8 +17,10 @@ def print_login_requirements():
 
     is_windows = system()
 
-    print(colored("\n\nPlease note:", attrs=["reverse"]) * (is_windows))
-    print(colored("\n\nPlease note:", attrs=["bold", "underline"]) * (not is_windows))
+    print(colored("\n\n\nSet-up and Dependencies", attrs=["reverse"]))
+
+    print(colored("\nPlease note:", attrs=["reverse"]) * (is_windows))
+    print(colored("\nPlease note:", attrs=["bold", "underline"]) * (not is_windows))
 
     print(
         "\n\n"
@@ -77,8 +79,10 @@ def print_login_requirements():
 
 def print_login_instructions():
 
+    print("\n\n\n" + colored("JSTOR Login", attrs=["reverse"]))
+
     print(
-        "\n\n\n"
+        "\n\n"
         + colored(" i ", "blue", attrs=["reverse"]) * (is_windows)
         + emoji.emojize(":information:") * (not is_windows)
         + "   To continue, a JSTOR user login is required, either via institution VPN/wifi or manually via the JSTOR website."
@@ -95,14 +99,16 @@ def print_login_instructions():
 
     time.sleep(1)
 
-    print("\n\n" + colored("User credential security information", attrs=["reverse"]))
-
     print(
-        "\n\nIf you choose to login via the JSTOR website, you will be prompted to enter your login details via your university portal on JSTOR."
+        "\n\n\n"
+        + colored("User credential security information:", attrs=["reverse"])
+        * (is_windows)
+        + colored("User credential security information:", attrs=["bold", "underline"])
+        * (not is_windows)
     )
 
     print(
-        "\nIf you choose to login via VPN or wifi, your credentials will already be authenticated and you won't need to provide any login details."
+        "\n\n• If you choose to login via the JSTOR website, you will be prompted to enter your login details via your university portal on JSTOR.\n• If you choose to login via VPN or wifi, your credentials will already be authenticated and you won't need to provide any login details."
     )
 
     time.sleep(2)
@@ -236,7 +242,7 @@ def manual_login(driver, url, html_load, html_login):
     driver.get(url)
 
     if validate_page_load(driver, html_load) == False:
-        
+
         return False
 
     driver.maximize_window()

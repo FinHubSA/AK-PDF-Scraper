@@ -124,8 +124,10 @@ def setup():
 
     misc_directory = misc_path()
 
-    # mbps = internet_speed_retry()
-    mbps = 90
+    
+
+    mbps = internet_speed_retry()
+    # mbps = 90
 
     wait = delay(mbps)
 
@@ -134,8 +136,8 @@ def setup():
         "\nYou may notice that a browser window opened, don't worry, we're just checking your User Agent online!"
     )
 
-    # USER_AGENT = get_user_agent(wait)
-    USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.61 Safari/537.36"
+    USER_AGENT = get_user_agent(wait)
+    # USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.61 Safari/537.36"
 
     now = datetime.now().timestamp()
 
