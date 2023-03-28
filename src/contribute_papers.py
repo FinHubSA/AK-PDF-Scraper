@@ -49,7 +49,8 @@ from src.user_login import (
 )
 from src.upload_papers import receive_upload_criteria_action
 
-warnings.filterwarnings("ignore")
+warnings.filterwarnings("ignore", category=RuntimeWarning)
+warnings.filterwarnings("ignore", category=UserWarning)
 logging.getLogger().setLevel(logging.CRITICAL)
 
 
