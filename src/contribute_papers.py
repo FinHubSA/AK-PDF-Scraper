@@ -1,4 +1,3 @@
-import pickle
 import time
 import os.path
 from datetime import datetime
@@ -9,7 +8,6 @@ import string
 import random
 import warnings
 
-import urllib.parse
 from termcolor import colored
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
@@ -17,12 +15,14 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.common.by import By
+from src.errors import MainException, TypoException
 
 from src.recaptcha_solver import recaptcha_solver
-from src.user_agent import user_agent
+from src.user_agent import get_user_agent
 from src.temp_storage import (
     get_temp_storage_path,
     get_storage_path,
+    latest_downloaded_pdf,
     misc_path,
     rename_file,
     delete_files,
@@ -30,23 +30,27 @@ from src.temp_storage import (
 )
 
 from src.helpers import (
+    set_cookies,
     system,
-    typo,
+    print_typo,
     server_response_post,
-    server_response_request,
-    print_error,
+    receive_network_error_action,
 )
-from src.donations import donation_explainer
+from src.donations import print_donation_explainer, receive_donation_action
 from src.internet_speed import download_speed, delay, internet_speed_retry
 from src.user_login import (
-    login,
-    get_login_method,
-    login_requirements,
-    login_instructions,
-    end_program,
+    manual_login,
+    receive_login_action,
+    print_login_requirements,
+    print_login_instructions,
+    receive_end_program_action,
+    receive_proceed_action,
+    vpn_login,
 )
+from src.upload_papers import receive_upload_criteria_action
 
-warnings.filterwarnings("ignore")
+warnings.filterwarnings("ignore", category=RuntimeWarning)
+warnings.filterwarnings("ignore", category=UserWarning)
 logging.getLogger().setLevel(logging.CRITICAL)
 
 
@@ -69,67 +73,47 @@ is_windows = system()
 
 def contribute_papers():
 
-    global driver, mbps, driver, index, restart_count, article_index, storage_directory, USER_AGENT, algorandAddress, exit_program
+    global algorandAddress, restart_count
 
     setup()
 
-    login_requirements()
+    print_login_requirements()
 
-    algorandAddress = donation_explainer()
+    print_donation_explainer()
 
-    if algorandAddress == "":
-        return
+    algorandAddress = receive_donation_action()
 
-    login_instructions()
+    time.sleep(1)
 
-    # login
-    logged_in = False
-    while not logged_in:
-        login_method = get_login_method()
+    print_login_instructions()
 
-        # return back to the main menu
-        if login_method == "3":
-            return
-
-        else:
-            driver = create_driver_session(
-                options(login_method, USER_AGENT, storage_directory)
-            )
-            logged_in = login(driver, login_method)
+    login()
 
     while True:
 
         try:
-            exit_program = False
 
             get_article_ids()
 
             download_articles()
 
+        except MainException:
+            raise
+
         except Exception as e:
 
             print(e)
 
-            print_error()
+            receive_network_error_action()
+
+            internet_speed_retry()
 
             restart_count += 1
-
-        while True:
-            if exit_program == False:
-                break
-            elif exit_program == "1":
-                driver.close()
-                os._exit(0)
-            elif exit_program == "2":
-                restart_count = 0
-                break
-            else:
-                typo()
 
 
 def setup():
 
-    global now, USER_AGENT, wait, driver, storage_directory, src_directory, misc_directory, mbps
+    global storage_directory, src_directory, misc_directory, mbps, wait, USER_AGENT, now
 
     storage_directory = get_temp_storage_path()
 
@@ -137,59 +121,140 @@ def setup():
 
     misc_directory = misc_path()
 
-    # calculate the internet speed and driver sleep time
     mbps = internet_speed_retry()
-    # mbps = 90
 
     wait = delay(mbps)
 
-    # define the User Agent
-    print("\n\nGive it a second, we are determining your User Agent.")
+    print("\n\nDetermining User Agent.")
     print(
         "\nYou may notice that a browser window opened, don't worry, we're just checking your User Agent online!"
     )
 
-    USER_AGENT = user_agent()
-    # USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.61 Safari/537.36"
+    USER_AGENT = get_user_agent(wait)
 
     now = datetime.now().timestamp()
 
 
-def create_driver_session(chrome_options):
+def login():
 
-    driver_session_retry = 0
+    global driver
 
-    while driver_session_retry <= 2:
+    logged_in = False
 
-        driver_session_retry += 1
+    while not logged_in:
 
         try:
 
-            driver = webdriver.Chrome(
-                service=Service(ChromeDriverManager().install()),
-                options=chrome_options,
-            )
+            login_method = receive_login_action()
 
-            driver.minimize_window()
+            if login_method == "1":
 
-            break
+                print(
+                    "\n"
+                    + colored(" i ", "blue", attrs=["reverse"]) * (is_windows)
+                    + emoji.emojize(":information:") * (not is_windows)
+                    + "   You will be prompted to login via your university wifi or VPN."
+                )
+
+                time.sleep(1)
+
+                cont = receive_proceed_action()
+
+                if cont == "1":
+                    driver = create_driver_session(
+                        options(login_method, USER_AGENT, storage_directory)
+                    )
+                    logged_in = vpn_login(
+                        driver,
+                        "https://www.jstor.org/",
+                        "query-builder-input-group",
+                        "pds__access-provided-by",
+                    )
+                elif cont == "2":
+                    return login()
+
+            elif login_method == "2":
+
+                print(
+                    "\n"
+                    + colored(" i ", "blue", attrs=["reverse"]) * (is_windows)
+                    + emoji.emojize(":information:") * (not is_windows)
+                    + "   You will be prompted to manually login via the JSTOR website."
+                )
+
+                time.sleep(1)
+
+                cont = receive_proceed_action()
+
+                if cont == "1":
+                    driver = create_driver_session(
+                        options(login_method, USER_AGENT, storage_directory)
+                    )
+                    logged_in = manual_login(
+                        driver,
+                        "https://www.jstor.org/",
+                        "query-builder-input-group",
+                        "pds__access-provided-by",
+                    )
+                elif cont == "2":
+                    return login()
+
+            elif login_method == "3":
+                raise MainException
+            else:
+                print_typo()
+                return login()
 
         except Exception as e:
 
             print(e)
 
-            print("\n[ERR] Chromedriver exception occurred, retrying.")
+            receive_network_error_action()
 
-    if driver_session_retry > 2:
+            internet_speed_retry()
 
-        # do more here
-        print("\n[ERR] Could not resolve issue, exiting.")
+            return login()
+
+
+def create_driver_session(chrome_options):
+
+    global driver
+
+    try:
+
+        driver = webdriver.Chrome(
+            service=Service(ChromeDriverManager(path=misc_directory).install()),
+            options=chrome_options,
+        )
+
+        driver.minimize_window()
+
+        return driver
+
+    except:
+
+        print(
+            "\n"
+            + colored(" i ", "red", attrs=["reverse"]) * (is_windows)
+            + emoji.emojize(":red_exclamation_mark:") * (not is_windows)
+            + colored(
+                "  A Chromedriver exception occurred. Issue could not be resolved, exiting.",
+                "red",
+            )
+        )
+
+        print(
+            "\n"
+            + colored(" i ", "blue", attrs=["reverse"]) * (is_windows)
+            + emoji.emojize(":information:") * (not is_windows)
+            + colored("  Restart your device and try again.", "red")
+        )
+
         os._exit(0)
-
-    return driver
 
 
 def options(login_method, USER_AGENT, storage_directory):
+
     chrome_options = webdriver.ChromeOptions()
 
     if login_method == "1":
@@ -213,6 +278,20 @@ def options(login_method, USER_AGENT, storage_directory):
     return chrome_options
 
 
+def enable_download_in_headless_chrome():
+
+    driver.command_executor._commands["send_command"] = (
+        "POST",
+        "/session/$sessionId/chromium/send_command",
+    )
+    params = {
+        "cmd": "Page.setDownloadBehavior",
+        "params": {"behavior": "allow", "downloadPath": storage_directory},
+    }
+
+    driver.execute("send_command", params)
+
+
 def restart_driver_session(jstor_url, chrome_options, executor_url, session_id):
 
     driver = webdriver.Remote(command_executor=executor_url, options=chrome_options)
@@ -224,34 +303,13 @@ def restart_driver_session(jstor_url, chrome_options, executor_url, session_id):
     driver.get(jstor_url)
 
 
-def latest_downloaded_pdf(storage_directory):
-
-    os.chdir(storage_directory)
-
-    pdf_download_list = sorted(os.listdir(storage_directory), key=os.path.getmtime)
-
-    latest_pdf = pdf_download_list[-1]
-
-    return latest_pdf
-
-
 def get_article_ids():
 
     global Article_ID_list, jstor_url
 
     if restart_count == 0:
 
-        # Save the cookies to ensure reCAPTCHA can be solved
-        # since login details are required to access the mp3 file
-        pickle.dump(
-            driver.get_cookies(),
-            open(os.path.join(misc_directory, "cookies.pkl"), "wb"),
-        )
-
-        cookies = pickle.load(open(os.path.join(misc_directory, "cookies.pkl"), "rb"))
-
-        for cookie in cookies:
-            driver.add_cookie(cookie)
+        set_cookies(driver, misc_directory)
 
         # Save the url after user login as each url
         # will be unique to the user's institution
@@ -259,532 +317,16 @@ def get_article_ids():
 
         # User select which papers they would like to download (API Call)
         print(
-            "\n\n"
-            + colored("JSTOR PDF download specification:\n", attrs=["reverse"])
-            * (is_windows)
-            + colored(
-                "JSTOR PDF download specification:\n",
-                attrs=["bold", "underline"],
-            )
-            * (not is_windows)
+            "\n\n" + colored("JSTOR PDF download specification:\n", attrs=["reverse"])
         )
 
-        print(
-            "\n"
-            + colored(" i ", attrs=["reverse"]) * (is_windows)
-            + emoji.emojize(":information:") * (not is_windows)
-            + "   Please select your search criteria."
-        )
-
-        search_criteria_typo = True
-
-        while search_criteria_typo == True:
-
-            search_criteria = input(
-                colored(
-                    "\n-- Type [1] to search by Author Name\n-- Type [2] to search by Journal Name\n   : ",
-                )
-            ).strip()
-
-            if search_criteria == "1":
-
-                print(
-                    "\n"
-                    + colored(" i ", attrs=["reverse"]) * (is_windows)
-                    + emoji.emojize(":information:") * (not is_windows)
-                    + "   You have chosen to search by Author Name.\n"
-                )
-
-                print(
-                    "\n"
-                    + colored(
-                        "Please enter the Name and Surname of an author (EXAMPLE: Rebecca Gould).\n",
-                        "blue",
-                    )
-                    * (is_windows)
-                    + colored(
-                        "Please enter the Name and Surname of an author (EXAMPLE: Rebecca Gould)\n",
-                        attrs=["bold"],
-                    )
-                    * (not is_windows)
-                )
-
-                author_search = True
-
-                while author_search == True:
-
-                    Author_Name = input(
-                        colored(
-                            "\n-- Type Author Name and Surname\n   : ",
-                        )
-                    ).strip()
-
-                    Author_Name_urlenc = urllib.parse.quote(Author_Name)
-
-                    print(
-                        "\nGive it a second, we are searching for the requested author."
-                    )
-
-                    time.sleep(1)
-
-                    server_error, Author_List_json = server_response_request(
-                        f"https://api-service-mrz6aygprq-oa.a.run.app/api/authors?authorName={Author_Name_urlenc}",
-                    )
-
-                    if server_error:
-                        driver.close()
-                        os._exit(0)
-
-                    try:
-
-                        Author_List_json = Author_List_json.json()
-
-                    except:
-
-                        print(
-                            "\n\n"
-                            + colored(" ! ", "yellow", attrs=["reverse"]) * (is_windows)
-                            + emoji.emojize(":loudspeaker:") * (not is_windows)
-                            + colored(
-                                "   The requested author could not be found.\n",
-                                "yellow",
-                            )
-                        )
-
-                        author_list_not_found_typo = True
-
-                        while author_list_not_found_typo == True:
-
-                            author_not_found = input(
-                                colored(
-                                    "\n-- Type [1] to retry Author Search\n-- Type [2] to search by a different criteria\n   : ",
-                                )
-                            ).strip()
-
-                            if author_not_found == "1":
-                                break
-                            elif author_not_found == "2":
-                                author_search = False
-                                break
-                            else:
-                                typo()
-
-                        continue
-
-                    print(
-                        "\n\n"
-                        + colored(
-                            "Please select an author from the list below:\n",
-                            attrs=["bold"],
-                        )
-                        * (is_windows)
-                        + colored(
-                            "Please select an author from the list below:\n",
-                            "blue",
-                        )
-                        * (not is_windows)
-                    )
-
-                    time.sleep(1)
-
-                    author_list_number = 0
-
-                    for Author_Name in Author_List_json:
-
-                        author_list_number += 1
-
-                        print(
-                            "["
-                            + str(author_list_number)
-                            + "] "
-                            + Author_Name["authorName"]
-                        )
-
-                    Author_Number_typo = True
-
-                    while Author_Number_typo == True:
-
-                        Author_Number = input(
-                            colored(
-                                "\n\n-- Type the number of the author\n   : ",
-                            )
-                        ).strip()
-
-                        if Author_Number not in [str(x) for x in list(range(1, 11))]:
-
-                            typo()
-
-                        else:
-                            Author_Number_typo = False
-
-                    Author_Selected_urlenc = urllib.parse.quote(
-                        Author_List_json[int(Author_Number) - 1]["authorName"]
-                    )
-
-                    server_error, Article_ID_list = server_response_request(
-                        f"https://api-service-mrz6aygprq-oa.a.run.app/api/articles?authorName={Author_Selected_urlenc}&scraped=0&exact=1",
-                    )
-
-                    if server_error:
-                        driver.close()
-                        os._exit(0)
-
-                    if Article_ID_list.status_code == 200:
-
-                        Article_ID_list = Article_ID_list.json()
-
-                        Article_list_num = len(Article_ID_list)
-
-                        if Article_list_num > 0:
-
-                            print(
-                                "\n"
-                                + colored(" ! ", "green", attrs=["reverse"])
-                                * (is_windows)
-                                + emoji.emojize(":check_mark_button:")
-                                * (not is_windows)
-                                + colored(
-                                    f"  {Article_list_num} articles from selected author found.\n",
-                                    "green",
-                                )
-                            )
-
-                            time.sleep(1)
-
-                            author_search = False
-
-                            search_criteria_typo = False
-
-                        else:
-
-                            print(
-                                "\n\n"
-                                + colored(" ! ", "yellow", attrs=["reverse"])
-                                * (is_windows)
-                                + emoji.emojize(":loudspeaker:") * (not is_windows)
-                                + colored(
-                                    "  It appears that all articles by this author are already available.\n",
-                                    "yellow",
-                                )
-                            )
-
-                            author_list_not_found_typo = True
-
-                            while author_list_not_found_typo == True:
-
-                                author_not_found = input(
-                                    colored(
-                                        "\n-- Type [1] to retry Author Search\n-- Type [2] to search by a different criteria\n   : ",
-                                    )
-                                ).strip()
-
-                                if author_not_found == "1":
-                                    break
-                                elif author_not_found == "2":
-                                    author_search = False
-                                    search_criteria_typo = True
-                                    break
-                                else:
-                                    typo()
-
-                    else:
-
-                        print(
-                            "\n\n"
-                            + colored(" ! ", "red", attrs=["reverse"]) * (is_windows)
-                            + emoji.emojize(":red_exclamation_mark:") * (not is_windows)
-                            + colored(
-                                "   An unexpected error occured.\n",
-                                "red",
-                            )
-                        )
-
-                        author_list_not_found_typo = True
-
-                        while author_list_not_found_typo == True:
-
-                            author_not_found = input(
-                                colored(
-                                    "\n-- Type [1] to retry Author Search\n-- Type [2] to search by a different criteria\n   : ",
-                                )
-                            ).strip()
-
-                            if author_not_found == "1":
-                                break
-                            elif author_not_found == "2":
-                                author_search = False
-                                search_criteria_typo = True
-                                break
-                            else:
-                                typo()
-
-            elif search_criteria == "2":
-
-                print(
-                    "\n"
-                    + colored(" i ", attrs=["reverse"]) * (is_windows)
-                    + emoji.emojize(":information:") * (not is_windows)
-                    + "   You have chosen to search by Journal Name.\n"
-                )
-
-                print(
-                    "\n"
-                    + colored(
-                        "Please enter the Name of a journal (EXAMPLE: Journal of Financial Education).\n",
-                        "blue",
-                    )
-                    * (is_windows)
-                    + colored(
-                        "Please enter the Name of a journal (EXAMPLE: Journal of Financial Education).\n",
-                        attrs=["bold"],
-                    )
-                    * (not is_windows)
-                )
-
-                journal_search = True
-
-                while journal_search == True:
-
-                    Journal_Name = input(
-                        colored(
-                            "\n-- Type Journal Name\n   : ",
-                        )
-                    ).strip()
-
-                    Journal_Name_urlenc = urllib.parse.quote(Journal_Name)
-
-                    print(
-                        "\nGive it a second, we are searching for the requested journal."
-                    )
-
-                    time.sleep(1)
-
-                    server_error, Journal_List_json = server_response_request(
-                        f"https://api-service-mrz6aygprq-oa.a.run.app/api/journals?journalName={Journal_Name_urlenc}",
-                    )
-
-                    if server_error:
-                        driver.close()
-                        os._exit(0)
-
-                    try:
-
-                        Journal_List_json = Journal_List_json.json()
-
-                    except:
-
-                        print(
-                            "\n\n"
-                            + colored(" ! ", "yellow", attrs=["reverse"]) * (is_windows)
-                            + emoji.emojize(":loudspeaker:") * (not is_windows)
-                            + colored(
-                                "   The requested journal could not be found.\n",
-                                "yellow",
-                            )
-                        )
-
-                        journal_list_not_found_typo = True
-
-                        while journal_list_not_found_typo == True:
-
-                            journal_not_found = input(
-                                colored(
-                                    "\n-- Type [1] to retry Journal Search\n-- Type [2] to search by a different criteria\n   : ",
-                                )
-                            ).strip()
-
-                            if journal_not_found == "1":
-                                break
-                            elif journal_not_found == "2":
-                                journal_search = False
-                                break
-                            else:
-                                typo()
-
-                        continue
-
-                    print(
-                        "\n\n"
-                        + colored(
-                            "Please select a journal from the list below:\n",
-                            "blue",
-                        )
-                        * (is_windows)
-                        + colored(
-                            "Please select a journal from the list below:\n",
-                            attrs=["bold"],
-                        )
-                        * (not is_windows)
-                    )
-
-                    time.sleep(1)
-
-                    journal_list_number = 0
-
-                    for Journal_Name in Journal_List_json:
-
-                        journal_list_number += 1
-
-                        print(
-                            "["
-                            + str(journal_list_number)
-                            + "] "
-                            + Journal_Name["journalName"]
-                        )
-
-                    Journal_Number_typo = True
-
-                    while Journal_Number_typo == True:
-
-                        Journal_Number = input(
-                            colored(
-                                "\n\n-- Type the Number of the Journal\n   : ",
-                            )
-                        ).strip()
-
-                        if Journal_Number not in [str(x) for x in list(range(1, 11))]:
-
-                            typo()
-
-                        else:
-                            Journal_Number_typo = False
-
-                    Journal_Selected_urlenc = urllib.parse.quote(
-                        Journal_List_json[int(Journal_Number) - 1]["journalName"]
-                    )
-
-                    server_error, Article_ID_list = server_response_request(
-                        f"https://api-service-mrz6aygprq-oa.a.run.app/api/articles?journalName={Journal_Selected_urlenc}&scraped=0&exact=1",
-                    )
-
-                    if server_error:
-                        driver.close()
-                        os._exit(0)
-
-                    if Article_ID_list.status_code == 200:
-
-                        Article_ID_list = Article_ID_list.json()
-
-                        if len(Article_ID_list) > 0:
-
-                            print(
-                                "\n"
-                                + colored(" ! ", "green", attrs=["reverse"])
-                                * (is_windows)
-                                + emoji.emojize(":check_mark_button:")
-                                * (not is_windows)
-                                + colored(
-                                    "  List of articles from selected journal found.\n",
-                                    "green",
-                                )
-                            )
-
-                            time.sleep(1)
-
-                            journal_search = False
-
-                            search_criteria_typo = False
-
-                        else:
-
-                            # Add option to download articles by this author
-                            print(
-                                "\n\n"
-                                + colored(" ! ", "yellow", attrs=["reverse"])
-                                * (is_windows)
-                                + emoji.emojize(":loudspeaker:") * (not is_windows)
-                                + colored(
-                                    "  It appears that all articles from this journal are already available.\n",
-                                    "yellow",
-                                )
-                            )
-
-                            journal_list_not_found_typo = True
-
-                            while journal_list_not_found_typo == True:
-
-                                journal_not_found = input(
-                                    colored(
-                                        "\n-- Type [1] to retry Journal Search\n-- Type [2] to search by a different criteria\n   : ",
-                                    )
-                                ).strip()
-
-                                if journal_not_found == "1":
-                                    break
-                                elif journal_not_found == "2":
-                                    journal_search = False
-                                    search_criteria_typo = True
-                                    break
-                                else:
-                                    typo()
-
-                    else:
-
-                        print(
-                            "\n\n"
-                            + colored(" ! ", "red", attrs=["reverse"]) * (is_windows)
-                            + emoji.emojize(":red_exclamation_mark:") * (not is_windows)
-                            + colored(
-                                "   An unexpected error occured.\n",
-                                "red",
-                            )
-                        )
-
-                        journal_list_not_found_typo = True
-
-                        while journal_list_not_found_typo == True:
-
-                            journal_not_found = input(
-                                colored(
-                                    "\n-- Type [1] to retry Journal Search\n-- Type [2] to search by a different criteria\n   : ",
-                                )
-                            ).strip()
-
-                            if journal_not_found == "1":
-                                break
-                            elif journal_not_found == "2":
-                                journal_search = False
-                                search_criteria_typo = True
-                                break
-                            else:
-                                typo()
-
-            else:
-
-                typo()
-
-        print(
-            "\n\n"
-            + colored(" i ", "blue", attrs=["reverse"]) * (is_windows)
-            + emoji.emojize(":information:") * (not is_windows)
-            + "   PDF files located and login process complete, the browser will run in the background."
-        )
-
-        time.sleep(1)
-
-        print(
-            "\n"
-            + colored(" i ", "blue", attrs=["reverse"]) * (is_windows)
-            + emoji.emojize(":information:") * (not is_windows)
-            + "   You can minimize this window and continue with other tasks on your computer while your files upload."
-        )
-
-        time.sleep(1)
-
-        print(
-            "\n"
-            + colored(" i ", "blue", attrs=["reverse"]) * (is_windows)
-            + emoji.emojize(":information:") * (not is_windows)
-            + "   Do not exit/close this window as this will abort the upload process.\n"
-        )
-
-        time.sleep(1)
+        Article_ID_list = receive_upload_criteria_action(driver)
 
     elif 0 < restart_count <= 5:
 
         restart_driver_session(
             jstor_url,
-            options(get_login_method, USER_AGENT, storage_directory),
+            options(receive_login_action, USER_AGENT, storage_directory),
             driver.command_executor._url,
             driver.session_id,
         )
@@ -799,7 +341,7 @@ def get_article_ids():
             + colored(" ! ", "red", attrs=["reverse"]) * (is_windows)
             + emoji.emojize(":red_exclamation_mark:") * (not is_windows)
             + colored(
-                "  Unforturnately, due to reasons outside of our control, we cannot upload the requested papers. Please try again later.\n",
+                "  Unforturnately we cannot upload the requested papers at this moment. Please try again later.\n",
                 "red",
             )
         )
@@ -810,7 +352,7 @@ def get_article_ids():
 
 def download_articles():
 
-    global restart, t_c_accepted, t_c_try_accept, article_index, Article_ID_list, now, wait, src_directory, storage_directory, restart_count, exit_program
+    global article_index, now, restart_count, wait
 
     restart = t_c_accepted = False
 
@@ -868,6 +410,9 @@ def download_articles():
 
         driver.get(jstor_url + "stable/pdf/" + article + ".pdf")
 
+        # to avoid chromedriver status code: -9
+        enable_download_in_headless_chrome()
+
         start_time = datetime.now().timestamp()
 
         # check for cookies, t&c's and reCAPTCHA
@@ -885,11 +430,11 @@ def download_articles():
                     )
                 ).click()
 
-                print("cookies accepted")
+                print("[INF] cookies accepted")
 
             except:
 
-                print("no cookies")
+                print("[INF] no cookies")
 
             # accept t&c's
             try:
@@ -903,9 +448,11 @@ def download_articles():
                     )
                 ).click()
 
-                print("t&c's accepted")
+                print("[INF] t&c's accepted")
 
                 start_time = datetime.now().timestamp()
+
+                success = True
 
                 t_c_accepted = True
 
@@ -920,9 +467,19 @@ def download_articles():
 
                     if success:
 
-                        print("solved")
+                        print("[INF] reCAPTCHA solved")
 
                         continue
+
+                    elif success == None:
+
+                        print(
+                            "[ERR] Your institution does not have access to this article, skipping to next article"
+                        )
+
+                        driver.get(jstor_url)
+
+                        break
 
                     else:
 
@@ -936,7 +493,9 @@ def download_articles():
 
                 else:
 
-                    print("no t&c's")
+                    print("[INF] no t&c's")
+
+                    success = True
 
                     t_c_accepted = True
 
@@ -945,6 +504,10 @@ def download_articles():
             restart_count += 1
 
             break
+
+        if success == None:
+
+            continue
 
         time.sleep(wait)
 
@@ -955,10 +518,24 @@ def download_articles():
                 driver, url, url_pending, wait, misc_directory, jstor_url
             )
 
-            if not success:
+            if success:
+
+                print("[INF] reCAPTCHA solved")
+
+            elif success == None:
 
                 print(
-                    "[ERR] ReCAPTCHA could not be solved or pdf could not found, restarting driver session."
+                    "[ERR] Your institution does not have access to this article, skipping to next article"
+                )
+
+                driver.get(jstor_url)
+
+                continue
+
+            else:
+
+                print(
+                    "[ERR] ReCAPTCHA could not be solved or pdf could not be found, restarting driver session."
                 )
 
                 restart = True
@@ -966,6 +543,17 @@ def download_articles():
                 restart_count = +1
 
                 break
+
+        # check for no access via institution
+        if not (os.path.exists(url) or os.path.exists(url_pending)):
+
+            print(
+                "[ERR] Your institution does not have access to this article, skipping to next article"
+            )
+
+            driver.get(jstor_url)
+
+            continue
 
         # check if download is complete
         file = url_pending
@@ -995,9 +583,7 @@ def download_articles():
 
             rename_file(url, doi)
 
-        except Exception as e:
-
-            print(e)
+        except:
 
             print("[ERR] Could not download pdf file, restarting driver session")
 
@@ -1040,11 +626,15 @@ def download_articles():
         delete_files(doi)
 
         if article_json == Article_ID_list[-1]:
+
             # delete the entire Aaron's Kit folder
             try:
+
                 delete_temp_storage(storage_directory)
-            except Exception as e:
-                print(e)
+
+            except:
+
+                print("[INF]: Could not delete AaronsKit_PDF_Downloads folder.")
 
             print(
                 "\n"
@@ -1061,8 +651,8 @@ def download_articles():
     # stop when all articles have downloaded or when server error, otherwise navigate to home page and restart web session
     if article_json == Article_ID_list[-1] and not restart:
 
-        # go back to main menu
-        exit_program = end_program()
+        # what happens after you have finished scraping
+        restart_count = receive_end_program_action(driver)
 
     else:
         driver.get(jstor_url)

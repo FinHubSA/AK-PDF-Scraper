@@ -4,9 +4,9 @@ import emoji
 
 from termcolor import colored
 
-from src.helpers import system, typo
+from src.helpers import system, print_typo
 
-# returns the user download speed
+
 def download_speed():
 
     retry = 0
@@ -34,7 +34,6 @@ def download_speed():
     return mbps
 
 
-# returns the waiting time
 def delay(mbps):
 
     if mbps <= 10:
@@ -112,7 +111,7 @@ def internet_speed_retry():
                     internet_typo = False
                     internet_retry = False
                 else:
-                    typo()
+                    print_typo()
 
         elif mbps <= 5:
 
@@ -134,7 +133,7 @@ def internet_speed_retry():
                 "\n"
                 + colored(" i ", "blue", attrs=["reverse"]) * (is_windows)
                 + emoji.emojize(":information:") * (not is_windows)
-                + "   Note that a slow internet connection might interfere with the download process."
+                + "   Note that a slow internet connection might interfere with the upload and download process."
             )
 
             internet_typo = True
@@ -153,7 +152,7 @@ def internet_speed_retry():
                     internet_typo = False
                     internet_retry = False
                 else:
-                    typo()
+                    print_typo()
 
         else:
 
@@ -162,7 +161,7 @@ def internet_speed_retry():
                 + colored(" ! ", "green", attrs=["reverse"]) * (is_windows)
                 + emoji.emojize(":check_mark_button:") * (not is_windows)
                 + colored(
-                    "  Your internet speed is: " + str(round(mbps, 2)) + " mbps",
+                    "  Your internet speed is: " + str(round(mbps, 2)) + " mbps\n",
                     "green",
                 )
             )

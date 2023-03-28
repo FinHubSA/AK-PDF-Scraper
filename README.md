@@ -14,7 +14,7 @@ The Aaron's Kit executable functions as a tool to (1) bulk download papers for p
 
 ## How to bulk download research articles
 
-**Note: this section explains how to use the executable to bulk download multiple articles based on a specific Journal and Issue number. All specified articles will be downloaded for free and will be available on your local device for personal use.**
+**Note: this section explains how to use the executable to bulk download multiple articles based on a specific Journal and Issue number or a specific author. All specified articles will be downloaded for free and will be available on your local device for personal use.**
 
 ### Get started
 
