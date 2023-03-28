@@ -2,6 +2,8 @@ import time
 import os
 import emoji
 import urllib.parse
+import warnings
+import logging
 
 from multiprocessing import cpu_count
 from multiprocessing.pool import ThreadPool
@@ -12,6 +14,9 @@ from src.errors import MainException, TypoException
 
 from src.helpers import system, print_typo, server_response_request
 
+logging.getLogger().setLevel(logging.CRITICAL)
+warnings.filterwarnings("ignore", category=UserWarning)
+
 is_windows = system()
 
 
@@ -19,7 +24,8 @@ def receive_download_criteria_action():
 
     print(
         "\n"
-        + emoji.emojize(":information:")
+        + emoji.emojize(":information:") * (not is_windows)
+        + colored(" i ", "blue", attrs=["reverse"]) * (is_windows)
         + "   Please indicate your download criteria."
     )
 
@@ -53,7 +59,7 @@ def process_download_criteria_action(download_criteria):
                 + colored(" ! ", "red", attrs=["reverse"]) * (is_windows)
                 + emoji.emojize(":red_exclamation_mark:") * (not is_windows)
                 + colored(
-                    "  The requested journal could not be found.\n",
+                    "   The requested journal could not be found.\n",
                     "red",
                 )
             )
@@ -102,27 +108,16 @@ def request_journal_download():
 
     print(
         "\n"
-        + (colored(" i ", attrs=["reverse"])) * (is_windows)
+        + (colored(" i ", "blue", attrs=["reverse"])) * (is_windows)
         + (emoji.emojize(":information:")) * (not is_windows)
         + "   You have chosen to search by Journal Name.\n"
     )
 
     print(
-        "\n"
-        + (
-            colored(
-                "Please enter the Name of a Journal (EXAMPLE: Journal of Financial Education).\n",
-                "blue",
-            )
+        colored(
+            "\nPlease enter the Name of a Journal (EXAMPLE: Journal of Financial Education).\n",
+            attrs=["bold"],
         )
-        * (is_windows)
-        + (
-            colored(
-                "Please enter the Name of a Journal (EXAMPLE: Journal of Financial Education).\n",
-                attrs=["bold"],
-            )
-        )
-        * (not is_windows)
     )
 
     Journal_Name = get_input(
@@ -148,21 +143,10 @@ def request_journal_download():
 def receive_journal_selection_action(Journal_List_json):
 
     print(
-        "\n\n"
-        + (
-            colored(
-                "Please select a Journal from the list below:\n",
-                "blue",
-            )
+        colored(
+            "\n\nPlease select a Journal from the list below:\n",
+            attrs=["bold"],
         )
-        * (is_windows)
-        + (
-            colored(
-                "Please select a Journal from the list below:\n",
-                attrs=["bold"],
-            )
-        )
-        * (not is_windows)
     )
 
     time.sleep(1)
@@ -206,23 +190,16 @@ def request_author_download():
 
     print(
         "\n"
-        + (colored(" i ", attrs=["reverse"])) * (is_windows)
+        + (colored(" i ", "blue", attrs=["reverse"])) * (is_windows)
         + (emoji.emojize(":information:")) * (not is_windows)
         + "   You have chosen to search by Author Name.\n"
     )
 
     print(
-        "\n"
-        + colored(
-            "Please enter the Name and Surname of an Author (EXAMPLE: Rebecca Gould).",
-            "blue",
-        )
-        * (is_windows)
-        + colored(
-            "Please enter the Name and Surname of an Author (EXAMPLE: Rebecca Gould).",
+        colored(
+            "\nPlease enter the Name and Surname of an Author (EXAMPLE: Rebecca Gould).",
             attrs=["bold"],
         )
-        * (not is_windows)
     )
 
     Author_Name = get_input(
@@ -251,21 +228,10 @@ def request_author_download():
 def receive_author_selection_action(Author_List_json):
 
     print(
-        "\n\n"
-        + (
-            colored(
-                "Please select an Author from the list below:\n",
-                "blue",
-            )
+        colored(
+            "\n\nPlease select an Author from the list below:\n",
+            attrs=["bold"],
         )
-        * (is_windows)
-        + (
-            colored(
-                "Please select an Author from the list below:\n",
-                attrs=["bold"],
-            )
-        )
-        * (not is_windows)
     )
 
     time.sleep(1)
@@ -309,7 +275,8 @@ def receive_journal_download_criteria(journal_name, journal_id):
 
     print(
         "\n"
-        + emoji.emojize(":information:")
+        + emoji.emojize(":information:") * (not is_windows)
+        + colored(" i ", "blue", attrs=["reverse"]) * (is_windows)
         + "   Please indicate your download criteria."
     )
 
@@ -383,21 +350,10 @@ def request_issue(journal_name, journal_id):
 def receive_issue_selection_action(issue_list_json):
 
     print(
-        "\n\n"
-        + (
-            colored(
-                "Please select an Issue from the list below:\n",
-                "blue",
-            )
+        colored(
+            "\n\nPlease select an Issue from the list below:\n",
+            attrs=["bold"],
         )
-        * (is_windows)
-        + (
-            colored(
-                "Please select an Issue from the list below:\n",
-                attrs=["bold"],
-            )
-        )
-        * (not is_windows)
     )
 
     issue_list_number = 0
@@ -495,7 +451,7 @@ def get_articles(journal_id=None, issue_id=None, author_name=None, journal_name=
             + (colored(" i ", "yellow", attrs=["reverse"])) * (is_windows)
             + (emoji.emojize(":loudspeaker:")) * (not is_windows)
             + colored(
-                "  Unfortunately we currently have no articles for this search criteria.\n",
+                "   Unfortunately we currently have no articles for this search criteria.\n",
                 "yellow",
             )
         )
@@ -526,7 +482,7 @@ def bulk_download(articles):
             + (colored(" ! ", "green", attrs=["reverse"])) * (is_windows)
             + (emoji.emojize(":check_mark_button:")) * (not is_windows)
             + colored(
-                f"  Successfully downloaded {results_size} articles! Navigate to ",
+                f"   Successfully downloaded {results_size} articles! Navigate to ",
                 "green",
             )
             + colored("AaronsKit_PDF_Downloads", "green", attrs=["reverse"])

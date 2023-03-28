@@ -36,7 +36,7 @@ def print_typo():
         + colored(" ? ", "yellow", attrs=["reverse"]) * (is_windows)
         + emoji.emojize(":loudspeaker:") * (not is_windows)
         + colored(
-            "  It appears that you made a typo, please re-enter your selection.\n",
+            "   It appears that you made a typo, please re-enter your selection.\n",
             "yellow",
         )
     )

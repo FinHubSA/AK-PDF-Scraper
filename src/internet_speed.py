@@ -119,7 +119,7 @@ def internet_speed_retry():
                 "\n\n"
                 + colored(" ! ", "yellow", attrs=["reverse"]) * (is_windows)
                 + emoji.emojize(":loudspeaker:") * (not is_windows)
-                + colored("  Your internet speed is less than 5 mbps.", "yellow")
+                + colored("   Your internet speed is less than 5 mbps.", "yellow")
             )
 
             print(
