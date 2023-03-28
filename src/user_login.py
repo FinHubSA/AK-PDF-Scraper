@@ -50,17 +50,17 @@ def print_login_requirements():
     )
 
     print(
-        "\n• Have Google Chrome installed. To install, visit https://support.google.com/chrome/answer/95346?hl=en&ref_topic=7439538. \n• Have ffmpeg and ffprobe installed. For installation instructions, visit https://www.wikihow.com/Install-FFmpeg-on-Windows. \n• Have a stable internet connection.\n• Keep your device on charge and set to 'never sleep' while on battery and on charge."
+        "• Have Google Chrome installed. To install, visit https://support.google.com/chrome/answer/95346?hl=en&ref_topic=7439538. \n• Have ffmpeg and ffprobe installed. For installation instructions, visit https://www.wikihow.com/Install-FFmpeg-on-Windows. \n• Have a stable internet connection.\n• Keep your device on charge and set to 'never sleep' while on battery and on charge."
         * (is_windows)
     )
 
     print(
-        "\n• Have Google Chrome installed. To install, visit https://support.google.com/chrome/answer/95346?hl=en&ref_topic=7439538. \n• Have ffmpeg and ffprobe installed. For installation instructions, visit https://bbc.github.io/bbcat-orchestration-docs/installation-mac-manual/. \n• Have a stable internet connection.\n• Keep your device on charge and set to 'never sleep' while on battery and on charge."
+        "• Have Google Chrome installed. To install, visit https://support.google.com/chrome/answer/95346?hl=en&ref_topic=7439538. \n• Have ffmpeg and ffprobe installed. For installation instructions, visit https://bbc.github.io/bbcat-orchestration-docs/installation-mac-manual/. \n• Have a stable internet connection.\n• Keep your device on charge and set to 'never sleep' while on battery and on charge."
         * (not is_windows)
     )
 
     print(
-        "\n\nWhile the program runs "
+        "\n\nWhile the program runs, "
         + colored("please do not:", attrs=["reverse"]) * (is_windows)
         + colored("please do not:", attrs=["bold", "underline"]) * (not is_windows)
     )
@@ -100,7 +100,7 @@ def print_login_instructions():
     time.sleep(1)
 
     print(
-        "\n\n\n"
+        "\n\n"
         + colored("User credential security information:", attrs=["reverse"])
         * (is_windows)
         + colored("User credential security information:", attrs=["bold", "underline"])
@@ -108,13 +108,13 @@ def print_login_instructions():
     )
 
     print(
-        "\n\n• If you choose to login via the JSTOR website, you will be prompted to enter your login details via your university portal on JSTOR.\n• If you choose to login via VPN or wifi, your credentials will already be authenticated and you won't need to provide any login details."
+        "\n\n• If you choose to login via VPN or wifi, your credentials will already be authenticated and you won't need to provide\n  any login details.\n• If you choose to login via the JSTOR website, you will be prompted to enter your login details via your university\n  portal on JSTOR."
     )
 
     time.sleep(2)
 
     print(
-        "\n\n\n"
+        "\n\n"
         + colored("JSTOR Login Instructions:", attrs=["reverse"]) * (is_windows)
         + colored("JSTOR Login Instructions:", attrs=["bold", "underline"])
         * (not is_windows)

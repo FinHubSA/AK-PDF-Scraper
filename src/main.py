@@ -14,6 +14,7 @@ from src.contribute_papers import contribute_papers
 
 logging.getLogger().setLevel(logging.CRITICAL)
 warnings.filterwarnings("ignore", category=RuntimeWarning)
+warnings.filterwarnings("ignore", category=UserWarning)
 
 
 def welcome_message():

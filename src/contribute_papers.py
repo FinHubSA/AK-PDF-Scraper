@@ -34,16 +34,12 @@ from src.helpers import (
     system,
     print_typo,
     server_response_post,
-    server_response_request,
     receive_network_error_action,
 )
 from src.donations import print_donation_explainer, receive_donation_action
 from src.internet_speed import download_speed, delay, internet_speed_retry
 from src.user_login import (
-    # login,
     manual_login,
-    process_end_program_action,
-    # process_login_action,
     receive_login_action,
     print_login_requirements,
     print_login_instructions,
@@ -124,20 +120,16 @@ def setup():
 
     misc_directory = misc_path()
 
-    
-
     mbps = internet_speed_retry()
-    # mbps = 90
 
     wait = delay(mbps)
 
-    print("\n\nGive it a second, we are determining your User Agent.")
+    print("\n\nDetermining User Agent.")
     print(
         "\nYou may notice that a browser window opened, don't worry, we're just checking your User Agent online!"
     )
 
     USER_AGENT = get_user_agent(wait)
-    # USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.61 Safari/537.36"
 
     now = datetime.now().timestamp()
 
@@ -150,64 +142,76 @@ def login():
 
     while not logged_in:
 
-        login_method = receive_login_action()
+        try:
 
-        if login_method == "1":
+            login_method = receive_login_action()
 
-            print(
-                "\n"
-                + colored(" i ", "blue", attrs=["reverse"]) * (is_windows)
-                + emoji.emojize(":information:") * (not is_windows)
-                + "   You will be prompted to login via your university wifi or VPN."
-            )
+            if login_method == "1":
 
-            time.sleep(1)
-
-            cont = receive_proceed_action()
-
-            if cont == "1":
-                driver = create_driver_session(
-                    options(login_method, USER_AGENT, storage_directory)
+                print(
+                    "\n"
+                    + colored(" i ", "blue", attrs=["reverse"]) * (is_windows)
+                    + emoji.emojize(":information:") * (not is_windows)
+                    + "   You will be prompted to login via your university wifi or VPN."
                 )
-                logged_in = vpn_login(
-                    driver,
-                    "https://www.jstor.org/",
-                    "query-builder-input-group",
-                    "pds__access-provided-by",
+
+                time.sleep(1)
+
+                cont = receive_proceed_action()
+
+                if cont == "1":
+                    driver = create_driver_session(
+                        options(login_method, USER_AGENT, storage_directory)
+                    )
+                    logged_in = vpn_login(
+                        driver,
+                        "https://www.jstor.org/",
+                        "query-builder-input-group",
+                        "pds__access-provided-by",
+                    )
+                elif cont == "2":
+                    return login()
+
+            elif login_method == "2":
+
+                print(
+                    "\n"
+                    + colored(" i ", "blue", attrs=["reverse"]) * (is_windows)
+                    + emoji.emojize(":information:") * (not is_windows)
+                    + "   You will be prompted to manually login via the JSTOR website."
                 )
-            elif cont == "2":
+
+                time.sleep(1)
+
+                cont = receive_proceed_action()
+
+                if cont == "1":
+                    driver = create_driver_session(
+                        options(login_method, USER_AGENT, storage_directory)
+                    )
+                    logged_in = manual_login(
+                        driver,
+                        "https://www.jstor.org/",
+                        "query-builder-input-group",
+                        "pds__access-provided-by",
+                    )
+                elif cont == "2":
+                    return login()
+
+            elif login_method == "3":
+                raise MainException
+            else:
+                print_typo()
                 return login()
 
-        elif login_method == "2":
+        except Exception as e:
 
-            print(
-                "\n"
-                + colored(" i ", "blue", attrs=["reverse"]) * (is_windows)
-                + emoji.emojize(":information:") * (not is_windows)
-                + "   You will be prompted to manually login via the JSTOR website."
-            )
+            print(e)
 
-            time.sleep(1)
+            receive_network_error_action()
 
-            cont = receive_proceed_action()
+            internet_speed_retry()
 
-            if cont == "1":
-                driver = create_driver_session(
-                    options(login_method, USER_AGENT, storage_directory)
-                )
-                logged_in = manual_login(
-                    driver,
-                    "https://www.jstor.org/",
-                    "query-builder-input-group",
-                    "pds__access-provided-by",
-                )
-            elif cont == "2":
-                return login()
-
-        elif login_method == "3":
-            raise MainException
-        else:
-            print_typo()
             return login()
 
 
@@ -312,14 +316,7 @@ def get_article_ids():
 
         # User select which papers they would like to download (API Call)
         print(
-            "\n\n"
-            + colored("JSTOR PDF download specification:\n", attrs=["reverse"])
-            * (is_windows)
-            + colored(
-                "JSTOR PDF download specification:\n",
-                attrs=["bold", "underline"],
-            )
-            * (not is_windows)
+            "\n\n" + colored("JSTOR PDF download specification:\n", attrs=["reverse"])
         )
 
         Article_ID_list = receive_upload_criteria_action(driver)
@@ -343,7 +340,7 @@ def get_article_ids():
             + colored(" ! ", "red", attrs=["reverse"]) * (is_windows)
             + emoji.emojize(":red_exclamation_mark:") * (not is_windows)
             + colored(
-                "  Unforturnately, due to reasons outside of our control, we cannot upload the requested papers. Please try again later.\n",
+                "  Unforturnately we cannot upload the requested papers at this moment. Please try again later.\n",
                 "red",
             )
         )
@@ -454,6 +451,8 @@ def download_articles():
 
                 start_time = datetime.now().timestamp()
 
+                success = True
+
                 t_c_accepted = True
 
             # check for reCAPTCHA
@@ -471,6 +470,16 @@ def download_articles():
 
                         continue
 
+                    elif success == None:
+
+                        print(
+                            "[ERR] Your institution does not have access to this article, skipping to next article"
+                        )
+
+                        driver.get(jstor_url)
+
+                        break
+
                     else:
 
                         print(
@@ -485,6 +494,8 @@ def download_articles():
 
                     print("[INF] no t&c's")
 
+                    success = True
+
                     t_c_accepted = True
 
         if restart:
@@ -492,6 +503,10 @@ def download_articles():
             restart_count += 1
 
             break
+
+        if success == None:
+
+            continue
 
         time.sleep(wait)
 
@@ -502,10 +517,24 @@ def download_articles():
                 driver, url, url_pending, wait, misc_directory, jstor_url
             )
 
-            if not success:
+            if success:
+
+                print("[INF] reCAPTCHA solved")
+
+            elif success == None:
 
                 print(
-                    "[ERR] ReCAPTCHA could not be solved or pdf could not found, restarting driver session."
+                    "[ERR] Your institution does not have access to this article, skipping to next article"
+                )
+
+                driver.get(jstor_url)
+
+                continue
+
+            else:
+
+                print(
+                    "[ERR] ReCAPTCHA could not be solved or pdf could not be found, restarting driver session."
                 )
 
                 restart = True
@@ -513,6 +542,17 @@ def download_articles():
                 restart_count = +1
 
                 break
+
+        # check for no access via institution
+        if not (os.path.exists(url) or os.path.exists(url_pending)):
+
+            print(
+                "[ERR] Your institution does not have access to this article, skipping to next article"
+            )
+
+            driver.get(jstor_url)
+
+            continue
 
         # check if download is complete
         file = url_pending

@@ -133,7 +133,7 @@ def internet_speed_retry():
                 "\n"
                 + colored(" i ", "blue", attrs=["reverse"]) * (is_windows)
                 + emoji.emojize(":information:") * (not is_windows)
-                + "   Note that a slow internet connection might interfere with the download process."
+                + "   Note that a slow internet connection might interfere with the upload and download process."
             )
 
             internet_typo = True
@@ -161,7 +161,7 @@ def internet_speed_retry():
                 + colored(" ! ", "green", attrs=["reverse"]) * (is_windows)
                 + emoji.emojize(":check_mark_button:") * (not is_windows)
                 + colored(
-                    "  Your internet speed is: " + str(round(mbps, 2)) + " mbps",
+                    "  Your internet speed is: " + str(round(mbps, 2)) + " mbps\n",
                     "green",
                 )
             )

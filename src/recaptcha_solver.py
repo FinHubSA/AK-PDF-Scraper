@@ -5,7 +5,9 @@ import os.path
 import os
 import re
 from datetime import datetime
+import emoji
 import requests
+import warnings
 
 from termcolor import colored
 import pydub
@@ -16,6 +18,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 
 from src.helpers import system
+
+warnings.filterwarnings("ignore", category=UserWarning)
 
 
 def frame(driver):
@@ -76,13 +80,13 @@ def recaptcha_solver(driver, url, url_pending, wait, misc_directory, jstor_url):
 
     recaptcha_log = 0
 
-    start_time = None
+    start_time = success = None
 
     is_recaptcha_control_active = True
 
     print("trying to find reCAPTCHA")
-    # time.sleep(wait)
-    time.sleep(2)
+
+    time.sleep(wait)
 
     recaptcha_control_frame, recaptcha_challenge_frame = frame(driver)
 
@@ -90,7 +94,6 @@ def recaptcha_solver(driver, url, url_pending, wait, misc_directory, jstor_url):
 
         print("[ERR] Unable to find reCAPTCHA.")
         is_recaptcha_control_active = False
-        success = False
 
     while is_recaptcha_control_active:
 
@@ -100,7 +103,7 @@ def recaptcha_solver(driver, url, url_pending, wait, misc_directory, jstor_url):
         # Make sure that reCAPTCHA does not get stuck in a loop
         if recaptcha_log >= randint:
 
-            print("[ERR] IP address has been blocked by reCAPTCHA, restart browser.")
+            print("[ERR] IP address has been blocked by reCAPTCHA or network error.")
 
             success = False
 
@@ -222,35 +225,36 @@ def recaptcha_solver(driver, url, url_pending, wait, misc_directory, jstor_url):
                     sound.export(path_to_wav, format="wav")
                     sample_audio = sr.AudioFile(path_to_wav)
                     print("Exported audio file to .wav")
-                except Exception as e:
+
+                except:
 
                     print(colored("!" + "   Failed to convert file to .wav", "red"))
 
                     is_windows = system()
 
                     print(
-                        "\nYou need ffmpeg and ffprobe. For installation instructions visit: https://bbc.github.io/bbcat-orchestration-docs/installation-mac-manual/"
-                        * (not is_windows)
-                        + "\nYou need ffmpeg and ffprobe. For installation instructions visit: https://windowsloop.com/install-ffmpeg-windows-10/"
+                        "\n"
+                        + colored(" i ", "blue", attrs=["reverse"]) * (is_windows)
+                        + "   You need ffmpeg and ffprobe. For installation instructions visit: https://windowsloop.com/install-ffmpeg-windows-10/"
+                        * (is_windows)
+                        + emoji.emojize(":information:") * (not is_windows)
+                        + "   You need ffmpeg and ffprobe. For installation instructions visit: https://bbc.github.io/bbcat-orchestration-docs/installation-mac-manual/"
                         * (not is_windows)
                     )
 
-                    driver.get(jstor_url)
-
-                    # fix this section
-                    input(
-                        colored("\n-- Once installed, press ")
-                        + colored("ENTER/RETURN")
-                        + colored(" to continue: ")
+                    print(
+                        "\n"
+                        + colored(" i ", "blue", attrs=["reverse"]) * (is_windows)
+                        + emoji.emojize(":information:") * (not is_windows)
+                        + "   Watch the Aaron's Kit setup tutorial for further guidelines. Try again once installed."
                     )
 
-                    success = False
-                    is_recaptcha_control_active = False
-                    break
+                    driver.close()
+
+                    os._exit(0)
 
                 # translate audio to text with google voice recognition
-                # time.sleep(random.randrange(10, 15, 1))
-                time.sleep(2)
+                time.sleep(3)
                 r = sr.Recognizer()
                 with sample_audio as source:
                     audio = r.record(source)
@@ -268,9 +272,7 @@ def recaptcha_solver(driver, url, url_pending, wait, misc_directory, jstor_url):
                         break
 
                     # key in results and submit
-
-                    # time.sleep(random.randrange(10, 15, 1))
-                    time.sleep(4)
+                    time.sleep(5)
 
                     try:
                         driver.find_element(By.ID, "audio-response").send_keys(

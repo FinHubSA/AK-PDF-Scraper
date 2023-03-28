@@ -164,7 +164,7 @@ def server_response_post(driver, url, files, data, article_json, storage_directo
                 + "."
                 + "\nIt will be available at "
                 + response.json()["bucket_url"]
-                + " in a few moments."
+                + " after it's been scanned. Check back later if it's not available immediately."
             )
 
             break
