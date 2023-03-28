@@ -15,7 +15,7 @@ def receive_upload_criteria_action(driver):
 
     print(
         "\n"
-        + colored(" i ", attrs=["reverse"]) * (is_windows)
+        + colored(" i ", "blue", attrs=["reverse"]) * (is_windows)
         + emoji.emojize(":information:") * (not is_windows)
         + "   Please select your search criteria."
     )
@@ -63,23 +63,16 @@ def request_author_upload(driver):
 
     print(
         "\n"
-        + colored(" i ", attrs=["reverse"]) * (is_windows)
+        + colored(" i ", "blue", attrs=["reverse"]) * (is_windows)
         + emoji.emojize(":information:") * (not is_windows)
         + "   You have chosen to search by Author Name.\n"
     )
 
     print(
-        "\n"
-        + colored(
-            "Please enter the Name and Surname of an author (EXAMPLE: Rebecca Gould).\n",
-            "blue",
-        )
-        * (is_windows)
-        + colored(
-            "Please enter the Name and Surname of an author (EXAMPLE: Rebecca Gould)\n",
+        colored(
+            "\nPlease enter the Name and Surname of an author (EXAMPLE: Rebecca Gould)\n",
             attrs=["bold"],
         )
-        * (not is_windows)
     )
 
     Author_Name = get_input(
@@ -128,17 +121,10 @@ def request_author_upload(driver):
 def receive_author_selection_action(driver, Author_List_json):
 
     print(
-        "\n\n"
-        + colored(
-            "Please select an author from the list below:\n",
+        colored(
+            "\n\nPlease select an author from the list below:\n",
             attrs=["bold"],
         )
-        * (is_windows)
-        + colored(
-            "Please select an author from the list below:\n",
-            "blue",
-        )
-        * (not is_windows)
     )
 
     time.sleep(1)
@@ -198,7 +184,7 @@ def process_author_selection_action(driver, Author_Number, Author_List_json):
                     + colored(" ! ", "green", attrs=["reverse"]) * (is_windows)
                     + emoji.emojize(":check_mark_button:") * (not is_windows)
                     + colored(
-                        f"  {Article_list_num} articles from selected author found.\n",
+                        f"   {Article_list_num} articles from selected author found.\n",
                         "green",
                     )
                 )
@@ -242,23 +228,16 @@ def request_journal_upload(driver):
 
     print(
         "\n"
-        + colored(" i ", attrs=["reverse"]) * (is_windows)
+        + colored(" i ", "blue", attrs=["reverse"]) * (is_windows)
         + emoji.emojize(":information:") * (not is_windows)
         + "   You have chosen to search by Journal Name.\n"
     )
 
     print(
-        "\n"
-        + colored(
-            "Please enter the Name of a journal (EXAMPLE: Journal of Financial Education).\n",
-            "blue",
-        )
-        * (is_windows)
-        + colored(
-            "Please enter the Name of a journal (EXAMPLE: Journal of Financial Education).\n",
+        colored(
+            "\nPlease enter the Name of a journal (EXAMPLE: Journal of Financial Education).\n",
             attrs=["bold"],
         )
-        * (not is_windows)
     )
 
     Journal_Name = get_input(
@@ -308,17 +287,10 @@ def request_journal_upload(driver):
 def receive_journal_selection_action(driver, Journal_List_json):
 
     print(
-        "\n\n"
-        + colored(
-            "Please select a journal from the list below:\n",
-            "blue",
-        )
-        * (is_windows)
-        + colored(
-            "Please select a journal from the list below:\n",
+        colored(
+            "\n\nPlease select a journal from the list below:\n",
             attrs=["bold"],
         )
-        * (not is_windows)
     )
 
     time.sleep(1)
@@ -378,7 +350,7 @@ def process_journal_selection_action(driver, Journal_Number, Journal_List_json):
                     + colored(" ! ", "green", attrs=["reverse"]) * (is_windows)
                     + emoji.emojize(":check_mark_button:") * (not is_windows)
                     + colored(
-                        "  List of articles from selected journal found.\n",
+                        "   List of articles from selected journal found.\n",
                         "green",
                     )
                 )
@@ -394,7 +366,7 @@ def process_journal_selection_action(driver, Journal_Number, Journal_List_json):
                     + colored(" ! ", "yellow", attrs=["reverse"]) * (is_windows)
                     + emoji.emojize(":loudspeaker:") * (not is_windows)
                     + colored(
-                        "  It appears that all articles from this journal are already available.\n",
+                        "   It appears that all articles from this journal are already available.\n",
                         "yellow",
                     )
                 )

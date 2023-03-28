@@ -81,7 +81,7 @@ def process_donation_action(donation_action):
             + (colored(" ! ", "green", attrs=["reverse"])) * (is_windows)
             + emoji.emojize(":check_mark_button:") * (not is_windows)
             + colored(
-                "  You will contribute papers without receiving any ALGO donations. If you change your mind, you can create or add an account later.",
+                "   You will contribute papers without receiving any ALGO donations. If you change your mind, you can create or add an account later.",
                 "green",
             )
         )
@@ -149,7 +149,7 @@ def validate_existing_account():
             + (colored(" ! ", "green", attrs=["reverse"])) * (is_windows)
             + emoji.emojize(":check_mark_button:") * (not is_windows)
             + colored(
-                "  This address is valid! We will keep it on record for future contributions.",
+                "   This address is valid! We will keep it on record for future contributions.",
                 "green",
             )
         )
@@ -159,7 +159,7 @@ def validate_existing_account():
             + (colored(" ! ", "green", attrs=["reverse"])) * (is_windows)
             + emoji.emojize(":check_mark_button:") * (not is_windows)
             + colored(
-                "  You are all set up! You will receive ALGO into this address at the end of the donation period.",
+                "   You are all set up! You will receive ALGO into this address at the end of the donation period.",
                 "green",
             )
         )
@@ -207,7 +207,7 @@ def check_address_on_record():
                 + (colored(" ! ", "green", attrs=["reverse"])) * (is_windows)
                 + emoji.emojize(":check_mark_button:") * (not is_windows)
                 + colored(
-                    "  You are all set up! You will receive ALGO into this address at the end of the donation period.",
+                    "   You are all set up! You will receive ALGO into this address at the end of the donation period.",
                     "green",
                 )
             )
@@ -311,7 +311,7 @@ def display_account_created(passphrase, user_address):
         + (colored(" ! ", "green", attrs=["reverse"])) * (is_windows)
         + emoji.emojize(":check_mark_button:") * (not is_windows)
         + colored(
-            "  You are all set up! You will receive ALGO into this address at the end of the donation period.",
+            "   You are all set up! You will receive ALGO into this address at the end of the donation period.",
             "green",
         )
     )

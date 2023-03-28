@@ -8,13 +8,15 @@ import multiprocessing
 from termcolor import colored
 from src.errors import MainException, TypoException
 
-from src.helpers import print_typo
+from src.helpers import print_typo, system
 from src.download_papers import receive_download_criteria_action
 from src.contribute_papers import contribute_papers
 
 logging.getLogger().setLevel(logging.CRITICAL)
 warnings.filterwarnings("ignore", category=RuntimeWarning)
 warnings.filterwarnings("ignore", category=UserWarning)
+
+is_windows = system()
 
 
 def welcome_message():
@@ -30,7 +32,12 @@ def welcome_message():
 
 def main_menu_action():
 
-    print("\n" + emoji.emojize(":information:") + "   Please make a selection below.")
+    print(
+        "\n"
+        + emoji.emojize(":information:") * (not is_windows)
+        + colored(" i ", "blue", attrs=["reverse"]) * (is_windows)
+        + "   Please make a selection below."
+    )
 
     action = get_input(
         colored(

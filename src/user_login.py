@@ -15,15 +15,13 @@ is_windows = system()
 
 def print_login_requirements():
 
-    is_windows = system()
-
     print(colored("\n\n\nSet-up and Dependencies", attrs=["reverse"]))
 
-    print(colored("\nPlease note:", attrs=["reverse"]) * (is_windows))
-    print(colored("\nPlease note:", attrs=["bold", "underline"]) * (not is_windows))
+    print(colored("\n\nPlease note:", attrs=["reverse"]) * (is_windows))
+    print(colored("\n\nPlease note:", attrs=["bold", "underline"]) * (not is_windows))
 
     print(
-        "\n\n"
+        "\n"
         + colored(" i ", "blue", attrs=["reverse"]) * (is_windows)
         + emoji.emojize(":information:") * (not is_windows)
         + "   Valid JSTOR login credentials are a requirement to use this tool."
@@ -50,12 +48,12 @@ def print_login_requirements():
     )
 
     print(
-        "• Have Google Chrome installed. To install, visit https://support.google.com/chrome/answer/95346?hl=en&ref_topic=7439538. \n• Have ffmpeg and ffprobe installed. For installation instructions, visit https://www.wikihow.com/Install-FFmpeg-on-Windows. \n• Have a stable internet connection.\n• Keep your device on charge and set to 'never sleep' while on battery and on charge."
+        "\n• Have Google Chrome installed. To install, visit https://support.google.com/chrome/answer/95346?hl=en&ref_topic=7439538. \n• Have ffmpeg and ffprobe installed. For installation instructions, visit https://www.wikihow.com/Install-FFmpeg-on-Windows. \n• Have a stable internet connection.\n• Keep your device on charge and set to 'never sleep' while on battery and on charge."
         * (is_windows)
     )
 
     print(
-        "• Have Google Chrome installed. To install, visit https://support.google.com/chrome/answer/95346?hl=en&ref_topic=7439538. \n• Have ffmpeg and ffprobe installed. For installation instructions, visit https://bbc.github.io/bbcat-orchestration-docs/installation-mac-manual/. \n• Have a stable internet connection.\n• Keep your device on charge and set to 'never sleep' while on battery and on charge."
+        "\n• Have Google Chrome installed. To install, visit https://support.google.com/chrome/answer/95346?hl=en&ref_topic=7439538. \n• Have ffmpeg and ffprobe installed. For installation instructions, visit https://bbc.github.io/bbcat-orchestration-docs/installation-mac-manual/. \n• Have a stable internet connection.\n• Keep your device on charge and set to 'never sleep' while on battery and on charge."
         * (not is_windows)
     )
 
@@ -332,7 +330,7 @@ def validate_login(driver, html_login):
             "\n"
             + colored(" ! ", "green", attrs=["reverse"]) * (is_windows)
             + emoji.emojize(":check_mark_button:") * (not is_windows)
-            + colored("  Login was successful!\n", "green")
+            + colored("   Login was successful!\n", "green")
         )
 
         time.sleep(1)
@@ -354,14 +352,14 @@ def print_unsuccessful():
         "\n"
         + colored(" ! ", "red", attrs=["reverse"]) * (is_windows)
         + emoji.emojize(":red_exclamation_mark:") * (not is_windows)
-        + colored("  Login was unsuccessful\n", "red")
+        + colored("   Login was unsuccessful\n", "red")
     )
 
     print(
         "\n"
         + colored(" i ", "blue", attrs=["reverse"]) * (is_windows)
         + emoji.emojize(":information:") * (not is_windows)
-        + "  Try again, make sure you follow the instructions carefully.\n"
+        + "   Try again, make sure you follow the instructions carefully.\n"
     )
 
 
