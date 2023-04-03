@@ -48,12 +48,12 @@ def print_login_requirements():
     )
 
     print(
-        "\n• Have Google Chrome installed. To install, visit https://support.google.com/chrome/answer/95346?hl=en&ref_topic=7439538. \n• Have ffmpeg and ffprobe installed. For installation instructions, visit https://www.wikihow.com/Install-FFmpeg-on-Windows. \n• Have a stable internet connection.\n• Keep your device on charge and set to 'never sleep' while on battery and on charge."
+        "• Have Google Chrome installed. To install, visit https://support.google.com/chrome/answer/95346?hl=en&ref_topic=7439538. \n• Have ffmpeg and ffprobe installed. For installation instructions, visit https://www.wikihow.com/Install-FFmpeg-on-Windows. \n• Have a stable internet connection.\n• Keep your device on charge and set to 'never sleep' while on battery and on charge."
         * (is_windows)
     )
 
     print(
-        "\n• Have Google Chrome installed. To install, visit https://support.google.com/chrome/answer/95346?hl=en&ref_topic=7439538. \n• Have ffmpeg and ffprobe installed. For installation instructions, visit https://bbc.github.io/bbcat-orchestration-docs/installation-mac-manual/. \n• Have a stable internet connection.\n• Keep your device on charge and set to 'never sleep' while on battery and on charge."
+        "• Have Google Chrome installed. To install, visit https://support.google.com/chrome/answer/95346?hl=en&ref_topic=7439538. \n• Have ffmpeg and ffprobe installed. For installation instructions, visit https://bbc.github.io/bbcat-orchestration-docs/installation-mac-manual/. \n• Have a stable internet connection.\n• Keep your device on charge and set to 'never sleep' while on battery and on charge."
         * (not is_windows)
     )
 
@@ -243,7 +243,17 @@ def manual_login(driver, url, html_load, html_login):
 
         return False
 
-    driver.maximize_window()
+    try:
+        driver.maximize_window()
+    except:
+        print(
+            "\n"
+            + (colored(" i ", "blue", attrs=["reverse"])) * (is_windows)
+            + (emoji.emojize(":information:")) * (not is_windows)
+            + (
+                "   Failed to open browser window. Please open the Google Chrome tab below."
+            )
+        )
 
     print(
         "\n"
@@ -266,9 +276,11 @@ def manual_login(driver, url, html_load, html_login):
 
         if validate_login(driver, html_login) == True:
 
-            driver.maximize_window()
-
-            driver.set_window_position(-2024, 2024)
+            try:
+                driver.maximize_window()
+                driver.set_window_position(-2024, 2024)
+            except:
+                driver.set_window_position(-2024, 2024)
 
             return True
 

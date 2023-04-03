@@ -137,7 +137,7 @@ def validate_existing_account():
 
     user_address = get_input(
         "\n\n"
-        + (colored(" i ", "blue", attrs=["reverse"])) * (is_windows)
+        + (colored(" i ", "blue")) * (is_windows)
         + emoji.emojize(":information:") * (not is_windows)
         + "   Please enter your Algorand address: "
     )
@@ -172,7 +172,7 @@ def validate_existing_account():
             "\n\n"
             + colored(" ! ", "yellow", attrs=["reverse"]) * (is_windows)
             + emoji.emojize(":loudspeaker:") * (not is_windows)
-            + colored("  This address is invalid.\n", "yellow")
+            + colored("   This address is invalid.\n", "yellow")
         )
 
         user_address = receive_not_validated_action()
