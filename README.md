@@ -6,7 +6,7 @@ The project strives to become the world's first and largest repository of comple
 
 Functionally, Aaron's Kit is a decentralized scraper, designed to retrieve articles from JSTOR. Practically, it is a tool that will allow any author/researcher/user to download scholarly articles sitting behind JSTOR’s paywall. In other words, Aaron's Kit enables users with JSTOR subscriptions and university affiliations, to effortlessly free paywalled research.
 
-To learn more, visit the Aaron's Kit website [here](http://127.0.0.1:3000/).
+To learn more, visit the Aaron's Kit website [here](https://aarons-kit-website-delta.vercel.app/).
 
 # Instructions: Using the Aaron's Kit executable
 
