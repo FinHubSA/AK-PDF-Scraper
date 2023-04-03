@@ -312,7 +312,7 @@ def process_journal_download_criteria(download_by_issue, journal_name, journal_i
                 + (emoji.emojize(":loudspeaker:")) * (not is_windows)
                 + (
                     colored(
-                        f"  This journal has no issues, we will download the entire journal instead.\n",
+                        f"   This journal has no issues, we will download the entire journal instead.\n",
                         "yellow",
                     )
                 )
