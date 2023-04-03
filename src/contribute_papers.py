@@ -7,6 +7,7 @@ import os
 import string
 import random
 import warnings
+import urllib3
 
 from termcolor import colored
 from selenium import webdriver
@@ -51,6 +52,7 @@ from src.upload_papers import receive_upload_criteria_action
 
 warnings.filterwarnings("ignore", category=RuntimeWarning)
 warnings.filterwarnings("ignore", category=UserWarning)
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 logging.getLogger().setLevel(logging.CRITICAL)
 
 
@@ -102,13 +104,27 @@ def contribute_papers():
 
         except Exception as e:
 
-            print(e)
+            if "ERR_INTERNET_DISCONNECTED" in str(e):
 
-            receive_network_error_action()
+                receive_network_error_action()
 
-            internet_speed_retry()
+                internet_speed_retry()
 
-            restart_count += 1
+                restart_count += 1
+
+            else:
+
+                print(
+                    "\n\n"
+                    + colored(" ! ", "red", attrs=["reverse"]) * (is_windows)
+                    + emoji.emojize(":red_exclamation_mark:") * (not is_windows)
+                    + colored(
+                        "   An unexpected error occured. Exiting, try again.\n",
+                        "red",
+                    )
+                )
+
+                os._exit(0)
 
 
 def setup():
@@ -121,7 +137,8 @@ def setup():
 
     misc_directory = misc_path()
 
-    mbps = internet_speed_retry()
+    # mbps = internet_speed_retry()
+    mbps = 90
 
     wait = delay(mbps)
 
@@ -130,7 +147,8 @@ def setup():
         "\nYou may notice that a browser window opened, don't worry, we're just checking your User Agent online!"
     )
 
-    USER_AGENT = get_user_agent(wait)
+    # USER_AGENT = get_user_agent(wait)
+    USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36"
 
     now = datetime.now().timestamp()
 
@@ -207,13 +225,27 @@ def login():
 
         except Exception as e:
 
-            print(e)
+            if "ERR_INTERNET_DISCONNECTED" in str(e):
 
-            receive_network_error_action()
+                receive_network_error_action()
 
-            internet_speed_retry()
+                internet_speed_retry()
 
-            return login()
+                return login()
+
+            else:
+
+                print(
+                    "\n\n"
+                    + colored(" ! ", "red", attrs=["reverse"]) * (is_windows)
+                    + emoji.emojize(":red_exclamation_mark:") * (not is_windows)
+                    + colored(
+                        "   An unexpected error occured. Exiting, try again.\n",
+                        "red",
+                    )
+                )
+
+                os._exit(0)
 
 
 def create_driver_session(chrome_options):
@@ -247,7 +279,7 @@ def create_driver_session(chrome_options):
             "\n"
             + colored(" i ", "blue", attrs=["reverse"]) * (is_windows)
             + emoji.emojize(":information:") * (not is_windows)
-            + colored("  Restart your device and try again.", "red")
+            + colored("   Restart your device and try again.")
         )
 
         os._exit(0)
@@ -623,7 +655,10 @@ def download_articles():
         )
 
         # delete article from local storage
-        delete_files(doi)
+        try:
+            delete_files(doi)
+        except:
+            print(f"[INF]: Could not delete pdf locally.")
 
         if article_json == Article_ID_list[-1]:
 
@@ -651,7 +686,7 @@ def download_articles():
     # stop when all articles have downloaded or when server error, otherwise navigate to home page and restart web session
     if article_json == Article_ID_list[-1] and not restart:
 
-        # what happens after you have finished scraping
+        # user message after scraping complete
         restart_count = receive_end_program_action(driver)
 
     else:

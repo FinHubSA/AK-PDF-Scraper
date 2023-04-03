@@ -33,7 +33,7 @@ def print_typo():
 
     print(
         "\n\n"
-        + colored(" ? ", "yellow", attrs=["reverse"]) * (is_windows)
+        + colored(" ! ", "yellow", attrs=["reverse"]) * (is_windows)
         + emoji.emojize(":loudspeaker:") * (not is_windows)
         + colored(
             "   It appears that you made a typo, please re-enter your selection.\n",
@@ -63,7 +63,7 @@ def receive_network_error_action():
         + colored(" ! ", "yellow", attrs=["reverse"]) * (is_windows)
         + emoji.emojize(":loudspeaker:") * (not is_windows)
         + colored(
-            "  Network error. Please check your internet connection and then continue.\n",
+            "   Network error. Please check your internet connection and then continue.\n",
             "yellow",
         )
     )
@@ -164,7 +164,7 @@ def server_response_post(driver, url, files, data, article_json, storage_directo
                 + "."
                 + "\nIt will be available at "
                 + response.json()["bucket_url"]
-                + " after it's been scanned. \nCheck back later if it's not available immediately."
+                + " after it's been scanned. \nSearch for it on our website if it's not available immediately."
             )
 
             break

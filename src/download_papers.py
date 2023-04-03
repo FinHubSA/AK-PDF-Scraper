@@ -448,7 +448,7 @@ def get_articles(journal_id=None, issue_id=None, author_name=None, journal_name=
 
         print(
             "\n"
-            + (colored(" i ", "yellow", attrs=["reverse"])) * (is_windows)
+            + (colored(" ! ", "yellow", attrs=["reverse"])) * (is_windows)
             + (emoji.emojize(":loudspeaker:")) * (not is_windows)
             + colored(
                 "   Unfortunately we currently have no articles for this search criteria.\n",

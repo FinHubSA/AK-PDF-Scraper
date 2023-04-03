@@ -84,7 +84,7 @@ def recaptcha_solver(driver, url, url_pending, wait, misc_directory, jstor_url):
 
     is_recaptcha_control_active = True
 
-    print("trying to find reCAPTCHA")
+    print("\ntrying to find reCAPTCHA")
 
     time.sleep(wait)
 
@@ -161,7 +161,7 @@ def recaptcha_solver(driver, url, url_pending, wait, misc_directory, jstor_url):
 
                     except:
 
-                        print("[INFO] Recurring checkbox")
+                        print("[INF] Recurring checkbox")
                         break
 
                 # Get the audio source (the mp3 file)
@@ -176,7 +176,7 @@ def recaptcha_solver(driver, url, url_pending, wait, misc_directory, jstor_url):
                     src = driver.find_element(By.ID, "audio-source").get_attribute(
                         "src"
                     )
-                    print(f"[INFO] Audio src: {src}")
+                    print(f"[INF] Audio src: {src}")
 
                 except Exception as e:
 
@@ -260,7 +260,7 @@ def recaptcha_solver(driver, url, url_pending, wait, misc_directory, jstor_url):
                     audio = r.record(source)
                     try:
                         key = r.recognize_google(audio)
-                        print(f"[INFO] Recaptcha Passcode: {key}")
+                        print(f"[INF] Recaptcha Passcode: {key}")
                         print("Audio Snippet was recognised")
                     except Exception as e:
                         print(
