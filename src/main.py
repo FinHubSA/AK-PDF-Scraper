@@ -4,7 +4,6 @@ import emoji
 import os
 import warnings
 import multiprocessing
-
 from termcolor import colored
 from src.errors import MainException, TypoException
 
@@ -20,7 +19,6 @@ is_windows = system()
 
 
 def welcome_message():
-
     print(colored("\n\nWelcome to Aaron's Kit!", attrs=["reverse"]))
 
     print(
@@ -31,7 +29,6 @@ def welcome_message():
 
 
 def main_menu_action():
-
     print(
         "\n"
         + emoji.emojize(":information:") * (not is_windows)
@@ -55,7 +52,6 @@ def main_menu_action():
 
 
 def process_main_menu_action(action):
-
     if action == "1":
         receive_download_criteria_action()
     elif action == "2":
@@ -72,7 +68,6 @@ def get_input(text):
 
 
 if __name__ == "__main__":
-
     # Add freeze support to make sure that the executable does not bug out when the program uses multiprocessing
     multiprocessing.freeze_support()
 

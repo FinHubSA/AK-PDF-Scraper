@@ -202,6 +202,8 @@ def server_response_request(url):
 
         try:
 
+            retry_upload_count += 1
+
             response = requests.get(url)
 
             response.raise_for_status()
@@ -224,13 +226,9 @@ def server_response_request(url):
 
         except requests.exceptions.ConnectionError:
 
-            retry_upload_count += 1
-
             receive_network_error_action()
 
         except requests.exceptions.HTTPError:
-
-            retry_upload_count += 1
 
             print("\n[ERR] Could not process request, server error. Retrying.")
 
