@@ -21,7 +21,6 @@ is_windows = system()
 
 
 def receive_download_criteria_action():
-
     print(
         "\n"
         + emoji.emojize(":information:") * (not is_windows)
@@ -45,15 +44,12 @@ def receive_download_criteria_action():
 
 
 def process_download_criteria_action(download_criteria):
-
     if download_criteria == "1":
-
         global journal_name, journal_id
 
         journal = request_journal_download()
 
         if not ("journalID" in journal):
-
             print(
                 "\n\n"
                 + colored(" ! ", "red", attrs=["reverse"]) * (is_windows)
@@ -67,18 +63,15 @@ def process_download_criteria_action(download_criteria):
             receive_download_criteria_action()
 
         else:
-
             journal_name = journal["journalName"]
             journal_id = journal["journalID"]
 
             receive_journal_download_criteria(journal_name, journal_id)
 
     elif download_criteria == "2":
-
         author = request_author_download()
 
         if not ("authorID" in author):
-
             print(
                 "\n\n"
                 + (colored(" ! ", "red", attrs=["reverse"])) * (is_windows)
@@ -92,7 +85,6 @@ def process_download_criteria_action(download_criteria):
             receive_download_criteria_action()
 
         else:
-
             author_name = author["authorName"]
 
             get_articles(author_name=author_name)
@@ -105,7 +97,6 @@ def process_download_criteria_action(download_criteria):
 
 
 def request_journal_download():
-
     print(
         "\n"
         + (colored(" i ", "blue", attrs=["reverse"])) * (is_windows)
@@ -141,7 +132,6 @@ def request_journal_download():
 
 
 def receive_journal_selection_action(Journal_List_json):
-
     print(
         colored(
             "\n\nPlease select a Journal from the list below:\n",
@@ -154,7 +144,6 @@ def receive_journal_selection_action(Journal_List_json):
     journal_list_number = 0
 
     for Journal_Name in Journal_List_json:
-
         journal_list_number += 1
 
         print("[" + str(journal_list_number) + "] " + Journal_Name["journalName"])
@@ -176,9 +165,7 @@ def receive_journal_selection_action(Journal_List_json):
 def process_journal_selection_action(
     Journal_Number, Journal_List_json, journal_list_number
 ):
-
     if Journal_Number in [str(x) for x in list(range(1, journal_list_number + 1))]:
-
         return Journal_List_json[int(Journal_Number) - 1]
 
     else:
@@ -187,7 +174,6 @@ def process_journal_selection_action(
 
 
 def request_author_download():
-
     print(
         "\n"
         + (colored(" i ", "blue", attrs=["reverse"])) * (is_windows)
@@ -216,17 +202,14 @@ def request_author_download():
         print_server_error()
 
     try:
-
         Author_List_json = Author_List_json.json()
         return receive_author_selection_action(Author_List_json)
 
     except:
-
         return {}
 
 
 def receive_author_selection_action(Author_List_json):
-
     print(
         colored(
             "\n\nPlease select an Author from the list below:\n",
@@ -239,7 +222,6 @@ def receive_author_selection_action(Author_List_json):
     author_list_number = 0
 
     for Author_Name in Author_List_json:
-
         author_list_number += 1
 
         print("[" + str(author_list_number) + "] " + Author_Name["authorName"])
@@ -261,9 +243,7 @@ def receive_author_selection_action(Author_List_json):
 def process_author_selection_action(
     Author_Number, Author_List_json, author_list_number
 ):
-
     if Author_Number in [str(x) for x in list(range(1, author_list_number + 1))]:
-
         return Author_List_json[int(Author_Number) - 1]
 
     else:
@@ -272,6 +252,7 @@ def process_author_selection_action(
 
 
 def receive_journal_download_criteria(journal_name, journal_id):
+    global download_by_issue
 
     print(
         "\n"
@@ -295,17 +276,39 @@ def receive_journal_download_criteria(journal_name, journal_id):
 
 
 def process_journal_download_criteria(download_by_issue, journal_name, journal_id):
-
     if download_by_issue == "1":
+        print(
+            "\n"
+            + (colored(" i ", "blue", attrs=["reverse"])) * (is_windows)
+            + (emoji.emojize(":information:")) * (not is_windows)
+            + colored(
+                f"   Papers are stored logically in ranges of 50 papers per page (EXAMPLE: 50 papers are on page 1, 50 pages on page 2, etc.)"
+            )
+        )
 
-        get_articles(journal_id=journal_id, journal_name=journal_name)
+        print(
+            "\n"
+            + (colored(" i ", "blue", attrs=["reverse"])) * (is_windows)
+            + (emoji.emojize(":information:")) * (not is_windows)
+            + colored(
+                f"   Please indicate the page number of the papers that you would like to download (EXAMPLE: 1, 2, 10, etc.)."
+            )
+        )
+
+        while True:
+            Page_Number = input("\n-- Type the page number\n   : ").strip()
+
+            if int(Page_Number) > 0:
+                break
+
+        get_articles(
+            journal_id=journal_id, journal_name=journal_name, Page_Number=Page_Number
+        )
 
     elif download_by_issue == "2":
-
         issue = request_issue(journal_name, journal_id)
 
         if not ("issueID" in issue):
-
             print(
                 "\n"
                 + (colored(" ! ", "yellow", attrs=["reverse"])) * (is_windows)
@@ -321,7 +324,6 @@ def process_journal_download_criteria(download_by_issue, journal_name, journal_i
             get_articles(journal_id=journal_id, journal_name=journal_name)
 
         else:
-
             get_articles(issue_id=issue["issueID"], journal_name=journal_name)
 
     else:
@@ -330,7 +332,6 @@ def process_journal_download_criteria(download_by_issue, journal_name, journal_i
 
 
 def request_issue(journal_name, journal_id):
-
     print("\n\nSearching for issues in " + journal_name + ".")
 
     server_error, issue_list_json = server_response_request(
@@ -348,7 +349,6 @@ def request_issue(journal_name, journal_id):
 
 
 def receive_issue_selection_action(issue_list_json):
-
     print(
         colored(
             "\n\nPlease select an Issue from the list below:\n",
@@ -359,7 +359,6 @@ def receive_issue_selection_action(issue_list_json):
     issue_list_number = 0
 
     for issue in issue_list_json:
-
         issue_list_number += 1
 
         print(
@@ -391,9 +390,7 @@ def receive_issue_selection_action(issue_list_json):
 
 
 def process_issue_selection_action(issue_number, issue_list_json, issue_list_number):
-
     if issue_number in [str(x) for x in list(range(1, issue_list_number + 1))]:
-
         return issue_list_json[int(issue_number) - 1]
 
     else:
@@ -401,11 +398,12 @@ def process_issue_selection_action(issue_number, issue_list_json, issue_list_num
         raise TypoException
 
 
-def get_articles(journal_id=None, issue_id=None, author_name=None, journal_name=None):
-
+def get_articles(
+    journal_id=None, issue_id=None, author_name=None, journal_name=None, Page_Number=1
+):
     if journal_id:
         server_error, articles = server_response_request(
-            f"https://api-service-mrz6aygprq-oa.a.run.app/api/articles?journalID={journal_id}&scraped=1"
+            f"https://api-service-mrz6aygprq-oa.a.run.app/api/articles?journalID={journal_id}&scraped=1&page_size=50&page={Page_Number}"
         )
     elif issue_id:
         server_error, articles = server_response_request(
@@ -420,12 +418,12 @@ def get_articles(journal_id=None, issue_id=None, author_name=None, journal_name=
     if server_error:
         print_server_error()
 
-    articles = articles.json()
+    articles_response = articles.json()
+    articles = articles_response["data"]
 
     articles_size = len(articles)
 
     if articles_size > 0:
-
         if issue_id or journal_id:
             print(
                 "\n"
@@ -445,7 +443,6 @@ def get_articles(journal_id=None, issue_id=None, author_name=None, journal_name=
         bulk_download(articles)
 
     else:
-
         print(
             "\n"
             + (colored(" ! ", "yellow", attrs=["reverse"])) * (is_windows)
@@ -456,11 +453,36 @@ def get_articles(journal_id=None, issue_id=None, author_name=None, journal_name=
             )
         )
 
+    if journal_id:
+        receive_next_page_action()
+    else:
         receive_continue_download_action()
 
 
-def bulk_download(articles):
+def receive_next_page_action():
+    next_page = get_input(
+        colored(
+            "\nWould you like to download the next page of 50 articles in this journal? [y/n]: "
+        )
+    ).strip()
 
+    try:
+        process_next_page_action(next_page)
+    except TypoException:
+        receive_next_page_action()
+
+
+def process_next_page_action(next_page):
+    if next_page == "n" or next_page == "N":
+        receive_continue_download_action()
+    elif next_page == "y" or next_page == "Y":
+        process_journal_download_criteria(download_by_issue, journal_name, journal_id)
+    else:
+        print_typo()
+        raise TypoException
+
+
+def bulk_download(articles):
     path = os.path.join(str(Path.home() / "Downloads"), "AaronsKit_PDF_Downloads")
 
     if not os.path.exists(path):
@@ -471,7 +493,6 @@ def bulk_download(articles):
     results = ThreadPool(cpus - 1).imap_unordered(download_url, articles)
 
     if not results == None:
-
         results_size = 0
 
         for result in results:
@@ -492,11 +513,10 @@ def bulk_download(articles):
             + colored(" in your downloads folder to view your files.\n", "green")
         )
 
-    receive_continue_download_action()
+    # receive_continue_download_action()
 
 
 def download_url(article):
-
     path = os.path.join(str(Path.home() / "Downloads"), "AaronsKit_PDF_Downloads")
 
     bucket_url = article["bucketURL"]
@@ -516,7 +536,6 @@ def download_url(article):
             f.write(r.content)
         return (url, time.time() - t0)
     except Exception as e:
-
         print(
             "\n"
             + (colored(" i ", "red", attrs=["reverse"])) * (is_windows)
@@ -531,7 +550,6 @@ def download_url(article):
 
 
 def print_server_error():
-
     print(
         "\n"
         + (colored(" i ", "red", attrs=["reverse"])) * (is_windows)
@@ -543,7 +561,6 @@ def print_server_error():
 
 
 def receive_continue_download_action():
-
     download_more_option = get_input(
         colored(
             "\n-- Type [1] to return to downloads menu\n-- Type [2] to return to main menu\n-- Type [3] to exit\n   : "
@@ -557,7 +574,6 @@ def receive_continue_download_action():
 
 
 def process_continue_download_action(download_more_option):
-
     if download_more_option == "1":
         receive_download_criteria_action()
     elif download_more_option == "2":

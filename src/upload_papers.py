@@ -12,7 +12,6 @@ is_windows = system()
 
 
 def receive_upload_criteria_action(driver):
-
     print(
         "\n"
         + colored(" i ", "blue", attrs=["reverse"]) * (is_windows)
@@ -33,9 +32,7 @@ def receive_upload_criteria_action(driver):
 
 
 def process_upload_criteria_action(driver, search_criteria):
-
     if search_criteria == "1":
-
         Article_ID_list = request_journal_upload(driver)
 
         if Article_ID_list == []:
@@ -45,7 +42,6 @@ def process_upload_criteria_action(driver, search_criteria):
             return Article_ID_list
 
     elif search_criteria == "2":
-
         Article_ID_list = request_author_upload(driver)
 
         if Article_ID_list == []:
@@ -60,7 +56,6 @@ def process_upload_criteria_action(driver, search_criteria):
 
 
 def request_author_upload(driver):
-
     print(
         "\n"
         + colored(" i ", "blue", attrs=["reverse"]) * (is_windows)
@@ -104,7 +99,6 @@ def request_author_upload(driver):
         return receive_author_selection_action(driver, Author_List_json)
 
     except:
-
         print(
             "\n\n"
             + colored(" ! ", "yellow", attrs=["reverse"]) * (is_windows)
@@ -119,7 +113,6 @@ def request_author_upload(driver):
 
 
 def receive_author_selection_action(driver, Author_List_json):
-
     print(
         colored(
             "\n\nPlease select an author from the list below:\n",
@@ -132,7 +125,6 @@ def receive_author_selection_action(driver, Author_List_json):
     author_list_number = 0
 
     for Author_Name in Author_List_json:
-
         author_list_number += 1
 
         print("[" + str(author_list_number) + "] " + Author_Name["authorName"])
@@ -150,9 +142,7 @@ def receive_author_selection_action(driver, Author_List_json):
 
 
 def process_author_selection_action(driver, Author_Number, Author_List_json):
-
     if Author_Number in [str(x) for x in list(range(1, 11))]:
-
         Author_Selected_urlenc = urllib.parse.quote(
             Author_List_json[int(Author_Number) - 1]["authorName"]
         )
@@ -172,13 +162,12 @@ def process_author_selection_action(driver, Author_Number, Author_List_json):
             os._exit(0)
 
         if Article_ID_list.status_code == 200:
-
-            Article_ID_list = Article_ID_list.json()
+            Article_ID_list_reponse = Article_ID_list.json()
+            Article_ID_list = Article_ID_list_reponse["data"]
 
             Article_list_num = len(Article_ID_list)
 
             if Article_list_num > 0:
-
                 print(
                     "\n"
                     + colored(" ! ", "green", attrs=["reverse"]) * (is_windows)
@@ -192,7 +181,6 @@ def process_author_selection_action(driver, Author_Number, Author_List_json):
                 return Article_ID_list
 
             else:
-
                 print(
                     "\n\n"
                     + colored(" ! ", "yellow", attrs=["reverse"]) * (is_windows)
@@ -206,7 +194,6 @@ def process_author_selection_action(driver, Author_Number, Author_List_json):
                 return []
 
         else:
-
             print(
                 "\n\n"
                 + colored(" ! ", "red", attrs=["reverse"]) * (is_windows)
@@ -225,7 +212,6 @@ def process_author_selection_action(driver, Author_Number, Author_List_json):
 
 
 def request_journal_upload(driver):
-
     print(
         "\n"
         + colored(" i ", "blue", attrs=["reverse"]) * (is_windows)
@@ -265,12 +251,10 @@ def request_journal_upload(driver):
         os._exit(0)
 
     try:
-
         Journal_List_json = Journal_List_json.json()
         return receive_journal_selection_action(driver, Journal_List_json)
 
     except:
-
         print(
             "\n\n"
             + colored(" ! ", "yellow", attrs=["reverse"]) * (is_windows)
@@ -285,7 +269,6 @@ def request_journal_upload(driver):
 
 
 def receive_journal_selection_action(driver, Journal_List_json):
-
     print(
         colored(
             "\n\nPlease select a journal from the list below:\n",
@@ -298,7 +281,6 @@ def receive_journal_selection_action(driver, Journal_List_json):
     journal_list_number = 0
 
     for Journal_Name in Journal_List_json:
-
         journal_list_number += 1
 
         print("[" + str(journal_list_number) + "] " + Journal_Name["journalName"])
@@ -309,42 +291,60 @@ def receive_journal_selection_action(driver, Journal_List_json):
         )
     )
 
+    print(
+        "\n"
+        + (colored(" i ", "blue", attrs=["reverse"])) * (is_windows)
+        + (emoji.emojize(":information:")) * (not is_windows)
+        + colored(f"   Please indicate how many papers you would like to contribute (EXAMPLE: 50, 300, 1000, etc.).")
+    )
+
+    while True:
+        Number_of_Papers = int(
+            input(
+                "\n-- Type the number of papers you are willing to contribute\n   : "
+            ).strip()
+        )
+
+        if Number_of_Papers > 0:
+            break
+
     try:
         return process_journal_selection_action(
-            driver, Journal_Number, Journal_List_json
+            driver, Journal_Number, Journal_List_json, Number_of_Papers
         )
     except TypoException:
         return receive_journal_selection_action(driver, Journal_List_json)
 
 
-def process_journal_selection_action(driver, Journal_Number, Journal_List_json):
-
+def process_journal_selection_action(
+    driver, Journal_Number, Journal_List_json, Number_of_Papers
+):
     if Journal_Number in [str(x) for x in list(range(1, 11))]:
-
         Journal_Selected_urlenc = urllib.parse.quote(
             Journal_List_json[int(Journal_Number) - 1]["journalName"]
         )
 
         server_error, Article_ID_list = server_response_request(
-            f"https://api-service-mrz6aygprq-oa.a.run.app/api/articles?journalName={Journal_Selected_urlenc}&scraped=0&exact=1",
+            f"https://api-service-mrz6aygprq-oa.a.run.app/api/articles?journalName={Journal_Selected_urlenc}&scraped=0&exact=1&page_size={Number_of_Papers}&page=1",
         )
+
+        # parameter called page_size = x, page = x
 
         if server_error:
             print(
                 "\n"
                 + (colored(" i ", "red", attrs=["reverse"])) * (is_windows)
                 + (emoji.emojize(":red_exclamation_mark:")) * (not is_windows)
-                + colored(f"  A server error occured, try again later.", "red")
+                + colored(f"   A server error occured, try again later.", "red")
             )
             driver.close()
             os._exit(0)
 
         if Article_ID_list.status_code == 200:
-
-            Article_ID_list = Article_ID_list.json()
+            Article_ID_list_response = Article_ID_list.json()
+            Article_ID_list = Article_ID_list_response["data"]
 
             if len(Article_ID_list) > 0:
-
                 print(
                     "\n"
                     + colored(" ! ", "green", attrs=["reverse"]) * (is_windows)
@@ -360,7 +360,6 @@ def process_journal_selection_action(driver, Journal_Number, Journal_List_json):
                 return Article_ID_list
 
             else:
-
                 print(
                     "\n\n"
                     + colored(" ! ", "yellow", attrs=["reverse"]) * (is_windows)
@@ -374,7 +373,6 @@ def process_journal_selection_action(driver, Journal_Number, Journal_List_json):
                 return []
 
         else:
-
             print(
                 "\n\n"
                 + colored(" ! ", "red", attrs=["reverse"]) * (is_windows)
@@ -393,7 +391,6 @@ def process_journal_selection_action(driver, Journal_Number, Journal_List_json):
 
 
 def receive_retry_search_action(driver, search_criteria, type):
-
     not_found = get_input(
         colored(
             f"\n-- Type [1] to retry {type} Search\n-- Type [2] to return to upload menu\n-- Type [3] to return to main menu\n   : ",
@@ -407,7 +404,6 @@ def receive_retry_search_action(driver, search_criteria, type):
 
 
 def process_retry_search_action(driver, not_found, search_criteria):
-
     if not_found == "1":
         return process_upload_criteria_action(driver, search_criteria)
     elif not_found == "2":
@@ -421,7 +417,6 @@ def process_retry_search_action(driver, not_found, search_criteria):
 
 
 def print_pdf_found():
-
     print(
         "\n\n"
         + colored(" i ", "blue", attrs=["reverse"]) * (is_windows)
