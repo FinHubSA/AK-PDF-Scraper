@@ -1,7 +1,7 @@
+from pathlib import Path
 import time
 import pickle
 import random
-import os.path
 import os
 import re
 from datetime import datetime
@@ -23,17 +23,14 @@ warnings.filterwarnings("ignore", category=UserWarning)
 
 
 def frame(driver):
-
     frames = driver.find_elements(By.TAG_NAME, "iframe")
 
     recaptcha_control_frame = None
     recaptcha_challenge_frame = None
 
     for index, frame in enumerate(frames):
-
         # Find the reCAPTCHA checkbox
         if re.search("reCAPTCHA", frame.get_attribute("title")):
-
             recaptcha_control_frame = frame
             print("recaptcha box located")
 
@@ -41,7 +38,6 @@ def frame(driver):
         if re.search(
             "recaptcha challenge expires in two minutes", frame.get_attribute("title")
         ):
-
             recaptcha_challenge_frame = frame
             print("recaptcha puzzle located")
 
@@ -49,7 +45,6 @@ def frame(driver):
 
 
 def check_solved(driver, url, url_pending, wait):
-
     try:
         WebDriverWait(driver, wait).until(
             expected_conditions.element_to_be_clickable(
@@ -64,9 +59,7 @@ def check_solved(driver, url, url_pending, wait):
         solved = True
 
     except:
-
         if os.path.exists(url) or os.path.exists(url_pending):
-
             print("[SUCCESS] ReCAPTCHA successfully solved")
             solved = True
 
@@ -77,7 +70,6 @@ def check_solved(driver, url, url_pending, wait):
 
 
 def recaptcha_solver(driver, url, url_pending, wait, misc_directory, jstor_url):
-
     recaptcha_log = 0
 
     start_time = success = None
@@ -91,18 +83,15 @@ def recaptcha_solver(driver, url, url_pending, wait, misc_directory, jstor_url):
     recaptcha_control_frame, recaptcha_challenge_frame = frame(driver)
 
     if not (recaptcha_control_frame and recaptcha_challenge_frame):
-
         print("[ERR] Unable to find reCAPTCHA.")
         is_recaptcha_control_active = False
 
     while is_recaptcha_control_active:
-
         recaptcha_log += 1
         randint = random.randrange(3, 5)
 
         # Make sure that reCAPTCHA does not get stuck in a loop
         if recaptcha_log >= randint:
-
             print("[ERR] IP address has been blocked by reCAPTCHA or network error.")
 
             success = False
@@ -124,7 +113,6 @@ def recaptcha_solver(driver, url, url_pending, wait, misc_directory, jstor_url):
             start_time = datetime.now().timestamp()
 
         except:
-
             print("[ERR] Cannot solve reCAPTCHA checkbox")
 
             success = False
@@ -132,24 +120,19 @@ def recaptcha_solver(driver, url, url_pending, wait, misc_directory, jstor_url):
             break
 
         if check_solved(driver, url, url_pending, wait):
-
             success = True
 
             break
 
         else:
-
             is_recaptcha_challenge_active = True
 
             ##Test here
             switched_to_audio = False
             while is_recaptcha_challenge_active:
-
                 if not switched_to_audio:
-
                     # Try to click on the button that allows you to do a voice challenge
                     try:
-
                         driver.switch_to.default_content()
                         driver.switch_to.frame(recaptcha_challenge_frame)
 
@@ -160,7 +143,6 @@ def recaptcha_solver(driver, url, url_pending, wait, misc_directory, jstor_url):
                         switched_to_audio = True
 
                     except:
-
                         print("[INF] Recurring checkbox")
                         break
 
@@ -179,7 +161,6 @@ def recaptcha_solver(driver, url, url_pending, wait, misc_directory, jstor_url):
                     print(f"[INF] Audio src: {src}")
 
                 except Exception as e:
-
                     print("[ERR] Error when using Audio challenge frame.")
                     print(e)
                     success = False
@@ -227,7 +208,6 @@ def recaptcha_solver(driver, url, url_pending, wait, misc_directory, jstor_url):
                     print("Exported audio file to .wav")
 
                 except:
-
                     print(colored("!" + "   Failed to convert file to .wav", "red"))
 
                     is_windows = system()
@@ -290,7 +270,6 @@ def recaptcha_solver(driver, url, url_pending, wait, misc_directory, jstor_url):
                         print("Audio snippet submitted")
 
                     except Exception as e:
-
                         print("[ERR] IP address might have been blocked for recaptcha.")
                         print(e)
                         success = False

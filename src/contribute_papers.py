@@ -74,7 +74,6 @@ is_windows = system()
 
 
 def contribute_papers():
-
     global algorandAddress, restart_count
 
     setup()
@@ -92,9 +91,7 @@ def contribute_papers():
     login()
 
     while True:
-
         try:
-
             get_article_ids()
 
             download_articles()
@@ -103,9 +100,7 @@ def contribute_papers():
             raise
 
         except Exception as e:
-
             if "ERR_INTERNET_DISCONNECTED" in str(e):
-
                 receive_network_error_action()
 
                 internet_speed_retry()
@@ -113,7 +108,6 @@ def contribute_papers():
                 restart_count += 1
 
             else:
-
                 print(
                     "\n\n"
                     + colored(" ! ", "red", attrs=["reverse"]) * (is_windows)
@@ -128,7 +122,6 @@ def contribute_papers():
 
 
 def setup():
-
     global storage_directory, src_directory, misc_directory, mbps, wait, USER_AGENT, now
 
     storage_directory = get_temp_storage_path()
@@ -137,8 +130,7 @@ def setup():
 
     misc_directory = misc_path()
 
-    # mbps = internet_speed_retry()
-    mbps = 90
+    mbps = internet_speed_retry()
 
     wait = delay(mbps)
 
@@ -147,26 +139,21 @@ def setup():
         "\nYou may notice that a browser window opened, don't worry, we're just checking your User Agent online!"
     )
 
-    # USER_AGENT = get_user_agent(wait)
-    USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36"
-
+    USER_AGENT = get_user_agent(wait)
+    
     now = datetime.now().timestamp()
 
 
 def login():
-
     global driver
 
     logged_in = False
 
     while not logged_in:
-
         try:
-
             login_method = receive_login_action()
 
             if login_method == "1":
-
                 print(
                     "\n"
                     + colored(" i ", "blue", attrs=["reverse"]) * (is_windows)
@@ -192,7 +179,6 @@ def login():
                     return login()
 
             elif login_method == "2":
-
                 print(
                     "\n"
                     + colored(" i ", "blue", attrs=["reverse"]) * (is_windows)
@@ -224,9 +210,7 @@ def login():
                 return login()
 
         except Exception as e:
-
             if "ERR_INTERNET_DISCONNECTED" in str(e):
-
                 receive_network_error_action()
 
                 internet_speed_retry()
@@ -234,7 +218,6 @@ def login():
                 return login()
 
             else:
-
                 print(
                     "\n\n"
                     + colored(" ! ", "red", attrs=["reverse"]) * (is_windows)
@@ -249,22 +232,30 @@ def login():
 
 
 def create_driver_session(chrome_options):
-
     global driver
 
     try:
-
         driver = webdriver.Chrome(
             service=Service(ChromeDriverManager(path=misc_directory).install()),
             options=chrome_options,
         )
 
+        #     # Chromedriver not working for mac m1 currently no fix
+        #     # Add it manually to directory and refer to it
+        #     if is_windows:
+
+        #         driver = webdriver.Chrome(
+        #         service=Service(ChromeDriverManager(path  = misc_directory).install()),
+        #         options=chrome_options,
+        #     )
+        #     else:
+        #         driver = webdriver.Chrome(os.path.join(misc_directory, "chromedriver"), options = chrome_options)
+
         driver.minimize_window()
 
         return driver
 
-    except:
-
+    except Exception as e:
         print(
             "\n"
             + colored(" i ", "red", attrs=["reverse"]) * (is_windows)
@@ -286,7 +277,6 @@ def create_driver_session(chrome_options):
 
 
 def options(login_method, USER_AGENT, storage_directory):
-
     chrome_options = webdriver.ChromeOptions()
 
     if login_method == "1":
@@ -311,7 +301,6 @@ def options(login_method, USER_AGENT, storage_directory):
 
 
 def enable_download_in_headless_chrome():
-
     driver.command_executor._commands["send_command"] = (
         "POST",
         "/session/$sessionId/chromium/send_command",
@@ -325,7 +314,6 @@ def enable_download_in_headless_chrome():
 
 
 def restart_driver_session(jstor_url, chrome_options, executor_url, session_id):
-
     driver = webdriver.Remote(command_executor=executor_url, options=chrome_options)
 
     driver.close()
@@ -336,11 +324,9 @@ def restart_driver_session(jstor_url, chrome_options, executor_url, session_id):
 
 
 def get_article_ids():
-
     global Article_ID_list, jstor_url
 
     if restart_count == 0:
-
         set_cookies(driver, misc_directory)
 
         # Save the url after user login as each url
@@ -355,7 +341,6 @@ def get_article_ids():
         Article_ID_list = receive_upload_criteria_action(driver)
 
     elif 0 < restart_count <= 5:
-
         restart_driver_session(
             jstor_url,
             options(receive_login_action, USER_AGENT, storage_directory),
@@ -383,7 +368,6 @@ def get_article_ids():
 
 
 def download_articles():
-
     global article_index, now, restart_count, wait
 
     restart = t_c_accepted = False
@@ -393,20 +377,16 @@ def download_articles():
     # loop through user requested article ID's
     # if error occurs, restart the web session and start at last indexed ID
     for index, article_json in enumerate(Article_ID_list):
-
         article = article_json["articleJstorID"]
 
         # calculate the waiting time every 30 mins to adjust wait according to user internet speed
         if datetime.now().timestamp() >= now + 1200:
-
             mbps = download_speed()
 
             try:
-
                 wait = delay(mbps)
 
             except:
-
                 wait = 15
 
             now = datetime.now().timestamp()
@@ -433,11 +413,9 @@ def download_articles():
         # check if pdf file already exists in user directory
         # delete if download pending or file exist to circumvent malicious actors
         if os.path.exists(url):
-
             os.remove(url)
 
         elif os.path.exists(url_pending):
-
             os.remove(url_pending)
 
         driver.get(jstor_url + "stable/pdf/" + article + ".pdf")
@@ -450,12 +428,10 @@ def download_articles():
         # check for cookies, t&c's and reCAPTCHA
         # the t&c's only appear when the browser session restarts
         while not t_c_accepted and t_c_try_accept <= 3:
-
             t_c_try_accept += 1
 
             # accept cookies
             try:
-
                 WebDriverWait(driver, wait).until(
                     expected_conditions.element_to_be_clickable(
                         (By.XPATH, r"//button[@id='onetrust-accept-btn-handler']")
@@ -465,12 +441,10 @@ def download_articles():
                 print("[INF] cookies accepted")
 
             except:
-
                 print("[INF] no cookies")
 
             # accept t&c's
             try:
-
                 WebDriverWait(driver, wait).until(
                     expected_conditions.element_to_be_clickable(
                         (
@@ -490,21 +464,17 @@ def download_articles():
 
             # check for reCAPTCHA
             except:
-
                 if not (os.path.exists(url) or os.path.exists(url_pending)):
-
                     success, start_time = recaptcha_solver(
                         driver, url, url_pending, wait, misc_directory, jstor_url
                     )
 
                     if success:
-
                         print("[INF] reCAPTCHA solved")
 
                         continue
 
                     elif success == None:
-
                         print(
                             "[ERR] Your institution does not have access to this article, skipping to next article"
                         )
@@ -514,7 +484,6 @@ def download_articles():
                         break
 
                     else:
-
                         print(
                             "[ERR] reCAPTCHA could not be solved, restarting driver session"
                         )
@@ -524,7 +493,6 @@ def download_articles():
                         break
 
                 else:
-
                     print("[INF] no t&c's")
 
                     success = True
@@ -532,30 +500,25 @@ def download_articles():
                     t_c_accepted = True
 
         if restart:
-
             restart_count += 1
 
             break
 
         if success == None:
-
             continue
 
         time.sleep(wait)
 
         # check for reCAPTCHA
         if not (os.path.exists(url) or os.path.exists(url_pending)):
-
             success, start_time = recaptcha_solver(
                 driver, url, url_pending, wait, misc_directory, jstor_url
             )
 
             if success:
-
                 print("[INF] reCAPTCHA solved")
 
             elif success == None:
-
                 print(
                     "[ERR] Your institution does not have access to this article, skipping to next article"
                 )
@@ -565,7 +528,6 @@ def download_articles():
                 continue
 
             else:
-
                 print(
                     "[ERR] ReCAPTCHA could not be solved or pdf could not be found, restarting driver session."
                 )
@@ -578,7 +540,6 @@ def download_articles():
 
         # check for no access via institution
         if not (os.path.exists(url) or os.path.exists(url_pending)):
-
             print(
                 "[ERR] Your institution does not have access to this article, skipping to next article"
             )
@@ -593,7 +554,6 @@ def download_articles():
         count = 0
 
         while file == url_pending and count <= 120:
-
             time.sleep(1)
 
             count += 1
@@ -601,22 +561,18 @@ def download_articles():
             latest_file = latest_downloaded_pdf(storage_directory)
 
             if latest_file == article.split("/")[-1] + ".pdf":
-
                 file = url
 
             else:
-
                 file = url_pending
 
         end_time = datetime.now().timestamp()
 
         # rename the pdf
         try:
-
             rename_file(url, doi)
 
         except:
-
             print("[ERR] Could not download pdf file, restarting driver session")
 
             restart_count += 1
@@ -661,14 +617,11 @@ def download_articles():
             print(f"[INF]: Could not delete pdf locally.")
 
         if article_json == Article_ID_list[-1]:
-
             # delete the entire Aaron's Kit folder
             try:
-
                 delete_temp_storage(storage_directory)
 
             except:
-
                 print("[INF]: Could not delete AaronsKit_PDF_Downloads folder.")
 
             print(
@@ -685,7 +638,6 @@ def download_articles():
 
     # stop when all articles have downloaded or when server error, otherwise navigate to home page and restart web session
     if article_json == Article_ID_list[-1] and not restart:
-
         # user message after scraping complete
         restart_count = receive_end_program_action(driver)
 
